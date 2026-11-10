@@ -17,7 +17,11 @@ const { src, alt, caption, wide = false, gif: isGif = false } = Astro.props;
   .fig { margin: 32px 0; }
   .fig img { width: 100%; border-radius: var(--radius); border: 1px solid var(--line); background: var(--sheet); }
   figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); text-align: center; }
-  @media (min-width: 900px) {
+  @media (min-width: 900px) and (max-width: 1079px) {
     .fig.wide { width: min(1088px, calc(100vw - 2 * var(--gutter))); margin-left: 50%; transform: translateX(-50%); }
+  }
+  /* 有左側目錄時，寬圖只能比內文寬一點（跟圖解一樣），不然會蓋到目錄（11/10 Jessy） */
+  @media (min-width: 1080px) {
+    .fig.wide { width: calc(100% + 80px); margin-left: -40px; }
   }
 </style>

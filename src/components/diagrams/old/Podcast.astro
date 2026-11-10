@@ -1,10 +1,57 @@
 ---
 // MyMusic Podcast 的圖解：取代 Notion 簡報匯出的小圖（02/05.png），文字照原圖
 import Board from '../Board.astro';
-interface Props { kind: 'process' | 'prep'; }
+import { Image } from 'astro:assets';
+import '../../../styles/diagram.css';
+import sList from '../../../assets/cases/podcast/s-list.png';
+import sPlayer from '../../../assets/cases/podcast/s-player.png';
+import sMine from '../../../assets/cases/podcast/s-mine.png';
+interface Props { kind: 'process' | 'prep' | 'hero' | 'ia'; }
 const { kind } = Astro.props;
 const prep = ['訂定測試範圍與目標', '選定受測者族群', '設計用戶招募問卷', '用戶招募', '設計測試任務與流程', '規劃測試空間與設備', '準備測試內容', '測試流程'];
 ---
+{kind === 'hero' && (
+  <figure class="dg case-podcast reveal pc-hero" aria-label="MyMusic Podcast 三個畫面：分類頁、播放器、我的 Podcast">
+    <div class="dg-pat" aria-hidden="true"></div>
+    <div class="dg-body phones">
+      {[[sList, '分類頁'], [sPlayer, '播放器'], [sMine, '我的 Podcast']].map(([img, cap], i) => (
+        <figure class={`ph p${i}`}>
+          <div class="frame"><Image src={img as ImageMetadata} alt="" widths={[300, 600]} sizes="(min-width: 760px) 220px, 30vw" /></div>
+          <figcaption>{cap}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </figure>
+)}
+
+{kind === 'ia' && (
+  <Board kicker="Information Architecture" title="MyMusic Podcast 資訊架構" c="podcast" label="資訊架構：Podcast Main 分成每日推薦與我的 Podcast；每日推薦下有 Podcast 頻道、作者、單集；我的 Podcast 下有觀看紀錄、收藏清單、下載清單、追蹤清單；播放器從頻道、作者、單集都能開啟">
+    <div class="ia">
+      <span class="root">Podcast Main</span>
+      <div class="branches">
+        <div class="br">
+          <span class="lv1">每日推薦</span>
+          <ul>
+            <li>Podcast 頻道</li>
+            <li class="sub">Podcast 作者</li>
+            <li class="sub">Podcast 單集</li>
+          </ul>
+        </div>
+        <div class="br">
+          <span class="lv1">我的 Podcast</span>
+          <ul>
+            <li>觀看紀錄<small>→ 單集</small></li>
+            <li>收藏清單<small>→ 單集</small></li>
+            <li>下載清單<small>→ 單集</small></li>
+            <li>追蹤清單<small>→ 頻道、作者</small></li>
+          </ul>
+        </div>
+      </div>
+      <p class="player"><b>播放器</b>從頻道、作者、單集都能開啟</p>
+    </div>
+  </Board>
+)}
+
 {kind === 'process' && (
   <Board kicker="Design Process" title="產品開發時的設計流程" c="podcast" label="設計流程：明確需求、分析問題，接著介面流程設計與原型製作與測試反覆迭代">
     <div class="proc">
@@ -47,4 +94,29 @@ const prep = ['訂定測試範圍與目標', '選定受測者族群', '設計用
   .prep .panel { display: grid; gap: 6px; padding: 14px 14px 16px; }
   .prep .n { font: 700 12px/1 var(--f-mono); color: var(--tone-ink); }
   .prep .t { font-weight: 900; font-size: 15.5px; line-height: 1.45; }
+
+  /* 頂部：三支手機 */
+  .pc-hero { margin: 40px 0 0; }
+  .phones { display: flex; justify-content: center; align-items: flex-end; gap: clamp(10px, 3vw, 28px); }
+  .ph { margin: 0; display: grid; gap: 10px; justify-items: center; width: min(220px, 30%); }
+  .ph.p1 { transform: translateY(-18px); }
+  .frame { width: 100%; background: #111; border-radius: 22px; padding: 6px; box-shadow: 0 18px 30px -18px rgba(0,0,0,.5); }
+  .frame :global(img) { display: block; width: 100%; height: auto; border-radius: 17px; }
+  .ph figcaption { font-weight: 700; font-size: 14px; }
+
+  /* 資訊架構：一層一層往下 */
+  .ia { display: grid; justify-items: center; gap: 0; max-width: 760px; margin: 0 auto; }
+  .root { background: var(--ink); color: var(--paper); font-weight: 900; padding: 10px 20px; border-radius: 10px; }
+  .branches { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; padding-top: 28px; margin-top: 0; }
+  .branches::before { content: ''; position: absolute; top: 0; left: 50%; height: 14px; border-left: 2px solid var(--tone-ink); }
+  .branches::after { content: ''; position: absolute; top: 14px; left: 25%; right: 25%; height: 14px; border: 2px solid var(--tone-ink); border-bottom: 0; border-radius: 8px 8px 0 0; }
+  .br { display: grid; gap: 10px; justify-items: center; align-content: start; }
+  .lv1 { background: var(--tone); color: #2a211c; font-weight: 900; padding: 8px 16px; border-radius: 10px; }
+  .br ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; width: 100%; max-width: 260px; }
+  .br li { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-weight: 700; font-size: 15px; box-shadow: var(--shadow); display: flex; justify-content: space-between; gap: 8px; }
+  .br li.sub { margin-left: 22px; position: relative; }
+  .br li.sub::before { content: '└'; position: absolute; left: -18px; color: var(--tone-ink); }
+  .br li small { font-weight: 500; font-size: 12.5px; color: var(--muted); }
+  :global(.dg) p.player { margin: 20px 0 0; width: 100%; max-width: 560px; text-align: center; background: var(--sheet); border: 2px dashed var(--tone-ink); border-radius: 12px; padding: 10px 14px; font-size: 14.5px; }
+  .player b { color: var(--tone-ink); margin-right: 8px; }
 </style>

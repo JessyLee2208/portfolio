@@ -4,8 +4,6 @@
 import CaseLayout from '../../layouts/CaseLayout.astro';
 import Figure from '../../components/Figure.astro';
 import { url } from '../../lib/url.js';
-import heroImg from '../../assets/cases/podcast/01.png';
-import ia from '../../assets/cases/podcast/03.png';
 import flow from '../../assets/cases/podcast/04.png';
 import participants from '../../assets/cases/podcast/06.png';
 import styleGuide from '../../assets/cases/podcast/08.png';
@@ -38,9 +36,7 @@ const toc = [
   toc={toc}
   next={{ href: url('/cases/branch/'), title: 'FunNow 分店頁改版' }}
 >
-  <Fragment slot="hero">
-    <div class="hero-img"><Image src={heroImg} alt="MyMusic Podcast 畫面" widths={[800, 1400, 2000]} sizes="(max-width: 1120px) 100vw, 1088px" /></div>
-  </Fragment>
+  <Fragment slot="hero"><PC kind="hero" /></Fragment>
 
   <h2 id="about">About MyMusic Podcast</h2>
   <p>台灣大哥大旗下音樂串流服務平台 MyMusic 提供華語、西洋、韓樂等近千萬首音樂曲庫。提供免費的 Podcast 為這次專案的首要任務。</p>
@@ -83,7 +79,7 @@ const toc = [
   <p>所以在接到需求後，首先針對現有產品進行了解後，便開始規劃流程與 Wireframe 繪製，同時與 PM 及工程師確認功能及流程的可行性。</p>
   <p><strong>初步 IA、介面設計＆流程設計</strong></p>
   <p>整理產品的 IA 資訊架構（Information Architecture），確保畫面與構想在 PM 提出的需求中</p>
-  <Figure src={ia} alt="MyMusic IA 資訊架構" caption="MyMusic IA 資訊架構" />
+  <PC kind="ia" />
   <Figure src={flow} alt="MyMusic Podcast 專區 Flow 繪製" caption="MyMusic Podcast 專區 Flow 繪製" wide />
   <p>確定好 Flow 以及後續執行方向後，就開始要明確我們這次的測試重點。</p>
 
@@ -140,8 +136,6 @@ const toc = [
 </CaseLayout>
 
 <style>
-  .hero-img { margin: 40px 0 0; }
-  .hero-img :global(img) { display: block; width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--line); }
   .muted { color: var(--muted); font-size: 14px; }
   .tasks caption { caption-side: bottom; padding-top: 10px; font-size: 13px; color: var(--muted); }
   .proto { display: grid; gap: 20px; align-items: center; margin: 28px 0; }
