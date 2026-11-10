@@ -27,11 +27,11 @@ const { kind } = Astro.props;
 const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 // 會員旅程：11/10 Jessy 嫌原版色塊太多太雜，選了 A 表格版（只用黑灰字，靠粗細分層）
 const JR = [
-  { st: '購買', do: '在官網、App 或櫃檯買點數方案', think: '每分鐘多少錢？買多少才夠？', pain: '不知道計費方式，很難判斷要買哪個方案', fix: '購買頁列出點數、會館、啟用方式和期限' },
-  { st: '進場', do: '掃 QR code 進場', think: '這張卡能用嗎？還有欠款嗎？', pain: '手上有好幾張卡，不知道會用哪張', fix: '顯示這張卡的點數；有欠款時卡片壓上欠款圖和餘額，補完才能進場' },
-  { st: '在館內', do: '運動中', think: '我待多久了？會扣多少？', pain: '計費看不見，擔心超時多扣', fix: '首頁計時器顯示已待多久、預計扣幾點' },
-  { st: '出場', do: '掃 QR code 出場', think: '扣了多少？還剩多少？', pain: '點數不夠怎麼辦？扣的是哪一筆？', fix: '自動選進場那張卡、照扣點順序扣；點數不夠也能出場，差額變成欠款' },
-  { st: '之後', do: '查紀錄、加值或退款', think: '點數快過期了嗎？還能退嗎？', pain: '規則複雜，不知道能退多少', fix: '「我的」看總點數和各方案，用完的收進失效方案' },
+  { st: '購買', think: '每分鐘多少錢？買多少才夠？', img: appPlan, fix: '方案的點數、期間、通行會館都列清楚' },
+  { st: '進場', think: '這張卡能用嗎？還有欠款嗎？', img: appQr, fix: '進場畫面顯示點數；有欠款要先補完才能進' },
+  { st: '在館內', think: '我待多久了？會扣多少？', img: homeTimer, fix: '首頁右下角的計時器，顯示已經待了多久' },
+  { st: '出場', think: '扣了多少？還剩多少？', img: timerSheet, fix: '點開就看到預計扣幾點，自動選好進場那張卡' },
+  { st: '之後', think: '還剩多少點？快過期了嗎？', img: appMine, fix: '「我的」一眼看到總點數，用完的收進失效方案' },
 ];
 
 ---
@@ -93,29 +93,15 @@ const JR = [
 )}
 
 {kind === 'journey' && (
-  <Board plate wide title="會員旅程：從買卡到出場" c="timecard" label="會員旅程：購買、進場、在館內、出場、之後五個階段，會員在做什麼、心裡在想什麼、痛點，以及對應的解法">
-    <!-- 桌機用表格（A），手機一步一列（B），11/10 Jessy -->
-    <div class="ja-wrap">
-      <table class="ja">
-        <thead><tr><th></th>{JR.map((r, i) => <th><span class="n">{i + 1}</span>{r.st}</th>)}</tr></thead>
-        <tbody>
-          <tr><th>做什麼</th>{JR.map((r) => <td class="d">{r.do}</td>)}</tr>
-          <tr><th>心裡想</th>{JR.map((r) => <td class="t">「{r.think}」</td>)}</tr>
-          <tr><th>痛點</th>{JR.map((r) => <td class="p">{r.pain}</td>)}</tr>
-          <tr><th>解法</th>{JR.map((r) => <td class="f">{r.fix}</td>)}</tr>
-        </tbody>
-      </table>
-    </div>
-    <ol class="jb">
+  <!-- 會員旅程：階段＋真實畫面的時間軸（參考 Uber 等作品集把每個階段對到 UI 截圖），11/10 Jessy 選 -->
+  <Board plate wide title="會員旅程：從買卡到出場" c="timecard" label="會員旅程：購買、進場、在館內、出場、之後五個階段，會員心裡在想的事，以及對應的 App 畫面與解法">
+    <ol class="tl">
       {JR.map((r, i) => (
-        <li>
-          <p class="jb-st"><span class="n">{i + 1}</span><b>{r.st}</b></p>
-          <dl class="jb-dl">
-            <dt>做什麼</dt><dd>{r.do}</dd>
-            <dt>心裡想</dt><dd class="t">「{r.think}」</dd>
-            <dt>痛點</dt><dd>{r.pain}</dd>
-            <dt>解法</dt><dd class="f">{r.fix}</dd>
-          </dl>
+        <li class="tl-st">
+          <p class="tl-head"><span class="tl-n">{i + 1}</span><b>{r.st}</b></p>
+          <p class="tl-q">「{r.think}」</p>
+          <div class="frame tl-ph"><Image src={r.img} alt="" widths={[260, 520]} sizes="150px" /></div>
+          <p class="tl-f">{r.fix}</p>
         </li>
       ))}
     </ol>
@@ -152,22 +138,27 @@ const JR = [
 )}
 
 {kind === 'lanes' && (
-  <Board plate wide title="一張卡從開賣到核銷，各方做什麼" c="timecard" label="泳道圖：會員、櫃檯人員、場館老闆、BookFast 在開賣前、販售、進出場、註銷退款、核銷五個階段各自做的事">
-    <div class="lanes-wrap" tabindex="0" aria-label="泳道圖，可以左右滑動">
-      <div class="lanes">
+  <!-- service blueprint：會員 → 互動線 → 前台 → 可見線 → 後台（11/10 Jessy 選），空格留白不畫框 -->
+  <Board plate wide title="一張卡從開賣到核銷，各方做什麼" c="timecard" label="服務藍圖：會員的動作、前台（櫃檯與 App）、後台（場館老闆與 BookFast 系統），在開賣前、販售、進出場、註銷退款、核銷五個階段各自做的事">
+    <div class="lanes-wrap" tabindex="0" aria-label="服務藍圖，可以左右滑動">
+      <div class="bp">
         <span class="corner"></span>
         {['開賣前', '販售', '進出場', '註銷退款', '核銷'].map((st, i) => <span class="st"><b>{i + 1}</b>{st}</span>)}
         {[
-          ['會員', ['', '在品牌官網、App 購買方案', '掃 QR code 進出場；App 上看已經待多久、預計扣幾點', '向場館提出退款', '']],
-          ['櫃檯人員', ['', '在櫃檯幫會員現場加值', '手動幫會員登記進出場', '在後台註銷，照畫面選退款方式與發票處理', '']],
-          ['場館老闆', ['設定每分鐘收費、緩衝時間，建立方案', '方案上架，設定販售渠道與數量', '', '', '從報表對帳，收到撥款']],
-          ['BookFast', ['', '代收會員付的錢（信用卡、樂享券）', '依停留時間和扣點順序扣點', '判斷能不能退、退多少，線上刷退', '依使用狀況核銷撥款給店家，零頭進位']],
-        ].map(([who, cells]) => (
-          <>
-            <span class="who-l">{who}</span>
-            {(cells as string[]).map((c) => c ? <span class="cell">{c}</span> : <span class="cell empty" aria-hidden="true"></span>)}
-          </>
-        ))}
+          { lab: '會員', sub: '', cells: ['', '在 App 或櫃檯買方案', '掃 QR code 進出場', '向場館提出退款', ''] },
+          { line: '互動線' },
+          { lab: '前台', sub: '櫃檯・App', cells: ['', '櫃檯現場加值', '櫃檯手動登記；App 計時器、預計扣點', '櫃檯在後台註銷，照畫面選退款方式', ''] },
+          { line: '可見線：以下會員看不到' },
+          { lab: '場館老闆', sub: '後台', cells: ['設定每分鐘收費、緩衝時間，建立方案', '方案上架，設定販售渠道與數量', '', '', '從報表對帳，收到撥款'] },
+          { lab: 'BookFast', sub: '系統', cells: ['', '代收會員付的錢', '依停留時間和扣點順序扣點', '判斷能不能退、退多少，線上刷退', '依使用狀況核銷撥款，零頭進位'] },
+        ].map((r) => r.line
+          ? <span class:list={['bp-line', { vis: r.line.startsWith('可見') }]}><i>{r.line}</i></span>
+          : (
+            <>
+              <span class="bp-lab">{r.lab}{r.sub && <small>{r.sub}</small>}</span>
+              {r.cells!.map((c) => c ? <span class="cell">{c}</span> : <span class="bp-empty" aria-hidden="true"></span>)}
+            </>
+          ))}
       </div>
     </div>
   </Board>
@@ -316,6 +307,39 @@ const JR = [
   /* 角色欄：拿掉黑色色塊，只留粗字（11/10 Jessy） */
   .who-l { display: grid; align-items: center; font-weight: 900; font-size: 13.5px; color: var(--ink); padding: 10px 4px; white-space: nowrap; }
   .cell { background: var(--sheet); border-radius: 10px; padding: 9px 10px; font-size: 13px; line-height: 1.6; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+  /* 會員旅程時間軸：階段用線串起來，每階段一句話＋一張畫面＋一句解法 */
+  .tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+  @media (min-width: 760px) { .tl { grid-template-columns: repeat(5, 1fr); gap: 16px; } }
+  .tl-st { position: relative; display: grid; gap: 8px; align-content: start; justify-items: start; }
+  :global(.prose) .tl-st p { margin: 0; }
+  .tl-head { display: flex; align-items: center; gap: 8px; font-size: 16px; position: relative; width: 100%; }
+  .tl-n { width: 24px; height: 24px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); position: relative; z-index: 1; flex: none; }
+  .tl-head b { font-weight: 900; }
+  @media (min-width: 760px) {
+    .tl-head::after { content: ''; position: absolute; left: 30px; right: -16px; top: 50%; border-top: 1.5px solid color-mix(in srgb, var(--tone-ink) 35%, transparent); }
+    .tl-head b { background: var(--tone-soft); padding-right: 8px; position: relative; z-index: 1; }
+    .tl-st:last-child .tl-head::after { display: none; }
+  }
+  :global(.prose) .tl-q { font-size: 13.5px; color: var(--muted); line-height: 1.55; min-height: 3.1em; }
+  .tl-ph { width: min(150px, 100%); border-radius: 18px; padding: 5px; }
+  .tl-ph :global(img) { border-radius: 13px; }
+  :global(.prose) .tl-f { font-size: 13.5px; font-weight: 700; line-height: 1.55; }
+  @media (max-width: 759px) {
+    .tl-st { grid-template-columns: 110px 1fr; column-gap: 14px; row-gap: 6px; }
+    .tl-head, .tl-q { grid-column: 1 / -1; }
+    .tl-ph { width: 110px; }
+  }
+
+  /* service blueprint：互動線實線、可見線虛線，空格留白 */
+  .bp { display: grid; grid-template-columns: 82px repeat(5, minmax(100px, 1fr)); gap: 6px; min-width: 600px; }
+  .bp-lab { display: grid; align-content: center; font-weight: 900; font-size: 13.5px; color: var(--ink); padding: 8px 4px; }
+  .bp-lab small { font-weight: 500; font-size: 11.5px; color: var(--muted); }
+  .bp-empty { min-height: 40px; }
+  .bp-line { grid-column: 1 / -1; position: relative; height: 22px; display: flex; align-items: center; }
+  .bp-line::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 1.5px solid color-mix(in srgb, var(--tone-ink) 45%, transparent); }
+  .bp-line.vis::before { border-top-style: dashed; }
+  .bp-line i { position: relative; font-style: normal; font-size: 12px; font-weight: 700; color: var(--tone-ink); background: var(--tone-soft); padding: 0 8px 0 0; }
+
   /* 會員旅程：安靜的表格，只用黑灰字、靠粗細分層；手機改成一步一列 */
   .jb { display: none; }
   @media (max-width: 719px) {
