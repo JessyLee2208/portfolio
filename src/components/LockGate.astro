@@ -1,0 +1,64 @@
+---
+// 密碼頁：擋住一般訪客，輸入正確密碼才看得到案例內容（11/10 Jessy 要求 Manager 那篇上鎖）
+// ⚠️ 只是「不公開展示」，不是加密：內容還在網頁原始碼裡，懂技術的人看得到。真的機密不要放網站
+// 密碼不寫明碼，只存 SHA-256；換密碼：在終端機跑 printf '新密碼' | shasum -a 256，把結果貼到 HASH
+import Avatar from './Avatar.astro';
+import { langOf } from '../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const HASH = '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'; // 暫時密碼 test1234，等 Jessy 給正式密碼
+const t = en
+  ? { title: 'This case study is password-protected', sub: 'Enter the password I shared with you to view it.', ph: 'Password', btn: 'View', wrong: 'That password isn’t right. Please try again.', back: '← All work' }
+  : { title: '這篇作品需要密碼', sub: '請輸入我提供給你的密碼。', ph: '密碼', btn: '查看', wrong: '密碼不對，請再試一次。', back: '← 回到作品' };
+---
+<script is:inline>document.documentElement.classList.add('locked');try{if(sessionStorage.getItem('pf-unlock')==='1')document.documentElement.classList.remove('locked')}catch(e){}</script>
+<div class="gate" data-hash={HASH}>
+  <div class="box">
+    <Avatar uid="gate" size={120} expr={4} full />
+    <h1>{t.title}</h1>
+    <p class="sub">{t.sub}</p>
+    <form>
+      <label class="sr" for="gate-pw">{t.ph}</label>
+      <input id="gate-pw" type="password" autocomplete="off" placeholder={t.ph} required />
+      <button type="submit">{t.btn}</button>
+    </form>
+    <p class="err" role="alert" hidden>{t.wrong}</p>
+    <a class="back" href={en ? `${import.meta.env.BASE_URL}en/#works` : `${import.meta.env.BASE_URL}#works`}>{t.back}</a>
+  </div>
+</div>
+<style>
+  .gate { display: none; }
+  :global(html.locked) .gate { display: grid; place-items: center; min-height: 72vh; padding: 48px 16px; }
+  :global(html.locked) :global(.case) { display: none; }
+  .box { width: 100%; max-width: 380px; text-align: center; display: grid; justify-items: center; gap: 8px; }
+  h1 { font-size: clamp(22px, 4vw, 28px); margin-top: 8px; }
+  .sub { color: var(--muted); margin: 0 0 8px; }
+  form { display: flex; gap: 8px; width: 100%; }
+  input { flex: 1; min-width: 0; min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--sheet); font: inherit; color: var(--ink); }
+  input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button { min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: var(--ink); color: var(--paper); font: inherit; font-weight: 700; cursor: pointer; }
+  button:hover { background: var(--accent); }
+  .err { color: var(--rust-ink); font-size: 14px; margin: 4px 0 0; }
+  .back { margin-top: 16px; color: var(--muted); text-decoration: none; font-size: 14px; display: inline-flex; align-items: center; min-height: 44px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+<script>
+  const gate = document.querySelector<HTMLElement>('.gate');
+  if (gate) {
+    const form = gate.querySelector('form')!;
+    const input = gate.querySelector<HTMLInputElement>('input')!;
+    const err = gate.querySelector<HTMLElement>('.err')!;
+    const sha = async (s: string) => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))].map((b) => b.toString(16).padStart(2, '0')).join('');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if ((await sha(input.value.trim())) === gate.dataset.hash) {
+        try { sessionStorage.setItem('pf-unlock', '1'); } catch {}
+        document.documentElement.classList.remove('locked');
+        // 解鎖後重新觸發：捲動淡入、依位置畫線的圖解
+        window.scrollTo(0, 0);
+        window.dispatchEvent(new Event('resize'));
+      } else {
+        err.hidden = false; input.select();
+      }
+    });
+  }
+</script>

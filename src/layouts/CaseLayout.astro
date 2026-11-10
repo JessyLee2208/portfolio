@@ -1,6 +1,7 @@
 ---
 // 案例頁版型：封面＋標題＋摘要＋專案資訊，內文左側有目錄（電腦版），底部下一篇
 import Base from './Base.astro';
+import LockGate from '../components/LockGate.astro';
 import { langOf, lurl } from '../lib/i18n.js';
 interface TocItem { id: string; label: string; }
 interface MetaItem { label: string; value: string; }
@@ -9,11 +10,13 @@ interface Props {
   meta: MetaItem[]; toc: TocItem[];
   tone: 'rust' | 'green' | 'mustard';
   next?: { href: string; title: string };
+  locked?: boolean;   // 要密碼才看得到（見 LockGate）
 }
-const { title, description, kicker, lead, meta, toc, tone, next } = Astro.props;
+const { title, description, kicker, lead, meta, toc, tone, next, locked = false } = Astro.props;
 const L = langOf(Astro.url), en = L === 'en';
 ---
-<Base title={`${title} · Jessy Lee`} description={description}>
+<Base title={`${title} · Jessy Lee`} description={description} noindex={locked}>
+  {locked && <LockGate />}
   <article class:list={['case', `tone-${tone}`]}>
     <header class="wrap case-head">
       <a class="back" href={lurl(L, '/#works')}>{en ? '← All work' : '← 回到作品'}</a>

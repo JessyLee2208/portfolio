@@ -43,7 +43,7 @@ const L = langOf(Astro.url), en = L === 'en';
       <div class="grid-2">
         <CaseCard href={lurl(L, '/cases/manager/')} title={en ? 'FunNow Manager Time Slot Redesign' : 'FunNow Manager 販售時段改版'}
           summary={en ? 'Merchants couldn’t tell which time slots needed a discount, or whether customers could still buy the ones they’d set up. I redesigned the time slot settings and reworked the inventory rules behind them.' : '店家看不出哪個時段需要設優惠、設好的優惠客人還買不買得到。我重新設計時段設定的介面，也重新規劃背後的庫存規則。'}
-          tags={en ? ['B2B', 'Inventory rules', 'UI/UX'] : ['B2B', '庫存規則', 'UI/UX']}>
+          tags={en ? ['B2B', 'Inventory rules', 'UI/UX'] : ['B2B', '庫存規則', 'UI/UX']} locked>
           <ManagerCover />
         </CaseCard>
         <CaseCard href={lurl(L, '/cases/ai-delivery/')} title={en ? 'Rethinking Design Handoff with AI' : '用 AI 改造設計交付流程'}

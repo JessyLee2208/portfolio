@@ -4,7 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { langOf, altUrl } from '../lib/i18n.js';
 
-interface Props { title?: string; description?: string; }
+interface Props { title?: string; description?: string; noindex?: boolean; }
 const L = langOf(Astro.url);
 const en = L === 'en';
 const {
@@ -24,6 +24,7 @@ const pageUrl = new URL(Astro.url.pathname.replace(/\/?$/, "/"), Astro.site).hre
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>{title}</title>
   <meta name="description" content={description} />
+  {Astro.props.noindex && <meta name="robots" content="noindex, nofollow" />}
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
