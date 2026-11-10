@@ -3,7 +3,8 @@
 // 每張依內容換形狀（shape）、手繪點綴（accent）、大數字底線（under）
 import '../../styles/cover.css';
 interface Props {
-  locked?: boolean;   // 要密碼的案例：編號旁邊放鎖頭
+  locked?: boolean;
+  hover?: 'rust' | 'green' | 'mustard';   // 舊作（stone）滑過時變成這個顏色   // 要密碼的案例：編號旁邊放鎖頭
   tone: 'rust' | 'green' | 'mustard' | 'stone';   // stone：舊作用的低調灰米色
   no: string; kick: string; title: string; sub: string;
   big: string; unit?: string; bigLabel: string;
@@ -14,7 +15,7 @@ interface Props {
   // 背景紋路每張封面都不一樣（11/10 Jessy）：dots 分店頁、grid Manager、lines AI、plus myVideo、waves Podcast、ruled BookFast
   pattern?: 'dots' | 'grid' | 'lines' | 'plus' | 'waves' | 'ruled';
 }
-const { tone, no, kick, title, sub, big, unit, bigLabel, label, shape = 'circle', accent = 'star-pin', under = 'line', pattern = 'dots', locked = false } = Astro.props;
+const { tone, no, kick, title, sub, big, unit, bigLabel, label, shape = 'circle', accent = 'star-pin', under = 'line', pattern = 'dots', locked = false, hover } = Astro.props;
 const ringPath = {
   circle: 'M100 8 C 152 6, 194 46, 192 100 C 190 156, 150 194, 98 192 C 44 190, 6 150, 9 98 C 12 46, 50 10, 106 9',
   square: 'M30 12 C 80 8, 140 10, 172 12 C 188 14, 190 30, 189 60 C 188 110, 190 150, 188 172 C 186 188, 170 190, 140 189 C 90 188, 50 190, 28 188 C 12 186, 10 170, 11 140 C 12 90, 10 50, 12 28 C 13 16, 22 12, 36 11',
@@ -24,7 +25,7 @@ const ringPath = {
   triangle: 'M100 12 C 130 62, 160 116, 190 178 C 130 181, 70 180, 10 179 C 40 120, 70 64, 102 13',
 }[shape];
 ---
-<div class:list={['cover', 'cover-b', `tone-${tone}`, `shape-${shape}`]} role="img" aria-label={label}>
+<div class:list={['cover', 'cover-b', `tone-${tone}`, `shape-${shape}`, hover && `hover-${hover}`]} role="img" aria-label={label}>
   <div class:list={['bgpat', `pat-${pattern}`]} aria-hidden="true"></div>
   <div class="cv-text">
     <p class="cv-no-row"><span class="cv-no">{no}</span>{locked && <span class="cv-lock" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2" /><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" /></svg></span>}</p>
@@ -89,6 +90,12 @@ const ringPath = {
   .cover-b.tone-mustard { --tone: var(--mustard); }
   .cover-b.tone-stone { --tone: #9a9286; }
   .tone-stone .num b { font-size: 7cqw; color: var(--ink); }
+  /* 舊作封面：平常灰米，滑過卡片（或手機捲到時）變回各自的顏色 */
+  .cover-b.tone-stone { transition: background-color .4s ease; }
+  .blob { transition: background-color .4s ease; }
+  :global(.case-card:hover) .cover-b.hover-rust, .cover-b.hover-rust.play { --tone: var(--rust); background-color: var(--rust-soft); }
+  :global(.case-card:hover) .cover-b.hover-green, .cover-b.hover-green.play { --tone: var(--accent); background-color: var(--accent-soft); }
+  :global(.case-card:hover) .cover-b.hover-mustard, .cover-b.hover-mustard.play { --tone: var(--mustard); background-color: var(--mustard-soft); }
   .bgpat { position: absolute; inset: 0; --pc: color-mix(in srgb, var(--tone) 38%, transparent); mask-image: linear-gradient(90deg, transparent 30%, #000 72%); }
   .pat-dots { background-image: radial-gradient(var(--pc) 1.2px, transparent 1.4px); background-size: 2.4cqw 2.4cqw; }
   .pat-grid { background-image: linear-gradient(var(--pc) 1px, transparent 1px), linear-gradient(90deg, var(--pc) 1px, transparent 1px); background-size: 3.2cqw 3.2cqw; opacity: .6; }
