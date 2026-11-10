@@ -31,7 +31,8 @@ const layers = en ? layersEn : layersZh;
 </Board>
 <style>
   .layers { list-style: none; padding: 0; margin: 0 auto; max-width: 860px; display: grid; gap: 28px; position: relative; }
-  .layers::before { content: ''; position: absolute; left: 13px; top: 30px; bottom: 30px; border-left: 1.5px dashed color-mix(in srgb, var(--tone-ink) 60%, transparent); }
+  /* 左邊的虛線：不用 color-mix（部分 iPhone Safari 會畫不出來），改用 opacity */
+  .layers::before { content: ""; position: absolute; left: 13px; top: 30px; bottom: 30px; width: 0; border-left: 2px dashed var(--tone-ink); opacity: .55; }
   .layer { display: grid; grid-template-columns: 28px 1fr; gap: 14px; align-items: start; position: relative; }
   .num { width: 28px; height: 28px; border-radius: 50%; background: var(--sheet); border: 1.5px solid var(--tone-ink); color: var(--tone-ink); display: grid; place-items: center; font: 700 13px/1 var(--f-mono); position: relative; z-index: 1; margin-top: 20px; }
   .body { padding: 18px 20px 20px; padding-right: 72px; }

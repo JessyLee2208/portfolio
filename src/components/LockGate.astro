@@ -5,7 +5,7 @@
 import Avatar from './Avatar.astro';
 import { langOf } from '../lib/i18n.js';
 const en = langOf(Astro.url) === 'en';
-const HASH = '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'; // 暫時密碼 test1234，等 Jessy 給正式密碼
+const HASH = '6a175db84aeefddbe58bf92a5d67b372c78505c75b079912b89a0e599fe91317'; // 正式密碼由 Jessy 保管（11/10 設定）
 const t = en
   ? { title: 'This case study is password-protected', sub: 'Enter the password I shared with you to view it.', ph: 'Password', btn: 'View', wrong: 'That password isn’t right. Please try again.', back: '← All work' }
   : { title: '這篇作品需要密碼', sub: '請輸入我提供給你的密碼。', ph: '密碼', btn: '查看', wrong: '密碼不對，請再試一次。', back: '← 回到作品' };
