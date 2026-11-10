@@ -59,16 +59,63 @@ const toc = [
 
   <h3>資料收集</h3>
   <p>透過競品分析，參考與 myVideo 的營收模式、重點功能相似的產品來研究其資訊架構，幫助團隊更快的將框架重新定義，並作為事前問卷調查的主要依據。</p>
-  <div class="tw"><table class="comp">
-    <caption>競品分析（底色標出的是本次主要參考的產品）</caption>
-    <thead><tr><th></th><th class="ref">Netflix</th><th>Apple TV+</th><th>愛奇藝</th><th class="ref">Spotify</th><th class="ref">Melon</th><th>KKBOX</th></tr></thead>
-    <tbody>
-      <tr><th>共享帳號</th><td class="ref">有（4+1）<br /><small>共用相同帳密</small></td><td>有（5+1）<br /><small>獨立帳密</small></td><td>無</td><td class="ref">有（6）<br /><small>獨立帳密</small></td><td class="ref">無</td><td>無</td></tr>
-      <tr><th>資訊架構類型</th><td class="ref">資訊全頁展開</td><td>資訊全頁展開</td><td>側邊分頁型</td><td class="ref">側邊分頁型</td><td class="ref">綜合型<br /><small>資訊分類＆內容展開</small></td><td>側邊分頁型</td></tr>
-      <tr><th>營收方式</th><td class="ref">等級月租制</td><td>月租＆產品點數</td><td>方案月租制</td><td class="ref">方案月租制</td><td class="ref">月租＋單曲＋點數等綜合制度</td><td>方案月租制</td></tr>
-      <tr><th>身分別內容變化</th><td class="ref">無</td><td>無</td><td>無</td><td class="ref">有<br /><small>主帳號與子帳號顯示內容不同</small></td><td class="ref">無</td><td>無</td></tr>
-    </tbody>
-  </table></div>
+  <ul class="comp-cards" aria-label="競品分析：Netflix、Apple TV+、愛奇藝、Spotify、Melon、KKBOX">
+      <li class:list={['pc-card', { ref: true }]}>
+        <p class="pc-name">Netflix<span class="pc-ref">主要參考</span></p>
+        <dl>
+          <div><dt>共享帳號</dt><dd>有（4+1）<small>共用相同帳密</small></dd></div>
+          <div><dt>資訊架構類型</dt><dd>資訊全頁展開</dd></div>
+          <div><dt>營收方式</dt><dd>等級月租制</dd></div>
+          <div><dt>身分別內容變化</dt><dd>無</dd></div>
+        </dl>
+      </li>
+      <li class:list={['pc-card', { ref: false }]}>
+        <p class="pc-name">Apple TV+</p>
+        <dl>
+          <div><dt>共享帳號</dt><dd>有（5+1）<small>獨立帳密</small></dd></div>
+          <div><dt>資訊架構類型</dt><dd>資訊全頁展開</dd></div>
+          <div><dt>營收方式</dt><dd>月租＆產品點數</dd></div>
+          <div><dt>身分別內容變化</dt><dd>無</dd></div>
+        </dl>
+      </li>
+      <li class:list={['pc-card', { ref: false }]}>
+        <p class="pc-name">愛奇藝</p>
+        <dl>
+          <div><dt>共享帳號</dt><dd>無</dd></div>
+          <div><dt>資訊架構類型</dt><dd>側邊分頁型</dd></div>
+          <div><dt>營收方式</dt><dd>方案月租制</dd></div>
+          <div><dt>身分別內容變化</dt><dd>無</dd></div>
+        </dl>
+      </li>
+      <li class:list={['pc-card', { ref: true }]}>
+        <p class="pc-name">Spotify<span class="pc-ref">主要參考</span></p>
+        <dl>
+          <div><dt>共享帳號</dt><dd>有（6）<small>獨立帳密</small></dd></div>
+          <div><dt>資訊架構類型</dt><dd>側邊分頁型</dd></div>
+          <div><dt>營收方式</dt><dd>方案月租制</dd></div>
+          <div><dt>身分別內容變化</dt><dd>有<small>主帳號與子帳號顯示內容不同</small></dd></div>
+        </dl>
+      </li>
+      <li class:list={['pc-card', { ref: true }]}>
+        <p class="pc-name">Melon<span class="pc-ref">主要參考</span></p>
+        <dl>
+          <div><dt>共享帳號</dt><dd>無</dd></div>
+          <div><dt>資訊架構類型</dt><dd>綜合型<small>資訊分類＆內容展開</small></dd></div>
+          <div><dt>營收方式</dt><dd>月租＋單曲＋點數等綜合制度</dd></div>
+          <div><dt>身分別內容變化</dt><dd>無</dd></div>
+        </dl>
+      </li>
+      <li class:list={['pc-card', { ref: false }]}>
+        <p class="pc-name">KKBOX</p>
+        <dl>
+          <div><dt>共享帳號</dt><dd>無</dd></div>
+          <div><dt>資訊架構類型</dt><dd>側邊分頁型</dd></div>
+          <div><dt>營收方式</dt><dd>方案月租制</dd></div>
+          <div><dt>身分別內容變化</dt><dd>無</dd></div>
+        </dl>
+      </li>
+    </ul>
+  <p class="muted center">競品分析（標「主要參考」的是本次主要參考的產品）</p>
 
   <h3>問卷調查</h3>
   <p>在做問卷調查前，首先需要了解我們想透過這份問卷得到什麼樣的答案。而本次問卷的發放目的主要著重於 <span class="hl">了解用戶對會員中心的需求及期待</span>＆<span class="hl">現有用戶的使用行為與狀況掌握</span>。</p>
@@ -102,15 +149,18 @@ const toc = [
 
 <style>
   .muted { color: var(--muted); font-size: 14px; }
-  /* 競品表：手機可左右滑；本次參考的三個產品欄位加底色 */
-  .tw { overflow-x: auto; margin: 20px 0 24px; }
-  .tw :global(table.comp) { min-width: 680px; margin: 0; font-size: 14px; text-align: center; table-layout: fixed; }
-  .tw :global(table.comp th:first-child) { width: 8.5em; min-width: 0; }
-  .comp th, .comp td { text-align: center; vertical-align: middle; }
-  .comp tbody th { text-align: left; white-space: nowrap; }
-  .comp .ref { background: color-mix(in srgb, var(--tone-soft) 70%, transparent); font-weight: 600; }
-  .comp small { color: var(--muted); font-weight: 400; }
-  .comp caption { caption-side: bottom; padding-top: 10px; font-size: 13px; color: var(--muted); }
+  /* 競品分析：每個產品一張卡，手機一欄、其他兩欄 */
+  .comp-cards { list-style: none; padding: 0; margin: 20px 0 8px; display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 560px) { .comp-cards { grid-template-columns: 1fr 1fr; } }
+  .comp-cards .pc-card { margin: 0; padding: 14px 16px; border-radius: 14px; background: var(--sheet); border: 1px solid var(--line); }
+  .comp-cards .pc-card.ref { border: 2px solid var(--tone-ink); }
+  .comp-cards .pc-name { margin: 0 0 8px; font-weight: 900; font-size: 17px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .pc-ref { font-size: 12px; font-weight: 700; color: #fff; background: var(--tone-ink); padding: 3px 8px; border-radius: 99px; }
+  .comp-cards dl { margin: 0; display: grid; gap: 6px; }
+  .comp-cards dl div { display: grid; grid-template-columns: 7.5em 1fr; gap: 8px; font-size: 14px; line-height: 1.5; }
+  .comp-cards dt { color: var(--muted); }
+  .comp-cards dd { margin: 0; font-weight: 600; }
+  .comp-cards small { display: block; font-weight: 400; color: var(--muted); font-size: 12.5px; }
   .center { text-align: center; }
   .tag-b, .tag-a { display: inline-block; font: 700 12px/1 var(--f-mono); padding: 5px 8px; border-radius: 6px; margin-right: 8px; vertical-align: 1px; }
   .tag-b { background: var(--line); color: var(--muted); }
