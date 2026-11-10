@@ -10,6 +10,7 @@ import AiCover from './covers/AiCover.astro';
 import { langOf, lurl } from '../lib/i18n.js';
 import MyVideoCover from './covers/MyVideoCover.astro';
 import PodcastCover from './covers/PodcastCover.astro';
+import BookFastCover from './covers/BookFastCover.astro';
 const L = langOf(Astro.url), en = L === 'en';
 ---
 <Base>
@@ -60,7 +61,7 @@ const L = langOf(Astro.url), en = L === 'en';
       <p class="label">More Works</p>
       <h2>{en ? 'Earlier work' : '更多作品'}</h2>
     </div>
-    <div class="grid-2">
+    <div class="grid-3">
       <CaseCard href={lurl(L, '/cases/myvideo/')} title={en ? 'myVideo Member Center Redesign' : 'myVideo 會員中心改版'}
         summary={en ? '2020 · Taiwan Mobile. Restructured the member center of a video streaming service, from research and prototyping to usability testing. (In Chinese)' : '2020・台灣大哥大。會員中心是用戶在眾多方案與優惠中做決定的地方，我負責規劃 Research、製作 prototype、主持訪談，重整會員中心的資訊架構。'}
         tags={en ? ['User research', 'Usability testing', 'Web (RWD)'] : ['用戶研究', '易用性測試', 'Web（RWD）']}>
@@ -70,6 +71,11 @@ const L = langOf(Astro.url), en = L === 'en';
         summary={en ? '2020 · Taiwan Mobile. Lead UI/UX designer for a new podcast service: flows, usability tests, design system and handoff specs. (In Chinese)' : '2020・台灣大哥大。MyMusic Podcast 新服務的 UI/UX 主責設計師：規劃流程、設計測試任務、建置設計元件，以及交互文件。'}
         tags={en ? ['UI/UX lead', 'Usability testing', 'Design system'] : ['UI/UX 主責', '易用性測試', 'Design System']}>
         <PodcastCover />
+      </CaseCard>
+      <CaseCard href={lurl(L, '/cases/bookfast/')} title={en ? 'BookFast Checkout Flow' : 'BookFast 付款流程簡化設計'}
+        summary={en ? '2021 · BookFast. Lead designer for simplifying the back-office checkout, so merchants can check customers out faster. Iterated through three versions with cognitive walkthroughs. (In Chinese)' : '2021・BookFast。後台結帳流程優化的主責設計師，用認知走查迭代三個版本，從分步式改成一頁式，讓店家更快完成結帳。'}
+        tags={en ? ['B2B', 'Cognitive walkthrough', 'Web'] : ['B2B', '認知走查', 'Web']}>
+        <BookFastCover />
       </CaseCard>
     </div>
   </section>
@@ -95,4 +101,7 @@ const L = langOf(Astro.url), en = L === 'en';
   .grid, .grid-2 { display: grid; gap: 24px; }
   @media (min-width: 820px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
   .more-head { margin-top: 72px; }
+  .grid-3 { display: grid; gap: 24px; }
+  @media (min-width: 820px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1100px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
 </style>

@@ -1,0 +1,129 @@
+---
+// BookFast 付款流程簡化設計（舊作，2021–2022）：文字照 Notion 原文（_notion-raw/bookfast/content.md），只補中英文間空格、修明顯錯字
+import CaseLayout from '../../layouts/CaseLayout.astro';
+import Figure from '../../components/Figure.astro';
+import BF from '../../components/diagrams/old/BookFast.astro';
+import { url } from '../../lib/url.js';
+import oldIssues from '../../assets/cases/bookfast/03.png';
+import v1 from '../../assets/cases/bookfast/06.png';
+import v2 from '../../assets/cases/bookfast/07.png';
+import v3 from '../../assets/cases/bookfast/08.png';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const toc = [
+  { id: 'why', label: '為什麼要優化結帳流程？' },
+  { id: 'goals', label: '聚焦目的' },
+  { id: 'research', label: '研究執行方法' },
+  { id: 'iterate', label: '設計與測試的迭代過程' },
+];
+---
+<CaseLayout
+  title="BookFast 付款流程簡化設計"
+  kicker="06 · B2B · Web · 2021"
+  tone="green"
+  description="BookFast 後台操作系統結帳流程優化的主責設計師，簡化既有的結帳流程，讓店家可以更快速的完成結帳。"
+  lead="結帳的時間，是直接影響到店家服務的重要環節。如何協助店家快速的完成結帳、提高店家的結帳率，不會讓客戶因為過長的結帳排隊而放棄購買商品，是本次專案的主要目的。"
+  meta={[
+    { label: '專案時間', value: '2021 年 12 月 - 2022 年 1 月' },
+    { label: '團隊', value: '2 人（不含開發）' },
+    { label: '規劃設備', value: 'Web' },
+  ]}
+  toc={toc}
+  next={{ href: url('/cases/branch/'), title: 'FunNow 分店頁改版' }}
+>
+  <Fragment slot="hero">
+    <figure class="hero-vid">
+      <video src={`${base}/media/bookfast-hero.mp4`} poster={`${base}/media/bookfast-hero.jpg`} autoplay muted loop playsinline aria-label="BookFast 後台付款流程畫面"></video>
+    </figure>
+  </Fragment>
+
+  <h2 id="why">為什麼要優化結帳流程？</h2>
+  <p>客戶在使用結帳流程時，準確快速的結帳流程可以幫助店家更快的服務客戶。雖然說快速完成結帳很重要，但是確保客戶在結帳的過程中不會出錯是本次設計的一大挑戰。辨別資訊的必要性，並精簡結帳流程是本次優化的首要目標。</p>
+
+  <h3>專案目的</h3>
+  <p>結帳的時間，是直接影響到店家服務的重要環節。很多的客人會因為結帳速度過慢，間接的對於商家的印象不好。因此<span class="hl">如何協助店家快速的完成結帳，提高店家的結帳率，不會讓客戶因為過長的結帳排隊而放棄購買商品</span>，是本次專案的主要目的。</p>
+
+  <h3>挑戰</h3>
+  <p>對於 to B 的產品來說，簡易的結帳流程可以更容易的服務不同的業態，但同時也需要滿足不同業態的需求以及對於結帳流程的理解。</p>
+
+  <h3>我的角色</h3>
+  <p>負責規劃與主導 UX Research 的方向、後台邏輯、測試方式、UI 的呈現</p>
+  <p class="muted">本次改版於 2022 年 1 月 17 號在台灣正式上線</p>
+
+  <hr />
+
+  <h2 id="goals">聚焦目的</h2>
+  <p>在開始執行項目前，確認本次的首要目標，讓功能的優化可以更集中，且幫助之後在查找資料與測試時有夠好的檢視指標，分別是：</p>
+  <BF kind="goals" />
+
+  <h3>目前的問題點</h3>
+  <Figure src={oldIssues} alt="舊版後台結帳流程的問題：無法確認會員資訊、資訊內容分布較散、無法返回上一步" wide />
+  <p>就既有的後台結帳流程，在進入發票開立流程後，即無法更改付款價格，且存在資訊呈現較多、內容較為鬆散的問題。</p>
+
+  <hr />
+
+  <h2 id="research">研究執行方法</h2>
+  <BF kind="method" />
+
+  <h3>資料收集</h3>
+  <p>了解大部分的結帳流程，以及不同產業的結帳方式，來制定後續流程優化的方向。</p>
+  <BF kind="compare" />
+
+  <hr />
+
+  <h2 id="iterate">設計與測試的迭代過程</h2>
+  <p>本次設計與開發的流程由於時間較短，因此決定使用認知走查來進行本次的設計。且為了避免有重複測試導致對於測試結果的誤差，因此每次的受測者皆不重複。</p>
+  <div class="walk">
+    <p class="walk-t">認知走查測試</p>
+    <dl>
+      <div><dt>設定場館背景</dt><dd>中型健身房，提供現場開立發票，同時也支援手機載具。付款方式接受現金、信用卡</dd></div>
+      <div><dt>設定人物角色</dt><dd>健身房櫃檯，負責協助客戶完成結帳。</dd></div>
+      <div><dt>設定場景</dt><dd>今天因為月底，所以很多會員都想要購買下個月新的會籍，在排隊等待完成結帳。第一位結帳的會員，想要使用信用卡付款，並存入手機載具。</dd></div>
+      <div><dt>設定任務</dt><dd>協助客戶完成結帳。在結帳的同時需要確認結帳內容正確無誤。</dd></div>
+      <div><dt>測試人員選定</dt><dd>以公司同事為主，主要找的同事職務為客服、業務以及設計師</dd></div>
+      <div><dt>測試工具</dt><dd>Figma</dd></div>
+    </dl>
+  </div>
+
+  <h3>設計版本 v1.0</h3>
+  <p>此版本在提供用戶更多資訊，且分步驟的方式完成結帳</p>
+  <Figure src={v1} alt="設計版本 v1.0：分步驟完成結帳" />
+  <div class="fb">
+    <p class="fb-t">測試反饋</p>
+    <p>在選擇完發票時，想要跟消費者做最後確認時，沒有資訊，需要點擊返回上一步。不然就會直接完成結帳。到時候發現錯誤時又需要去註銷商品重新來一次。</p>
+    <p>覺得選擇載具的內容很多，要看很久。除非已經很熟悉了才能記位置</p>
+    <p>感覺在最後一步確認資訊的意義感覺不大</p>
+  </div>
+
+  <h3>設計版本 v2.0</h3>
+  <Figure src={v2} alt="設計版本 v2.0" />
+  <div class="fb">
+    <p class="fb-t">測試反饋</p>
+    <p>可以很清楚的知道有哪些資訊，也完成流程。只是如果客人很多的時候，感覺還是沒辦法加快速度。畢竟要確認的東西以及資訊實在太多了。</p>
+  </div>
+
+  <h3>設計版本 v3.0（最終版）</h3>
+  <p>將分步驟的選擇方式改為一頁式呈現，並在左方資訊確認的欄位，將所設定的資料動態呈現。確認資料的同時，完成結帳時也可以確保資料是正確的。</p>
+  <Figure src={v3} alt="設計版本 v3.0（最終版）：一頁式結帳，左方動態顯示確認資訊" />
+  <div class="fb final">
+    <p class="fb-t">測試反饋</p>
+    <p>經由 3 組測試後，此版本的完成速度與成功率皆是最高，因此最後將此版本定為最後版本。</p>
+  </div>
+</CaseLayout>
+
+<style>
+  .hero-vid { margin: 40px 0 0; }
+  .hero-vid video { display: block; width: 100%; border-radius: var(--radius); border: 1px solid var(--line); background: #fff; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .walk { margin: 24px 0; padding: 20px 22px; border-radius: 16px; background: var(--sheet); border: 1px solid var(--line); }
+  :global(.prose) .walk-t, :global(.prose) .fb-t { margin: 0 0 10px; font-weight: 900; }
+  .walk dl { margin: 0; display: grid; gap: 10px; }
+  .walk dl div { display: grid; gap: 2px; }
+  @media (min-width: 640px) { .walk dl div { grid-template-columns: 7.5em 1fr; gap: 12px; } }
+  .walk dt { font-weight: 700; color: var(--tone-ink); font-size: 14px; }
+  .walk dd { margin: 0; font-size: 15px; line-height: 1.7; }
+  .fb { margin: 12px 0 28px; padding: 14px 18px; border-left: 4px solid var(--line); background: var(--sheet); border-radius: 0 12px 12px 0; }
+  .fb.final { border-left-color: var(--tone); }
+  :global(.prose) .fb p { margin: 0 0 6px; font-size: 15px; }
+  :global(.prose) .fb p:last-child { margin-bottom: 0; }
+</style>

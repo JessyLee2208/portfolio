@@ -1,0 +1,71 @@
+---
+// BookFast 付款流程簡化的圖解：取代 Notion 簡報匯出的小圖（02/04/05.png），文字照原圖（研究步驟的說明取自 Figma 作品集素材 bookfast 頁）
+import Board from '../Board.astro';
+interface Props { kind: 'goals' | 'method' | 'compare'; }
+const { kind } = Astro.props;
+---
+{kind === 'goals' && (
+  <Board kicker="Focus" title="聚焦目的" c="manager" label="聚焦目的：提升用戶的決策效率、資訊確認">
+    <ol class="goals">
+      {['決策效率', '資訊確認'].map((n) => (
+        <li class="panel"><span class="kick">提升用戶</span><span class="name">{n}</span></li>
+      ))}
+    </ol>
+  </Board>
+)}
+
+{kind === 'method' && (
+  <Board kicker="Research Method" title="研究執行方法" c="manager" label="研究執行方法：資料收集、設計、認知走查">
+    <ol class="steps">
+      {[
+        ['資料收集', '了解大部分結帳的流程，整理客戶對於結帳流程的反饋'],
+        ['設計', '透過收集到的資料進行初步的 wireframe 設計，並制定該設計的情境來執行測試。'],
+        ['認知走查', '利用初步的 wireframe 來進行快速測試，幫助設計師掌握設計的方向，且快速的優化設計。'],
+      ].map(([t, d], i) => (
+        <li class="panel step"><span class="num">{i + 1}</span><span class="t">{t}</span><span class="d">{d}</span></li>
+      ))}
+    </ol>
+  </Board>
+)}
+
+{kind === 'compare' && (
+  <Board kicker="Step-by-step vs One-page" title="分步式 vs 一頁式結帳流程" c="manager" label="分步式與一頁式結帳流程的優缺點與適合的類型">
+    <div class="cmp">
+      {[
+        { t: '分步式結帳流程', pro: ['一次只做一件事情，更容易集中且資訊不易過載', '可以確認幾個步驟會完成，進而有心理準備'], con: ['若步驟過於繁多，容易導致用戶失去耐心，進而流失訂單'], fit: '大型電商、結帳時需確認的事情繁多且複雜' },
+        { t: '一頁式結帳流程', pro: ['簡單快速，在一個頁面內可以確認完所有資訊', '步驟越少點擊數越少，等待時間越短'], con: ['若資訊過多時，容易造成資料確認與輸入上的困難'], fit: '小型電商、付款方式單純的平台' },
+      ].map((c) => (
+        <div class="panel col">
+          <span class="ct">{c.t}</span>
+          <span class="lab">優點</span><ul>{c.pro.map((x) => <li>{x}</li>)}</ul>
+          <span class="lab">缺點</span><ul>{c.con.map((x) => <li>{x}</li>)}</ul>
+          <span class="fit"><b>適合的類型與平台</b>{c.fit}</span>
+        </div>
+      ))}
+    </div>
+  </Board>
+)}
+
+<style>
+  .goals { list-style: none; padding: 0; margin: 0 auto; max-width: 580px; display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+  .goals .panel { display: grid; justify-items: center; text-align: center; padding: 26px 16px; }
+  .kick { color: var(--tone-ink); font-weight: 700; font-size: 14px; letter-spacing: .04em; }
+  .name { margin-top: 4px; font-size: clamp(24px, 3.2vw, 34px); font-weight: 900; line-height: 1.2; }
+
+  .steps { list-style: none; padding: 0; margin: 0 auto; max-width: 900px; display: grid; gap: 14px; }
+  @media (min-width: 760px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+  .step { display: grid; gap: 8px; align-content: start; }
+  .num { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--tone-ink); color: #fff; font: 700 13px/1 var(--f-mono); }
+  .step .t { font-size: 20px; font-weight: 900; }
+  .step .d { font-size: 14.5px; line-height: 1.7; color: var(--muted); }
+
+  .cmp { display: grid; gap: 14px; max-width: 860px; margin: 0 auto; }
+  @media (min-width: 680px) { .cmp { grid-template-columns: 1fr 1fr; } }
+  .col { display: grid; gap: 6px; align-content: start; }
+  .ct { font-size: 20px; font-weight: 900; text-align: center; margin-bottom: 6px; }
+  .lab { font-weight: 700; font-size: 13px; color: var(--tone-ink); margin-top: 4px; }
+  .col ul { margin: 0; padding-left: 1.1em; font-size: 14.5px; line-height: 1.7; }
+  .col li { margin: 0; }
+  .fit { margin-top: 10px; display: grid; gap: 2px; background: var(--tone-ink); color: #fff; border-radius: 10px; padding: 10px 14px; font-size: 14px; line-height: 1.6; }
+  .fit b { font-size: 13px; opacity: .85; }
+</style>
