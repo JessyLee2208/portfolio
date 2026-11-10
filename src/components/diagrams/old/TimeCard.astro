@@ -303,7 +303,7 @@ const JR = [
   .roles { display: grid; gap: 12px; max-width: 980px; margin: 0 auto; }
   @media (min-width: 720px) { .roles { grid-template-columns: 1fr 1fr; } }
   .role { display: grid; gap: 8px; align-content: start; }
-  .rt { font-size: 19px; font-weight: 900; }
+  .rt { font-size: 19px; font-weight: 700; }
   .role ul { margin: 0; padding-left: 1.1em; font-size: 14px; line-height: 1.65; }
   .role li { margin: 0 0 4px; }
   .map { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
@@ -312,16 +312,16 @@ const JR = [
   /* 泳道圖：窄螢幕左右滑 */
   .lanes-wrap { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; margin: 0 -4px; padding: 4px; }
   .lanes { display: grid; grid-template-columns: 72px repeat(5, minmax(100px, 1fr)); gap: 6px; min-width: 600px; max-width: 1000px; margin: 0 auto; }
-  .st { display: flex; align-items: center; gap: 6px; font-weight: 900; font-size: 14.5px; padding: 4px 2px 6px; }
+  .st { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14.5px; padding: 4px 2px 6px; }
   .st b { width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); }
   /* 角色欄：拿掉黑色色塊，只留粗字（11/10 Jessy） */
-  .who-l { display: grid; align-items: center; font-weight: 900; font-size: 13.5px; color: var(--ink); padding: 10px 4px; white-space: nowrap; }
+  .who-l { display: grid; align-items: center; font-weight: 700; font-size: 13.5px; color: var(--ink); padding: 10px 4px; white-space: nowrap; }
   .cell { background: var(--sheet); border-radius: 10px; padding: 9px 10px; font-size: 13px; line-height: 1.6; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
   /* 設計原則的鏈 */
   .chain { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
   @media (min-width: 720px) { .chain { grid-template-columns: repeat(4, 1fr); gap: 26px; } }
   .ch { position: relative; display: grid; gap: 4px; align-content: start; padding: 14px 14px 16px; }
-  .ch b { font-size: 16px; font-weight: 900; }
+  .ch b { font-size: 16px; font-weight: 700; }
   .ch span:not(.ch-n) { font-size: 13px; color: var(--muted); line-height: 1.5; }
   .ch-n { font: 700 12px/1 var(--f-mono); color: var(--muted); }
   .ch:not(:last-child)::after { content: '↓'; position: absolute; left: 50%; bottom: -20px; transform: translateX(-50%); color: var(--tone-ink); font-weight: 900; font-size: 14px; }
@@ -334,7 +334,7 @@ const JR = [
   :global(.prose) .tl-st p { margin: 0; }
   .tl-head { display: flex; align-items: center; gap: 8px; font-size: 16px; position: relative; width: 100%; }
   .tl-n { width: 24px; height: 24px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); position: relative; z-index: 1; flex: none; }
-  .tl-head b { font-weight: 900; }
+  .tl-head b { font-weight: 700; }
   @media (min-width: 760px) {
     .tl-head::after { content: ''; position: absolute; left: 30px; right: -16px; top: 50%; border-top: 1.5px solid color-mix(in srgb, var(--tone-ink) 35%, transparent); }
     .tl-head b { background: var(--tone-soft); padding-right: 8px; position: relative; z-index: 1; }
@@ -342,11 +342,11 @@ const JR = [
   }
   :global(.prose) .tl-q { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
   @media (min-width: 760px) { :global(.prose) .tl-q { min-height: 3.1em; } }
-  :global(.prose) .tl-f { font-size: 13.5px; font-weight: 700; line-height: 1.55; }
+  :global(.prose) .tl-f { font-size: 13.5px; font-weight: 500; line-height: 1.55; }
 
   /* service blueprint：互動線實線、可見線虛線，空格留白 */
   .bp { display: grid; grid-template-columns: 82px repeat(5, minmax(100px, 1fr)); gap: 6px; min-width: 600px; }
-  .bp-lab { display: grid; align-content: center; font-weight: 900; font-size: 13.5px; color: var(--ink); padding: 8px 4px; }
+  .bp-lab { display: grid; align-content: center; font-weight: 700; font-size: 13.5px; color: var(--ink); padding: 8px 4px; }
   .bp-lab small { font-weight: 500; font-size: 11.5px; color: var(--muted); }
   .bp-empty { min-height: 40px; }
   .bp-line { grid-column: 1 / -1; position: relative; height: 22px; display: flex; align-items: center; }
@@ -363,22 +363,22 @@ const JR = [
     :global(.prose) .jb li p { margin: 0; }
     :global(.prose) .jb-st { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px !important; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
     .jb-st .n { font: 700 12px/1 var(--f-mono); color: var(--muted); }
-    .jb-st b { font-size: 16px; font-weight: 900; }
+    .jb-st b { font-size: 16px; font-weight: 700; }
     .jb-dl { margin: 0; display: grid; grid-template-columns: 3.6em 1fr; gap: 8px 12px; font-size: 14px; line-height: 1.6; }
     .jb-dl dt { font-size: 12.5px; font-weight: 700; color: var(--muted); padding-top: 1px; }
     .jb-dl dd { margin: 0; }
     .jb-dl .t { color: var(--muted); }
-    .jb-dl .f { font-weight: 700; }
+    .jb-dl .f { font-weight: 500; }
   }
   .ja { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 13.5px; line-height: 1.6; background: none; }
   .ja th, .ja td { text-align: left; vertical-align: top; padding: 10px 10px; border-bottom: 1px solid var(--line); background: none; }
-  .ja thead th { font-size: 14.5px; font-weight: 900; color: var(--ink); border-bottom: 1.5px solid var(--ink); padding-bottom: 8px; }
+  .ja thead th { font-size: 14.5px; font-weight: 700; color: var(--ink); border-bottom: 1.5px solid var(--ink); padding-bottom: 8px; }
   .ja .n { font: 700 12px/1 var(--f-mono); color: var(--muted); margin-right: 6px; }
   .ja tbody th { font-size: 12.5px; font-weight: 700; color: var(--muted); white-space: nowrap; width: 56px; }
   .ja tbody tr:last-child th, .ja tbody tr:last-child td { border-bottom: 0; }
   .ja .t { color: var(--muted); }
   .ja .p { color: var(--ink); }
-  .ja .f { color: var(--ink); font-weight: 700; }
+  .ja .f { color: var(--ink); font-weight: 500; }
 
   .cell.empty { background: transparent; border: 1px dashed color-mix(in srgb, var(--tone) 35%, transparent); }
 
@@ -386,25 +386,25 @@ const JR = [
   .rules { list-style: none; padding: 0; margin: 0 auto 16px; max-width: 860px; display: grid; gap: 12px; }
   @media (min-width: 720px) { .rules { grid-template-columns: repeat(3, 1fr); } }
   .rule { display: grid; gap: 6px; align-content: start; }
-  .rule .t { font-size: 18px; font-weight: 900; }
+  .rule .t { font-size: 18px; font-weight: 700; }
   .rule .d { font-size: 14px; color: var(--muted); line-height: 1.6; }
   .ex { max-width: 860px; margin: 0 auto; overflow-x: auto; }
-  :global(.prose) .ex-t { margin: 0 0 10px; font-weight: 900; }
+  :global(.prose) .ex-t { margin: 0 0 10px; font-weight: 700; }
   .ex-tb { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 520px; }
   .ex-tb th { text-align: left; font-size: 12.5px; color: var(--muted); font-weight: 700; padding: 6px 8px; border-bottom: 1px solid var(--line); background: none; }
   .ex-tb td { padding: 9px 8px; border-bottom: 1px solid var(--line); }
   .ex-tb .o { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--tone-soft); color: var(--tone-ink); font: 700 12px/1 var(--f-mono); }
-  .ex-tb tr:not(.dim) td:nth-child(2) { font-weight: 700; }
+  .ex-tb tr:not(.dim) td:nth-child(2) { font-weight: 500; }
   .ex-tb .dim td { color: var(--muted); }
-  :global(.prose) .ex-r { margin: 12px 0 0; font-size: 14.5px; font-weight: 700; color: var(--tone-ink); }
+  :global(.prose) .ex-r { margin: 12px 0 0; font-size: 14.5px; font-weight: 500; color: var(--tone-ink); }
 
   /* 退款規則對照 */
   .cmp { display: grid; gap: 14px; max-width: 760px; margin: 0 auto; }
   @media (min-width: 640px) { .cmp { grid-template-columns: 1fr 1fr; } }
   .col { display: grid; gap: 4px; align-content: start; }
-  .ct { font-size: 20px; font-weight: 900; text-align: center; margin-bottom: 8px; }
+  .ct { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 8px; }
   .lab { font-weight: 700; font-size: 12.5px; color: var(--tone-ink); margin-top: 6px; display: block; }
-  .v { font-size: 17px; font-weight: 700; }
+  .v { font-size: 17px; font-weight: 500; }
   :global(.prose) .both { max-width: 760px; margin: 14px auto 0; background: var(--tone-ink); color: #fff; border-radius: 12px; padding: 12px 16px; font-size: 15px; text-align: center; }
   .both b { margin-right: 10px; opacity: .8; font-size: 13px; }
 
@@ -412,7 +412,7 @@ const JR = [
   .rf-grid { display: grid; gap: 28px; max-width: 760px; margin: 0 auto; }
   @media (min-width: 720px) { .rf-grid { grid-template-columns: 1fr 1fr; } }
   .rf-col { display: grid; gap: 10px; align-content: start; }
-  :global(.prose) .rf-step { margin: 0; display: flex; gap: 8px; align-items: center; font-weight: 900; font-size: 16px; }
+  :global(.prose) .rf-step { margin: 0; display: flex; gap: 8px; align-items: center; font-weight: 700; font-size: 16px; }
   .shot { border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: #fff; box-shadow: var(--shadow); }
   .shot :global(img) { display: block; width: 100%; height: auto; }
   :global(.prose) .rf-cap { margin: 0 0 12px; font-size: 14px; line-height: 1.65; color: var(--muted); }
@@ -421,7 +421,7 @@ const JR = [
   .split { display: grid; grid-template-columns: 1fr 50px 1.2fr; align-items: center; gap: 8px; max-width: 640px; margin: 0 auto 18px; }
   .split .panel { display: grid; gap: 2px; justify-items: center; text-align: center; padding: 14px 12px; }
   .split .lab { margin: 0; }
-  .big { font: 900 clamp(30px, 5vw, 42px)/1.1 var(--f-display); }
+  .big { font: 700 clamp(30px, 5vw, 42px)/1.1 var(--f-display); }
   .big small { font-size: 15px; margin-left: 3px; font-family: var(--f-zh); }
   .outs { display: grid; gap: 12px; }
   .out.shop { background: var(--tone-ink); color: #fff; }
@@ -465,7 +465,7 @@ const JR = [
   .fc-row.phone-row { grid-auto-columns: min(190px, 46%); gap: 16px; }
   .ph-card .frame { border-radius: 20px; padding: 5px; }
   .ph-card .frame :global(img) { border-radius: 15px; }
-  .cap { margin: 0; font-size: 13.5px; font-weight: 700; color: var(--ink); }
+  .cap { margin: 0; font-size: 13.5px; font-weight: 500; color: var(--ink); }
 
   /* 橫向滑的功能卡 */
   .fc { position: relative; }
@@ -479,13 +479,13 @@ const JR = [
   .fc-card { scroll-snap-align: start; background: var(--sheet); border-radius: 14px; padding: 14px 14px 16px; display: grid; gap: 8px; align-content: start; }
   .fc-card .frame { border-radius: 18px; padding: 5px; }
   .fc-card .frame :global(img) { border-radius: 14px; }
-  :global(.prose) .fc-t { margin: 4px 0 0; font-weight: 900; font-size: 15px; }
+  :global(.prose) .fc-t { margin: 4px 0 0; font-weight: 700; font-size: 15px; }
   :global(.prose) .fc-d { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
 
   /* 手機排一列 */
   .phones { display: flex; justify-content: center; align-items: flex-start; gap: clamp(10px, 3vw, 28px); }
   .ph { margin: 0; display: grid; gap: 10px; justify-items: center; width: min(220px, 30%); }
-  .ph figcaption { font-weight: 700; font-size: 14px; text-align: center; }
+  .ph figcaption { font-weight: 500; font-size: 14px; text-align: center; }
 </style>
 <script>
   // 功能卡的左右按鈕：一次捲一張卡的寬度，到頭或到尾時按鈕變淡
