@@ -1,6 +1,7 @@
 /* 案例封面：左文字、右一個主視覺，置中不裁切；用容器寬度縮放 */
 .cover {
   container-type: inline-size; position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden;
+  line-height: 1.5; /* 卡片外層 .media 設了 line-height: 0，這裡要恢復，不然封面裡的時段卡片「售完」標籤會被壓扁 */
   background: var(--accent-soft); color: var(--ink);
   display: grid; grid-template-columns: 48% 52%; align-items: center;
 }
