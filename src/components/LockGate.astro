@@ -3,7 +3,7 @@
 // ⚠️ 只是「不公開展示」，不是加密：內容還在網頁原始碼裡，懂技術的人看得到。真的機密不要放網站
 // 密碼不寫明碼，只存 SHA-256；換密碼：在終端機跑 printf '新密碼' | shasum -a 256，把結果貼到 HASH
 import Avatar from './Avatar.astro';
-import { langOf } from '../lib/i18n.js';
+import { langOf, lurl } from '../lib/i18n.js';
 const en = langOf(Astro.url) === 'en';
 const HASH = '6a175db84aeefddbe58bf92a5d67b372c78505c75b079912b89a0e599fe91317'; // 正式密碼由 Jessy 保管（11/10 設定）
 const t = en
@@ -22,7 +22,7 @@ const t = en
       <button type="submit">{t.btn}</button>
     </form>
     <p class="err" role="alert" hidden>{t.wrong}</p>
-    <a class="back" href={en ? `${import.meta.env.BASE_URL}en/#works` : `${import.meta.env.BASE_URL}#works`}>{t.back}</a>
+    <a class="back" href={lurl(en ? 'en' : 'zh', '/#works')}>{t.back}</a>
   </div>
 </div>
 <style>
