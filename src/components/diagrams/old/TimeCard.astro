@@ -175,7 +175,7 @@ const JR = [
 )}
 
 {kind === 'deduct' && (
-  <Board plate title="扣點順序：三條規則依序判斷" c="timecard" label="扣點順序：一、最先到期的方案；二、到期日相同時，已經用過的先扣；三、點數先扣，贈點最後。例子：會員有四筆額度，扣點順序是 B 方案點數、C 方案點數、B 方案贈點、A 方案點數">
+  <Board plate title="扣點順序" c="timecard" label="扣點順序：一、最先到期的方案；二、到期日相同時，已經用過的先扣；三、點數先扣，贈點最後。例子：會員有四筆額度，扣點順序是 B 方案點數、C 方案點數、B 方案贈點、A 方案點數">
     <ol class="rules">
       {[['最先到期的先扣', '到期日越近，越先用掉'], ['用過的先扣', '到期日一樣時，額度不完整的先扣'], ['點數先扣，贈點最後', '會員花錢買的點數，比送的贈點先用']].map(([t, d], i) => (
         <li class="panel rule"><span class="num">{i + 1}</span><span class="t">{t}</span><span class="d">{d}</span></li>
