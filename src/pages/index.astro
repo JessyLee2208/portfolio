@@ -52,6 +52,8 @@ import { url } from '../lib/url.js';
   /* 標題換行只在詞組之間，手機不會剩「計。」一行 */
   .nw { display: inline-block; }
   .hero-title { font-size: clamp(30px, 5vw, 52px); line-height: 1.25; margin: 10px 0 16px; }
+  /* 手機：字級跟著螢幕寬度縮，讓第二句維持一行（13 個字），不會被擠成三行 */
+  @media (max-width: 760px) { .hero-title { font-size: min(6.6vw, 40px); } }
   .hero-sub { color: var(--muted); margin: 0; max-width: 62ch; }
   .links { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
   .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 15px; transition: background .2s ease; }
