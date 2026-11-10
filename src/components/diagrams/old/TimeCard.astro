@@ -22,7 +22,7 @@ import homeTimer from '../../../assets/cases/timecard/app-home-timer.png';
 import timerSheet from '../../../assets/cases/timecard/app-timer.png';
 import newBase from '../../../assets/cases/timecard/admin-new-base.png';
 import newForm from '../../../assets/cases/timecard/admin-new-form.png';
-interface Props { kind: 'hero' | 'deduct' | 'refund' | 'settle' | 'app' | 'scan' | 'new-plan' | 'roles' | 'lanes' | 'timer' | 'journey' | 'features'; }
+interface Props { kind: 'hero' | 'deduct' | 'refund' | 'settle' | 'app' | 'scan' | 'new-plan' | 'roles' | 'lanes' | 'timer' | 'journey' | 'features' | 'chain'; }
 const { kind } = Astro.props;
 const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 // 會員旅程（11/10 Jessy：不放手機畫面，只留階段、心裡想、解法）：11/10 Jessy 嫌原版色塊太多太雜，選了 A 表格版（只用黑灰字，靠粗細分層）
@@ -89,6 +89,17 @@ const JR = [
         </div>
       ))}
     </div>
+  </Board>
+)}
+
+{kind === 'chain' && (
+  <!-- 設計原則的鏈：會員滿意 → 願意付費 → 場館賺錢 → 持續使用 BookFast（11/10 Jessy） -->
+  <Board plate title="從會員出發的一條鏈" c="timecard" label="會員滿意，才願意付費；會員付費，場館才賺錢；場館賺錢，才會持續使用 BookFast">
+    <ol class="chain">
+      {[['會員滿意', '扣點清楚、不被多扣'], ['願意付費', '繼續儲值、加值'], ['場館賺錢', '收入穩定、對帳清楚'], ['持續使用 BookFast', '場館留在系統上']].map(([t, d], i) => (
+        <li class="panel ch"><span class="ch-n">{i + 1}</span><b>{t}</b><span>{d}</span></li>
+      ))}
+    </ol>
   </Board>
 )}
 
@@ -306,6 +317,16 @@ const JR = [
   /* 角色欄：拿掉黑色色塊，只留粗字（11/10 Jessy） */
   .who-l { display: grid; align-items: center; font-weight: 900; font-size: 13.5px; color: var(--ink); padding: 10px 4px; white-space: nowrap; }
   .cell { background: var(--sheet); border-radius: 10px; padding: 9px 10px; font-size: 13px; line-height: 1.6; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+  /* 設計原則的鏈 */
+  .chain { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+  @media (min-width: 720px) { .chain { grid-template-columns: repeat(4, 1fr); gap: 26px; } }
+  .ch { position: relative; display: grid; gap: 4px; align-content: start; padding: 14px 14px 16px; }
+  .ch b { font-size: 16px; font-weight: 900; }
+  .ch span:not(.ch-n) { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .ch-n { font: 700 12px/1 var(--f-mono); color: var(--muted); }
+  .ch:not(:last-child)::after { content: '↓'; position: absolute; left: 50%; bottom: -20px; transform: translateX(-50%); color: var(--tone-ink); font-weight: 900; font-size: 14px; }
+  @media (min-width: 720px) { .ch:not(:last-child)::after { content: '→'; left: auto; right: -21px; bottom: auto; top: 50%; transform: translateY(-50%); } }
+
   /* 會員旅程時間軸：階段用線串起來，每階段一句話＋一張畫面＋一句解法 */
   .tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
   @media (min-width: 760px) { .tl { grid-template-columns: repeat(5, 1fr); gap: 16px; } }

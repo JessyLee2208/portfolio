@@ -12,6 +12,8 @@ import { Image } from 'astro:assets';
 
 const toc = [
   { id: 'why', label: '背景' },
+  { id: 'principle', label: '設計原則' },
+  { id: 'journey', label: '會員旅程' },
   { id: 'roles', label: '四種角色' },
   { id: 'setup', label: '後台設定' },
   { id: 'counter', label: '櫃檯' },
@@ -32,7 +34,7 @@ const toc = [
     { label: '規劃設備', value: '後台 Web、會員 App、品牌官網' },
   ]}
   toc={toc}
-  summary={{ problem: '很多健身房按停留時間收費，但 BookFast 原本沒有能按分鐘計費的模組。', role: 'B 端後台與 C 端 App、官網的設計，以及扣點邏輯、金流計算與核銷方式。', how: '先整理會員、場館老闆、櫃檯、BookFast 四方的需求，定出扣點順序、退款、核銷三套規則，再設計後台與會員端。', result: '規劃 2 週、開發 4 週，2022 年上線。' }}
+  summary={{ problem: '很多健身房按停留時間收費，但 BookFast 原本沒有能按分鐘計費的模組。', role: 'B 端後台與 C 端 App、官網的設計，以及扣點邏輯、金流計算與核銷方式。', how: '從會員出發：先確保會員不會覺得被多扣、扣錯或退不到錢，再整理場館老闆、櫃檯、BookFast 的需求，定出扣點順序、退款、核銷三套規則。', result: '規劃 2 週、開發 4 週，2022 年上線。' }}
   next={{ href: url('/cases/bookfast/'), title: 'BookFast 付款流程簡化設計' }}
 >
   <Fragment slot="hero"><TC kind="hero" /></Fragment>
@@ -46,13 +48,22 @@ const toc = [
   <h2>所以我要從零做出一張分鐘計費卡</h2>
   <p>B 端後台、C 端 App 和品牌官網都由我設計；<span class="hl">扣點邏輯、金流計算和核銷方式</span>也是我定的。</p>
 
-  <p class="eyebrow" id="roles">四種角色</p>
-  <h2>同一張卡，四種人在意的事都不一樣</h2>
-  <p>動工前先把每個角色的需求列出來，後面每個設計都在回應其中一條。</p>
-  <TC kind="roles" />
-  <p>先從會員看起。從買卡到出場，每個階段會員心裡都有一個問題，設計要先回答它：</p>
+  <p class="eyebrow" id="principle">設計原則</p>
+  <h2>會員滿意，場館才會一直用 BookFast</h2>
+  <p>分鐘計費卡背後是一條鏈：會員用得滿意，才願意付費；會員願意付費，場館才賺得到錢；場館賺得到錢，才會繼續用我們的系統。</p>
+  <TC kind="chain" />
+  <p>所以這次的每條規則、每個畫面，都要先確定<span class="hl">會員不會覺得被多扣、扣錯或退不到錢</span>，不讓客訴發生，再來顧到場館和 BookFast 的需求。</p>
+
+  <p class="eyebrow" id="journey">會員旅程</p>
+  <h2>先從會員看起：每一步他心裡都有一個問題</h2>
+  <p>從買卡到出場，會員會經過五個階段。每個階段的問題沒被回答，就可能變成一通客訴：</p>
   <TC kind="journey" />
-  <p>會員看到的每一步，背後都要其他三方配合。把四個角色放進同一條流程，就看得出每個階段是誰在做什麼。</p>
+
+  <p class="eyebrow" id="roles">四種角色</p>
+  <h2>會員以外，還有三方要一起顧到</h2>
+  <p>場館老闆、櫃檯和 BookFast 也各有在意的事。動工前先把四方的需求列出來，後面每個設計都在回應其中一條。</p>
+  <TC kind="roles" />
+  <p>把四個角色放進同一條流程，就看得出會員看到的每一步，背後是誰在配合：</p>
   <TC kind="lanes" />
 
   <p class="eyebrow" id="setup">後台設定</p>
