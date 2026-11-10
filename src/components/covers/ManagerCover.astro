@@ -7,7 +7,7 @@ const c = en
   ? { kick: 'B2B · Merchant back office', title: 'FunNow Manager<br />Time Slot Redesign', sub: 'Merchants see how many spots<br />each slot has left, at a glance', unit: 'slot types', bigLabel: 'Recurring, special and flash-sale slots, told apart at a glance', label: 'FunNow Manager time slot redesign cover: slot cards that use color for the slot type and show how many have sold' }
   : { kick: 'B2B · 店家後台', title: 'FunNow Manager<br />販售時段改版', sub: '讓店家一眼看懂<br />每個時段還能賣幾份', unit: '種時段', bigLabel: '循環設定、特殊設定、限時促銷，一眼分辨', label: 'FunNow Manager 販售時段改版封面：用顏色區分三種時段、顯示已售份數的時段卡片' };
 ---
-<CoverB tone="green" pattern="grid" shape="square" accent="clock" under="dots" no="02" kick={c.kick} title={c.title}
+<CoverB locked tone="green" pattern="grid" shape="square" accent="clock" under="dots" no="02" kick={c.kick} title={c.title}
   sub={c.sub} big="3" unit={c.unit} bigLabel={c.bigLabel}
   label={c.label}>
   <div class="sheet">

@@ -3,6 +3,7 @@
 // 每張依內容換形狀（shape）、手繪點綴（accent）、大數字底線（under）
 import '../../styles/cover.css';
 interface Props {
+  locked?: boolean;   // 要密碼的案例：編號旁邊放鎖頭
   tone: 'rust' | 'green' | 'mustard';
   no: string; kick: string; title: string; sub: string;
   big: string; unit?: string; bigLabel: string;
@@ -12,7 +13,7 @@ interface Props {
   under?: 'line' | 'dots' | 'wave';
   pattern?: 'dots' | 'grid' | 'lines';
 }
-const { tone, no, kick, title, sub, big, unit, bigLabel, label, shape = 'circle', accent = 'star-pin', under = 'line', pattern = 'dots' } = Astro.props;
+const { tone, no, kick, title, sub, big, unit, bigLabel, label, shape = 'circle', accent = 'star-pin', under = 'line', pattern = 'dots', locked = false } = Astro.props;
 const ringPath = {
   circle: 'M100 8 C 152 6, 194 46, 192 100 C 190 156, 150 194, 98 192 C 44 190, 6 150, 9 98 C 12 46, 50 10, 106 9',
   square: 'M30 12 C 80 8, 140 10, 172 12 C 188 14, 190 30, 189 60 C 188 110, 190 150, 188 172 C 186 188, 170 190, 140 189 C 90 188, 50 190, 28 188 C 12 186, 10 170, 11 140 C 12 90, 10 50, 12 28 C 13 16, 22 12, 36 11',
@@ -22,7 +23,7 @@ const ringPath = {
 <div class:list={['cover', 'cover-b', `tone-${tone}`, `shape-${shape}`]} role="img" aria-label={label}>
   <div class:list={['bgpat', `pat-${pattern}`]} aria-hidden="true"></div>
   <div class="cv-text">
-    <p class="cv-no">{no}</p>
+    <p class="cv-no-row"><span class="cv-no">{no}</span>{locked && <span class="cv-lock" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2" /><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" /></svg></span>}</p>
     <p class="cv-kick">{kick}</p>
     <p class="cv-title" set:html={title} />
     <p class="cv-sub" set:html={sub} />

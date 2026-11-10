@@ -8,6 +8,10 @@
 .cover.tone-rust { background: var(--rust-soft); }
 .cover.tone-mustard { background: var(--mustard-soft); }
 .cover .cv-text { padding-left: 7cqw; padding-right: 2cqw; }
+.cover .cv-no-row { display: flex; align-items: center; gap: 1cqw; margin: 0; line-height: 1; }
+/* 鎖頭：跟編號一樣高的深色圓 */
+.cover .cv-lock { display: grid; place-items: center; width: 3.4cqw; height: 3.4cqw; border-radius: 50%; background: var(--ink); color: var(--paper); }
+.cover .cv-lock svg { width: 55%; height: 55%; }
 .cover .cv-no {
   display: inline-block; font: 700 1.7cqw/1 var(--f-mono); letter-spacing: .08em;
   background: var(--ink); color: var(--paper); padding: .8cqw 1.3cqw; border-radius: 99px; margin: 0;
@@ -23,6 +27,7 @@
 @container (max-width: 560px) {
   .cover .cv-kick, .cover .cv-sub, .cover .bignum small { display: none; }
   .cover .cv-no { font-size: 3.4cqw; padding: 1.2cqw 2cqw; }
+  .cover .cv-lock { width: 5.8cqw; height: 5.8cqw; }
   .cover.cover .num span { font-size: 4cqw; }
   .cover .cv-title { font-size: 6.2cqw; margin-top: 2.4cqw; }
 }

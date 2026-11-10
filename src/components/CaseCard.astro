@@ -1,19 +1,17 @@
 ---
 // 首頁案例卡片：封面（slot）已有編號、類別、標題、大數字，下面只放封面沒有的：一句說明、標籤
-// 整張卡片可點，不另外放「看案例」；要密碼的案例在封面右上角放鎖頭（11/10 Jessy）
+// 整張卡片可點，不另外放「看案例」；要密碼的案例在封面編號旁放鎖頭（CoverB locked，11/10 Jessy）
 interface Props { href: string; title: string; summary: string; tags: string[]; wide?: boolean; locked?: boolean; }
 const { href, title, summary, tags, wide = false, locked = false } = Astro.props;
 import { langOf } from '../lib/i18n.js';
-import BrandIcon from './BrandIcon.astro';
 const en = langOf(Astro.url) === 'en';
 ---
 <a class:list={['case-card', 'reveal', { wide }]} href={href}>
   <div class="media">
     <slot />
-    {locked && <span class="lock-badge" title={en ? 'Password required' : '需要密碼'}><BrandIcon name="lock" /><span class="sr">{en ? 'Password required' : '需要密碼'}</span></span>}
   </div>
   <div class="body">
-    <h3 class="sr">{title}</h3>
+    <h3 class="sr">{title}{locked && (en ? ' (password required)' : '（需要密碼）')}</h3>
     <p class="summary">{summary}</p>
     <ul class="tags">{tags.map((t) => <li class="chip">{t}</li>)}</ul>
   </div>
@@ -23,9 +21,6 @@ const en = langOf(Astro.url) === 'en';
   .case-card:hover { transform: translateY(-4px); }
   .case-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
   .media { line-height: 0; position: relative; }
-  /* 要密碼的案例：封面右上角的鎖頭 */
-  .lock-badge { position: absolute; top: 14px; right: 14px; z-index: 3; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--paper); box-shadow: 0 2px 8px rgba(0,0,0,.18); }
-  .lock-badge :global(.bi) { width: 18px; height: 18px; }
   .body { padding: 18px 22px 20px; display: flex; flex-direction: column; gap: 14px; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .summary { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
