@@ -3,13 +3,21 @@
 // 電腦版和手機版排法不同，虛線用 JS 依實際位置畫（量得到元素在哪就連到哪）
 import Board from '../Board.astro';
 import SlotCard from './SlotCard.astro';
-const notes = {
+import { langOf } from '../../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const notesEn = {
+  color: 'Color highlights what merchants care about most, so the slot type is easy to spot',
+  stock: 'New stock status, with distinct states, so merchants see at a glance whether customers can still buy',
+  name: 'Cleaner display: unnamed slots hide the name line, so the right info is easier to find',
+};
+const notesZh = {
   color: '透過顏色強調店家最重視的內容，方便辨識目前販售的時段類型',
   stock: '新增庫存狀態，且區分狀態，讓店家可以一眼知道用戶是否可以繼續購買',
   name: '優化顯示畫面，當店家沒有設定時段名稱時，直接隱藏，可以更直覺的找到對的內容',
 };
+const notes = en ? notesEn : notesZh;
 ---
-<Board kicker="Card anatomy" title="可售與已售一眼看到" c="manager" label="時段卡片拆解：顏色區分類型、新增庫存狀態、沒設定名稱時直接隱藏">
+<Board kicker="Card anatomy" title={en ? 'Available and sold, visible at a glance' : '可售與已售一眼看到'} c="manager" label={en ? 'Slot card breakdown: color for type, new stock status, name hidden when not set' : '時段卡片拆解：顏色區分類型、新增庫存狀態、沒設定名稱時直接隱藏'}>
   <div class="anat">
     <p class="note n-stock">{notes.stock}</p>
     <p class="note n-color">{notes.color}</p>

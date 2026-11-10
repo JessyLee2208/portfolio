@@ -4,7 +4,7 @@ import { url } from './url.js';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // 已經有英文版的頁面（路徑不含 base、不含 /en）；還沒翻的頁面不顯示語言切換，也不連過去
-export const EN_PAGES = ['/', '/cases/branch/'];
+export const EN_PAGES = ['/', '/cases/branch/', '/cases/manager/', '/cases/ai-delivery/'];
 
 /** 目前頁面的語言：'en' 或 'zh' */
 export const langOf = (u) => (u.pathname.startsWith(base + '/en/') || u.pathname === base + '/en' ? 'en' : 'zh');

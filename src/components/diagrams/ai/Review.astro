@@ -1,28 +1,30 @@
 ---
 import Board from '../Board.astro';
 import Cursor from '../Cursor.astro';
+import { tr } from '../../../lib/en-dict.js';
+const x = tr(Astro.url);
 ---
-<Board kicker="Decision 1 · Review before handoff" title="把 refinement 會問的，先問完" c="ai"
-  label="決策 1：交稿前先讓 AI 跑四項固定檢查，我逐條判斷後，改版後再複查">
+<Board kicker="Decision 1 · Review before handoff" title={x('把 refinement 會問的，先問完')} c="ai"
+  label={x('決策 1：交稿前先讓 AI 跑四項固定檢查，我逐條判斷後，改版後再複查')}>
   <div class="flow">
     <div class="panel main">
-      <p class="panel-title">AI Review<small>每份 spec 都跑同一套</small></p>
+      <p class="panel-title">AI Review<small>{x('每份 spec 都跑同一套')}</small></p>
       <div class="checks">
-        <div class="note"><span class="pill">CHECK 01</span><br />票 × spec 逐條對照<span class="sub">✅ 對得上　⚠️ 對不上　❌ 稿上沒有</span></div>
-        <div class="note"><span class="pill">CHECK 02</span><br />沒寫完整、有衝突<span class="sub">兩處寫法不同、分支只寫一半</span></div>
-        <div class="note"><span class="pill">CHECK 03</span><br />少見的情況<span class="sub">載入／沒資料／失敗／極端值</span></div>
-        <div class="note"><span class="pill">CHECK 04</span><br />跨品牌、跨頁面<span class="sub">改一個元件會不會影響別處</span></div>
+        <div class="note"><span class="pill">CHECK 01</span><br />{x('票 × spec 逐條對照')}<span class="sub">{x('✅ 對得上　⚠️ 對不上　❌ 稿上沒有')}</span></div>
+        <div class="note"><span class="pill">CHECK 02</span><br />{x('沒寫完整、有衝突')}<span class="sub">{x('兩處寫法不同、分支只寫一半')}</span></div>
+        <div class="note"><span class="pill">CHECK 03</span><br />{x('少見的情況')}<span class="sub">{x('載入／沒資料／失敗／極端值')}</span></div>
+        <div class="note"><span class="pill">CHECK 04</span><br />{x('跨品牌、跨頁面')}<span class="sub">{x('改一個元件會不會影響別處')}</span></div>
       </div>
-      <p class="hand judge">AI 列出來 → <span class="underline-hand">我逐條判斷</span>：真問題／要問人／AI 誤判</p>
+      <p class="hand judge">{x('AI 列出來 → ')}<span class="underline-hand">{x('我逐條判斷')}</span>{x('：真問題／要問人／AI 誤判')}</p>
       <Cursor who="ai" class="c-ai" />
     </div>
     <svg class="arrow-svg arr" viewBox="0 0 80 60" aria-hidden="true"><path d="M6 40 C 24 6, 56 6, 70 36 M60 30 L71 38 L74 25" /></svg>
     <div class="panel side">
-      <p class="panel-title zh">改版後複查</p>
+      <p class="panel-title zh">{x('改版後複查')}</p>
       <div class="notes">
-        <div class="note"><span class="pill ok">✓</span> 已修好</div>
-        <div class="note"><span class="pill">…</span> 還沒動</div>
-        <div class="note"><span class="pill ai">NEW</span> 新帶進來</div>
+        <div class="note"><span class="pill ok">✓</span> {x('已修好')}</div>
+        <div class="note"><span class="pill">…</span> {x('還沒動')}</div>
+        <div class="note"><span class="pill ai">NEW</span> {x('新帶進來')}</div>
       </div>
       <Cursor who="jessy" uid="cur-rv" class="c-me" />
     </div>

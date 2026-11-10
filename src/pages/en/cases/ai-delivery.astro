@@ -1,0 +1,117 @@
+---
+// 用 AI 改造設計交付流程（英文版）：內容對應 src/pages/cases/ai-delivery.astro，英文作品集口吻意譯（2026-11-10）
+// 用詞：票＝ticket、驗收條件＝acceptance criteria、交稿＝handoff、標註＝annotation、AI 查證＝AI-verified
+import CaseLayout from '../../../layouts/CaseLayout.astro';
+import Guide from '../../../components/Guide.astro';
+import Stat from '../../../components/Stat.astro';
+import HeroFlow from '../../../components/diagrams/ai/HeroFlow.astro';
+import Research from '../../../components/diagrams/ai/Research.astro';
+import Review from '../../../components/diagrams/ai/Review.astro';
+import Values from '../../../components/diagrams/ai/Values.astro';
+import Annotate from '../../../components/diagrams/ai/Annotate.astro';
+import { lurl } from '../../../lib/i18n.js';
+
+const toc = [
+  { id: 'background', label: 'Background' },
+  { id: 'research', label: 'Research' },
+  { id: 'execution', label: 'Design decisions' },
+  { id: 'results', label: 'Results' },
+  { id: 'closing', label: 'Reflections' },
+];
+---
+<CaseLayout
+  title="Rethinking Design Handoff with AI"
+  kicker="03 · Design Ops"
+  tone="mustard"
+  description="During refinement, engineers kept coming back to me to confirm details. I added an AI review before handoff to catch anything undefined or contradictory, and labeled AI-verified content for engineers to double-check."
+  lead="During refinement, engineers kept coming back to me to confirm details, and a wrong value in a spec simply gets built as written. After interviewing engineers, I added an AI review step before handoff and labeled everything the AI verified, so engineers know what to double-check."
+  meta={[
+    { label: 'Timeline', value: 'Jun 2026 – present' },
+    { label: 'Type', value: 'Design Ops' },
+    { label: 'Tools', value: 'Figma, Claude AI' },
+  ]}
+  toc={toc}
+  next={{ href: lurl('en', '/cases/branch/'), title: 'FunNow Venue Page Redesign' }}
+>
+  <Fragment slot="hero"><HeroFlow /></Fragment>
+
+  <h2 id="background">Background</h2>
+  <p>A single FunNow spec often has to cover three brands (FunNow, Eatigo, Niceday) and three platforms (iOS, Android, Web). How one field is displayed can depend on back-office settings, what the API returns, and logic on each platform. With that many rules, manual checks easily miss things.</p>
+  <p>Whatever gets missed piles up in refinement. Engineers come back to me to confirm how to handle uncommon cases, a state that was never defined, or which to follow when the ticket and the design disagree. Every round trip delays the start of development.</p>
+
+  <h3>Goal</h3>
+  <p>Catch problems <span class="hl">before handoff</span> and cut down the back-and-forth in refinement: define uncommon cases up front, fill in anything incomplete or contradictory, and make sure the ticket and the spec describe the same thing.</p>
+
+  <h3>Challenges</h3>
+  <p>AI can scan a spec end to end very quickly, but AI makes mistakes too. Simply handing the checks to AI means passing an unreliable source on to engineers and asking them to trust it. So the problem wasn’t only “how do we check faster,” but also “<strong>how do we let everyone know what still needs confirming</strong>.”</p>
+
+  <h3>My role</h3>
+  <p>I started this project myself and owned it end to end: spotting the problem, interviewing engineers, and changing the handoff process.</p>
+
+  <hr />
+
+  <h2 id="research">Research</h2>
+  <p>I talked to backend, web frontend and app engineers about how they read a spec once they get it and where they spend the most time. App engineers said much the same as web frontend engineers, so “Frontend” in the table below covers both:</p>
+  <Research />
+  <table>
+    <thead><tr><th>Finding</th><th>Backend</th><th>Frontend</th></tr></thead>
+    <tbody>
+      <tr><td>What they read first</td><td>The acceptance criteria on the ticket</td><td>The ticket for the logic, then Figma for details</td></tr>
+      <tr><td>Refinement</td><td>Checks on the spot whether the ticket and Figma match</td><td>Refinement takes a long time because they have to verify things themselves</td></tr>
+      <tr><td>AI-verified content</td><td>Want it labeled, because everyone’s background differs and so does how they read what AI produces</td><td>Fine to include, as long as it’s marked as AI-verified</td></tr>
+      <tr><td>How they read specs</td><td>Feed the spec from Figma to AI while building</td><td>Feed the spec from Figma to AI while building</td></tr>
+    </tbody>
+  </table>
+  <p>Everyone raised the same point: <span class="hl">AI-verified content is welcome, as long as they know which parts to double-check themselves.</span> And since both backend and frontend engineers feed specs to AI while building, specs aren’t only written for people anymore; AI has to be able to read them too.</p>
+
+  <hr />
+
+  <h2 id="execution">Design decisions</h2>
+
+  <h3>Decision 1 · Before handoff, have AI review the spec from an engineer’s point of view</h3>
+  <Review />
+  <p>Engineers compare the ticket and Figma line by line in refinement, so I do the same thing before handoff. I broke the review into fixed checks and run the same set on every spec:</p>
+  <ul>
+    <li><strong>Ticket vs. spec, line by line</strong>: every acceptance criterion is marked “matches / conflicts / missing in design,” so both sides say the same thing</li>
+    <li><strong>Incomplete or conflicting content</strong>: the same thing described differently in two places, or a branch only half written</li>
+    <li><strong>States, edge cases and uncommon cases</strong>: what shows while loading, with no data, on failure, and with extreme values or unusual combinations, defined early</li>
+    <li><strong>Impact across brands and pages</strong>: whether changing one component affects other brands or pages</li>
+  </ul>
+  <p><span class="hl">I review every item the AI lists</span> and decide whether it’s a real problem, something to ask someone about, or an AI mistake, and only then decide whether to change anything. AI’s job is to cast a wide net; the judgment stays with me.</p>
+  <p>After revisions, I run a follow-up check that compares each item: what’s fixed, what hasn’t been touched, and what the revision newly introduced.</p>
+
+  <h3>Decision 2 · Verify technical values in the product, never from memory</h3>
+  <Values />
+  <p>This came from a real mistake: I wrote Eatigo’s breakpoint as 600px in a spec, but it’s actually 768px. A frontend engineer caught it.</p>
+  <p><span class="hl">Engineers ask about what’s missing; they simply build what’s wrong.</span> So objective values like breakpoints, field names, status codes and back-office settings always get checked in the product itself before they go into a spec.</p>
+
+  <h3>Decision 3 · Always label what AI verified</h3>
+  <Annotate />
+  <p>Every engineer I interviewed asked for this, but there’s a more fundamental reason: we’re not engineers. Much of what’s defined in code carries context that only engineers have. AI can read “what was written,” but not “why it was written that way.”</p>
+  <p>So any technical conclusion I reach by having AI read code or query the database gets labeled with its source. <span class="hl">What that information means is for engineers to judge, not for us to interpret with AI</span>. My own design decisions aren’t labeled, so the two stay clearly separate.</p>
+  <Guide uid="g-ai-1-en" tone="mustard" title="A label means “please check,” not “safe to trust.”">
+    <p>Engineers can see right away which parts to double-check themselves, without re-checking the whole spec.</p>
+  </Guide>
+
+  <hr />
+
+  <h2 id="results">Results</h2>
+  <div class="stats">
+    <Stat value="~36" label="Open questions found per spec in the first pass, on average across 5 specs" />
+  </div>
+  <ul>
+    <li>Across 5 of my own specs, the first pass found 182 open questions in total, all handled before handoff</li>
+    <li><strong>Caught an acceptance criterion that would have wrongly filtered out nearly 50,000 coupons</strong>: the ticket said card-payment restrictions shouldn’t affect display, but the design didn’t cover that case. Querying the database showed that, with the API as implemented, nearly 50,000 coupons with card restrictions would have been filtered out</li>
+    <li>I’ve also used the same method to review 5 specs from other designers on the team</li>
+    <li><strong>Smoother refinement</strong>: from what I’ve observed, engineers come back with fewer questions in refinement, comments on specs have dropped noticeably, and development runs more smoothly overall</li>
+  </ul>
+
+  <hr />
+
+  <h2 id="closing">Reflections</h2>
+  <p>AI lets me check a spec end to end from an engineer’s point of view before handoff, but what it finds can’t be fully trusted either. Once, while reading Figma, AI mistook text that had been broken across several lines for a string containing spaces, and I nearly reported a problem that didn’t exist. Since then, <span class="hl">whenever I quote the original text, I check it against the source file</span>. What I learned from this project isn’t how to make AI do more, but how to draw a clear line between what can be handed to AI and what a person has to confirm.</p>
+</CaseLayout>
+
+<style>
+  .stats { display: grid; gap: 12px; grid-template-columns: minmax(0, 420px); margin: 20px 0 24px; }
+</style>

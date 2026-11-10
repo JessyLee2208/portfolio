@@ -5,6 +5,11 @@ import '../../../styles/diagram.css';
 import SlotCard from './SlotCard.astro';
 type T = 'loop' | 'promo' | 'special' | 'pause';
 interface Slot { type: T; time: string; name: string; price?: string; stock?: string; sold?: boolean; }
+import { langOf } from '../../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const DAY: Record<string, string> = { 週一: 'Mon', 週二: 'Tue', 週三: 'Wed', 週四: 'Thu', 週五: 'Fri', 週六: 'Sat', 週日: 'Sun' };
+const dayName = (d: string) => (en ? DAY[d] : d);
+const LEG = en ? ['Recurring', 'Flash sale', 'Special', 'Paused'] : ['循環設定', '限時促銷', '特殊設定', '時段暫停'];
 const L = (time: string, stock: string, sold = false): Slot => ({ type: 'loop', time, name: '循環設定', price: 'TWD 880', stock, sold });
 const P = (time: string, stock: string, sold = false): Slot => ({ type: 'promo', time, name: '限時促銷', price: 'TWD 880', stock, sold });
 const S = (time: string, stock: string, sold = false): Slot => ({ type: 'special', time, name: '特殊設定', price: 'TWD 880', stock, sold });
@@ -19,14 +24,14 @@ const days = [
   { d: '週日', n: 14, slots: [S('11:00-14:00', '22/30'), P('15:00-16:00', '6/10')] },
 ];
 ---
-<figure class="dg case-manager reveal hero-week" aria-label="新版 FunNow Manager 時段設定週曆：每張時段卡片最上面是時間與已售／上限，類型用顏色區分，售完的卡片變淡">
+<figure class="dg case-manager reveal hero-week" aria-label={en ? "New FunNow Manager time slot calendar: each slot card shows the time and sold / capacity at the top, uses color for the slot type, and fades out when sold out" : "新版 FunNow Manager 時段設定週曆：每張時段卡片最上面是時間與已售／上限，類型用顏色區分，售完的卡片變淡"}>
   <div class="dg-pat" aria-hidden="true"></div>
   <div class="win">
-    <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>FunNow Manager · 販售時段</span></div>
+    <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>{en ? 'FunNow Manager · Time slots' : 'FunNow Manager · 販售時段'}</span></div>
     <div class="week">
       {days.map((day, i) => (
         <div class="day">
-          <p class="dh"><span>{day.d}</span><b>{day.n}</b></p>
+          <p class="dh"><span>{dayName(day.d)}</span><b>{day.n}</b></p>
           {day.slots.map((s, j) => (
             <div class="cell" style={`--k:${i * 2 + j}`}>
               <SlotCard type={s.type} time={s.time} name={s.name} price={s.price} stock={s.stock || undefined} soldOut={s.sold} />
@@ -36,10 +41,10 @@ const days = [
       ))}
     </div>
     <p class="legend" aria-hidden="true">
-      <span><i style="background:#5a9db3"></i>循環設定</span>
-      <span><i style="background:#5b67e8"></i>限時促銷</span>
-      <span><i style="background:#f5ae0b"></i>特殊設定</span>
-      <span><i style="background:#c43c42"></i>時段暫停</span>
+      <span><i style="background:#5a9db3"></i>{LEG[0]}</span>
+      <span><i style="background:#5b67e8"></i>{LEG[1]}</span>
+      <span><i style="background:#f5ae0b"></i>{LEG[2]}</span>
+      <span><i style="background:#c43c42"></i>{LEG[3]}</span>
     </p>
   </div>
 </figure>

@@ -1,24 +1,26 @@
 ---
 import Board from '../Board.astro';
 import Cursor from '../Cursor.astro';
+import { tr } from '../../../lib/en-dict.js';
+const x = tr(Astro.url);
 ---
-<Board kicker="Decision 2 · Check values in the product" title="技術數值回產品查證，不靠記憶寫" c="ai"
-  label="決策 2：spec 上寫的 Eatigo 斷點 600px，產品實際是 768px">
+<Board kicker="Decision 2 · Check values in the product" title={x('技術數值回產品查證，不靠記憶寫')} c="ai"
+  label={x('決策 2：spec 上寫的 Eatigo 斷點 600px，產品實際是 768px')}>
   <div class="pair">
     <div class="panel">
-      <p class="panel-title zh">spec 上寫的<small>Eatigo breakpoint</small></p>
+      <p class="panel-title zh">{x('spec 上寫的')}<small>Eatigo breakpoint</small></p>
       <p class="big wrong display">600px
         <svg class="scribble" viewBox="0 0 320 90" preserveAspectRatio="none" aria-hidden="true"><path d="M5 60 C 80 20, 160 70, 230 30 S 300 40, 315 25" /></svg>
       </p>
     </div>
     <svg class="arrow-svg arr" viewBox="0 0 80 60" aria-hidden="true"><path d="M6 40 C 24 6, 56 6, 70 36 M60 30 L71 38 L74 25" /></svg>
     <div class="panel">
-      <p class="panel-title zh">產品實際的<small>actual value</small></p>
+      <p class="panel-title zh">{x('產品實際的')}<small>actual value</small></p>
       <p class="big display">768px</p>
-      <Cursor who="eng" label="前端" class="cur-v" />
+      <Cursor who="eng" label={x('前端')} class="cur-v" />
     </div>
   </div>
-  <p class="hand hand-line">漏寫的會被問，<span class="underline-hand">寫錯的值只會被照做</span></p>
+  <p class="hand hand-line">{x('漏寫的會被問，')}<span class="underline-hand">{x('寫錯的值只會被照做')}</span></p>
 </Board>
 <style>
   .pair { display: grid; gap: 16px; align-items: center; max-width: 820px; margin: 0 auto; }

@@ -2,35 +2,37 @@
 // AI 交付流程案例頂部：取代 Notion 的主視覺圖（01.png），文字照原圖；三段流程依序淡入
 import '../../../styles/diagram.css';
 import Cursor from '../Cursor.astro';
+import { tr } from '../../../lib/en-dict.js';
+const x = tr(Astro.url);
 ---
-<figure class="dg case-ai reveal hero-flow" aria-label="交付流程：Jessy 寫 spec，交稿前先跑 AI Review，再交給工程師；AI 找得全，我再逐條判斷">
+<figure class="dg case-ai reveal hero-flow" aria-label={x('交付流程：Jessy 寫 spec，交稿前先跑 AI Review，再交給工程師；AI 找得全，我再逐條判斷')}>
   <div class="dg-pat" aria-hidden="true"></div>
   <div class="dg-body">
     <div class="flow">
       <div class="panel step s1">
-        <p class="panel-title zh">寫 spec<small>Figma · 標註</small></p>
-        <div class="note"><span class="pill">1-1</span><br />沒有可用優惠時，整塊隱藏</div>
-        <div class="note"><span class="pill">1-2</span><br />狀態值 0＝不適用<span class="sub">（AI 查證：程式碼）</span></div>
+        <p class="panel-title zh">{x('寫 spec')}<small>{x('Figma · 標註')}</small></p>
+        <div class="note"><span class="pill">1-1</span><br />{x('沒有可用優惠時，整塊隱藏')}</div>
+        <div class="note"><span class="pill">1-2</span><br />{x('狀態值 0＝不適用')}<span class="sub">{x('（AI 查證：程式碼）')}</span></div>
         <Cursor who="jessy" uid="cur-hero-ai" class="hc-me" />
       </div>
       <svg class="arrow-svg arr a1" viewBox="0 0 80 60" aria-hidden="true"><path d="M6 40 C 24 6, 56 6, 70 36 M60 30 L71 38 L74 25" /></svg>
       <div class="panel step s2">
         <p class="panel-title">AI Review<small>before handoff</small></p>
-        <div class="note"><span class="pill">01</span>　票 × spec 對得上嗎？</div>
-        <div class="note"><span class="pill">02</span>　有沒寫完整、衝突的？</div>
-        <div class="note"><span class="pill">03</span>　少見的情況定義了嗎？</div>
-        <div class="note"><span class="pill">04</span>　會影響其他品牌嗎？</div>
+        <div class="note"><span class="pill">01</span>　{x('票 × spec 對得上嗎？')}</div>
+        <div class="note"><span class="pill">02</span>　{x('有沒寫完整、衝突的？')}</div>
+        <div class="note"><span class="pill">03</span>　{x('少見的情況定義了嗎？')}</div>
+        <div class="note"><span class="pill">04</span>　{x('會影響其他品牌嗎？')}</div>
         <Cursor who="ai" class="hc-ai" />
       </div>
       <svg class="arrow-svg arr a2" viewBox="0 0 80 60" aria-hidden="true"><path d="M6 40 C 24 6, 56 6, 70 36 M60 30 L71 38 L74 25" /></svg>
       <div class="panel step s3">
-        <p class="panel-title zh">交給工程師<small>refinement</small></p>
-        <div class="note"><span class="pill ai">✓ 已標註</span><br />標出 AI 查證的段落</div>
-        <div class="note"><span class="pill ok">✓ 一致</span><br />票上與 spec 同一件事</div>
+        <p class="panel-title zh">{x('交給工程師')}<small>refinement</small></p>
+        <div class="note"><span class="pill ai">{x('✓ 已標註')}</span><br />{x('標出 AI 查證的段落')}</div>
+        <div class="note"><span class="pill ok">{x('✓ 一致')}</span><br />{x('票上與 spec 同一件事')}</div>
         <Cursor who="eng" class="hc-eng" />
       </div>
     </div>
-    <p class="tagline">AI 找得全，<span class="underline-hand">我再逐條判斷</span></p>
+    <p class="tagline">{x('AI 找得全，')}<span class="underline-hand">{x('我再逐條判斷')}</span></p>
   </div>
 </figure>
 

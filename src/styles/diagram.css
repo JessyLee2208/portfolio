@@ -72,3 +72,7 @@
 /* 手繪箭頭（點綴） */
 .arrow-svg { display: block; overflow: visible; }
 .arrow-svg path { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+
+/* 英文頁：標語用英文字體（中文字體的引號是全形，會變很寬）；旁註可以換行 */
+html[lang="en"] .hand, html[lang="en"] .hero-flow .tagline { font-family: var(--f-body); }
+html[lang="en"] .dg p.aside.hand { white-space: normal; max-width: 300px; font-size: clamp(19px, 2vw, 22px); }

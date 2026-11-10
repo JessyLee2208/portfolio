@@ -1,11 +1,13 @@
 ---
 import Board from '../Board.astro';
 import SlotCard from './SlotCard.astro';
+import { langOf } from '../../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
 ---
-<Board kicker="Before → After" title="時間放最上面，類型用顏色區分" c="manager" label="時段卡片改版前後：改版後最上面固定顯示時間與已售／上限，類型用整塊色塊區分，售完時變淡">
+<Board kicker="Before → After" title={en ? 'Time on top, type by color' : '時間放最上面，類型用顏色區分'} c="manager" label={en ? 'Slot cards before and after: the new card always shows the time and sold / capacity at the top, uses a solid color block for the slot type, and fades out when sold out' : '時段卡片改版前後：改版後最上面固定顯示時間與已售／上限，類型用整塊色塊區分，售完時變淡'}>
   <div class="ba">
     <div class="col">
-      <p class="lab">改版前</p>
+      <p class="lab">{en ? 'Before' : '改版前'}</p>
       <div class="stack">
         <SlotCard old type="loop" name="循環設定" time="10:00" price="TWD 880" />
         <SlotCard old type="promo" name="限時促銷" time="10:30-11:30" price="TWD 880" />
@@ -15,7 +17,7 @@ import SlotCard from './SlotCard.astro';
     </div>
     <svg class="arrow-svg arr" viewBox="0 0 80 60" aria-hidden="true"><path d="M6 40 C 24 6, 56 6, 70 36 M60 30 L71 38 L74 25" /></svg>
     <div class="col">
-      <p class="lab">改版後</p>
+      <p class="lab">{en ? 'After' : '改版後'}</p>
       <div class="grid2">
         <SlotCard type="loop" time="10:00-11:00" stock="0/40" name="循環設定" price="TWD 880" />
         <SlotCard type="loop" time="10:00-11:00" soldOut name="循環設定" price="TWD 880" />
@@ -25,7 +27,7 @@ import SlotCard from './SlotCard.astro';
         <SlotCard type="special" time="10:00-11:00" soldOut name="特殊設定" price="TWD 880" />
         <SlotCard type="pause" time="10:00-11:00" name="時段暫停" />
       </div>
-      <p class="legend"><span>可販售</span><span>售完</span></p>
+      <p class="legend"><span>{en ? 'On sale' : '可販售'}</span><span>{en ? 'Sold out' : '售完'}</span></p>
     </div>
   </div>
 </Board>
