@@ -1,9 +1,50 @@
 ---
 // myVideo 會員中心改版的圖解：取代 Notion 簡報匯出的小圖（02/04/06/07/08.png），文字照原圖
 import Board from '../Board.astro';
-interface Props { kind: 'goals' | 'method' | 'survey' | 'ia' | 'usability'; }
+interface Props { kind: 'goals' | 'method' | 'survey' | 'ia' | 'usability' | 'competitors'; }
 const { kind } = Astro.props;
 ---
+{kind === 'competitors' && (() => {
+  // 依每個面向把 6 個產品分組，一眼看出誰跟誰同一類；★ 是本次主要參考的產品（照原圖框起來的三個）
+  const REF = ['Netflix', 'Spotify', 'Melon'];
+  const rows = [
+    { k: '共享帳號', groups: [
+      { v: '有', note: '', items: ['Netflix（4+1，共用帳密）', 'Apple TV+（5+1，獨立帳密）', 'Spotify（6，獨立帳密）'], on: true },
+      { v: '無', note: '', items: ['愛奇藝', 'Melon', 'KKBOX'] } ] },
+    { k: '資訊架構類型', groups: [
+      { v: '資訊全頁展開', note: '', items: ['Netflix', 'Apple TV+'] },
+      { v: '側邊分頁型', note: '', items: ['愛奇藝', 'Spotify', 'KKBOX'] },
+      { v: '綜合型', note: '資訊分類＆內容展開', items: ['Melon'] } ] },
+    { k: '營收方式', groups: [
+      { v: '月租制', note: '', items: ['Netflix（等級月租）', '愛奇藝', 'Spotify', 'KKBOX'] },
+      { v: '月租＋點數等綜合制', note: '', items: ['Apple TV+（月租＆產品點數）', 'Melon（月租＋單曲＋點數）'] } ] },
+    { k: '身分別內容變化', groups: [
+      { v: '有', note: '主帳號與子帳號顯示內容不同', items: ['Spotify'], on: true },
+      { v: '無', note: '', items: ['Netflix', 'Apple TV+', '愛奇藝', 'Melon', 'KKBOX'] } ] },
+  ];
+  const isRef = (x: string) => REF.some((r) => x.startsWith(r));
+  return (
+    <Board kicker="Competitive Analysis" title="競品分析" c="branch" label="競品分析：Netflix、Apple TV+、愛奇藝、Spotify、Melon、KKBOX 依共享帳號、資訊架構類型、營收方式、身分別內容變化分組">
+      <div class="cmp">
+        {rows.map((r) => (
+          <div class="crow">
+            <p class="ck">{r.k}</p>
+            <div class="cgroups">
+              {r.groups.map((g) => (
+                <div class:list={['cg', { on: g.on }]}>
+                  <p class="cv">{g.v}{g.note && <small>{g.note}</small>}</p>
+                  <ul>{g.items.map((x) => <li class:list={{ ref: isRef(x) }}>{x}</li>)}</ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="clegend"><span class="ref-dot"></span>本次主要參考的產品：Netflix、Spotify、Melon</p>
+    </Board>
+  );
+})()}
+
 {kind === 'goals' && (
   <Board kicker="Focus" title="聚焦目的" c="branch" label="聚焦目的：提升用戶的決策效率、查找速度、使用感受">
     <ol class="goals">
@@ -122,4 +163,20 @@ const { kind } = Astro.props;
   .score b { font: 800 40px/1 var(--f-display); color: var(--ink); }
   .score.win { border: 2px solid var(--tone-ink); }
   .score.win b, .scores .score:only-child b { color: var(--tone-ink); }
+
+  /* 競品分析：每個面向一列，把產品依答案分組 */
+  .cmp { display: grid; gap: 12px; max-width: 900px; margin: 0 auto; }
+  .crow { display: grid; gap: 8px; background: var(--sheet); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  @media (min-width: 760px) { .crow { grid-template-columns: 8.5em 1fr; align-items: center; } }
+  .ck { margin: 0; font-weight: 900; font-size: 16px; }
+  .cgroups { display: flex; flex-wrap: wrap; gap: 10px; }
+  .cg { flex: 1 1 180px; border-radius: 10px; background: var(--paper); border: 1px solid var(--line); padding: 8px 12px; }
+  .cg.on { border: 2px solid var(--tone-ink); }
+  .cv { margin: 0 0 4px; font-weight: 900; font-size: 15px; color: var(--tone-ink); }
+  .cv small { display: block; font-weight: 400; font-size: 12px; color: var(--muted); }
+  .cg ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 6px; }
+  .cg li { font-size: 13px; padding: 2px 8px; border-radius: 99px; background: var(--sheet); border: 1px solid var(--line); }
+  .cg li.ref { background: var(--tone-ink); color: #fff; border-color: var(--tone-ink); font-weight: 700; }
+  .clegend { margin: 14px 0 0; text-align: center; font-size: 13px; color: var(--muted); }
+  .ref-dot { display: inline-block; width: 12px; height: 12px; border-radius: 99px; background: var(--tone-ink); margin-right: 6px; vertical-align: -1px; }
 </style>
