@@ -1,0 +1,25 @@
+---
+// myVideo 會員中心改版封面：跟主打三篇同一套（CoverB），右邊畫資訊架構重整的四個單元
+import CoverB from './CoverB.astro';
+import { langOf } from '../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const c = en
+  ? { kick: 'B2C · Web (RWD) · 2020', title: 'myVideo<br />Member Center', sub: 'Restructuring where members<br />decide among plans and offers', unit: 'units', bigLabel: 'Member center rebuilt into four units', label: 'myVideo member center redesign cover: the member center restructured into four units', hub: 'Member center', nodes: ['Overview', 'Profiles', 'Account', 'Transactions'] }
+  : { kick: 'B2C · Web（RWD）· 2020', title: 'myVideo<br />會員中心改版', sub: '會員中心是用戶在眾多方案<br />與優惠中做決定的地方', unit: '個單元', bigLabel: '資訊總覽、身份管理、帳號設定、交易總覽', label: 'myVideo 會員中心改版封面：會員中心重整成四個單元', hub: '會員中心', nodes: ['資訊總覽', '身份管理', '帳號設定', '交易總覽'] };
+---
+<CoverB tone="rust" pattern="dots" shape="circle" accent="star-pin" under="line" no="04" kick={c.kick} title={c.title}
+  sub={c.sub} big="4" unit={c.unit} bigLabel={c.bigLabel} label={c.label}>
+  <div class="ia">
+    <span class="n t">{c.nodes[0]}</span>
+    <span class="n l">{c.nodes[1]}</span>
+    <span class="hub">{c.hub}</span>
+    <span class="n r">{c.nodes[2]}</span>
+    <span class="n b">{c.nodes[3]}</span>
+  </div>
+</CoverB>
+<style>
+  .ia { display: grid; grid-template-columns: auto auto auto; grid-template-rows: auto auto auto; gap: 1.6cqw 1.2cqw; align-items: center; justify-items: center; transform: rotate(-4deg); }
+  .hub { grid-area: 2 / 2; background: var(--sheet); border: .35cqw solid var(--ink); border-radius: 1.6cqw; padding: 1.8cqw 2cqw; font: 900 2.1cqw/1.2 var(--f-zh); color: var(--rust-ink); box-shadow: 0 2cqw 3cqw -2cqw rgba(0,0,0,.4); white-space: nowrap; }
+  .n { background: var(--sheet); border-radius: 99px; padding: .9cqw 1.5cqw; font: 700 1.5cqw/1.2 var(--f-zh); color: var(--ink); box-shadow: 0 1cqw 2cqw -1.4cqw rgba(0,0,0,.35); white-space: nowrap; }
+  .t { grid-area: 1 / 2; } .l { grid-area: 2 / 1; } .r { grid-area: 2 / 3; } .b { grid-area: 3 / 2; }
+</style>

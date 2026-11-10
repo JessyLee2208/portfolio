@@ -1,0 +1,21 @@
+---
+// MyMusic Podcast 封面：跟主打三篇同一套（CoverB），右邊放 prototype 錄影的一格畫面
+import { Image } from 'astro:assets';
+import CoverB from './CoverB.astro';
+import screen from '../../assets/cases/podcast/screen.jpg';
+import { langOf } from '../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const c = en
+  ? { kick: 'B2C · App · 2020', title: 'MyMusic<br />Podcast', sub: 'Lead UI/UX designer<br />for a new podcast service', unit: 'participants', bigLabel: 'Usability-tested before development', label: 'MyMusic Podcast cover: the podcast home screen from the prototype' }
+  : { kick: 'B2C · App · 2020', title: 'MyMusic<br />Podcast', sub: 'Podcast 新服務的<br />UI/UX 主責設計師', unit: '位受測者', bigLabel: '正式開發前先做易用性測試', label: 'MyMusic Podcast 封面：prototype 裡的 Podcast 首頁畫面' };
+---
+<CoverB tone="mustard" pattern="lines" shape="arch" accent="sparkle-loop" under="wave" no="05" kick={c.kick} title={c.title}
+  sub={c.sub} big="7" unit={c.unit} bigLabel={c.bigLabel} label={c.label}>
+  <div class="phone"><div class="scr"><Image src={screen} alt="" widths={[284]} sizes="30vw" /></div></div>
+</CoverB>
+<style>
+  /* 手機外框跟分店頁封面同一款 */
+  .phone { height: 40cqw; aspect-ratio: 375 / 780; background: #111; border-radius: 3.2cqw; padding: .8cqw; transform: rotate(-4deg); box-shadow: 0 3cqw 5cqw -3cqw rgba(0,0,0,.45); }
+  .scr { height: 100%; overflow: hidden; border-radius: 2.5cqw; background: #fff; }
+  .scr :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+</style>
