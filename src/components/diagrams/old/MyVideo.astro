@@ -92,7 +92,7 @@ const { kind } = Astro.props;
   <Board kicker="Usability Test" title={x('易用性測試摘要')} c="myvideo" label={x('易用性測試：Task 一易用性評分 70；Task 二身份共享 A 版本 77、B 版本 52')}>
     <div class="ut">
       {[
-        { n: x('一'), cnt: 11, t: x('帳戶總覽、交易總覽、帳號設定'), d: x('透過易用性測試，找出用戶會遇到困難或認知障礙的地方，並進行修改'), bars: [[x('評分'), 70, true]] },
+        { n: x('一'), cnt: 11, t: x('帳戶總覽、交易總覽、帳號設定'), d: x('透過易用性測試，找出用戶會遇到困難或認知障礙的地方，並進行修改'), bars: [[x('SUS 評分'), 70, true]] },
         { n: x('二'), cnt: 3, t: x('身份共享 A/B 版本'), d: x('透過 A/B 兩種版本決定之後共享身分的流程走向，並觀察用戶的反應。'), bars: [[x('A 版本'), 77, true], [x('B 版本'), 52, false]] },
       ].map((k) => (
         <div class="panel task">
@@ -111,7 +111,7 @@ const { kind } = Astro.props;
         </div>
       ))}
     </div>
-    <p class="passnote"><em class="pass-key"></em>{x('虛線是及格分數：易用性的平均分數為 68 分，因此可以將此分數作為產品及格分數')}</p>
+    <p class="passnote"><em class="pass-key"></em>{x('虛線是及格分數：SUS 易用性量表的平均分數為 68 分，因此可以將此分數作為產品及格分數')}</p>
   </Board>
 )}
 
