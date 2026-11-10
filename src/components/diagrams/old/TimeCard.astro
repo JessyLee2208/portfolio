@@ -19,7 +19,7 @@ import homeTimer from '../../../assets/cases/timecard/app-home-timer.png';
 import timerSheet from '../../../assets/cases/timecard/app-timer.png';
 import newBase from '../../../assets/cases/timecard/admin-new-base.png';
 import newForm from '../../../assets/cases/timecard/admin-new-form.png';
-interface Props { kind: 'hero' | 'deduct' | 'refund' | 'settle' | 'app' | 'scan' | 'new-plan' | 'roles' | 'lanes' | 'timer' | 'journey'; }
+interface Props { kind: 'hero' | 'deduct' | 'refund' | 'settle' | 'app' | 'scan' | 'new-plan' | 'roles' | 'lanes' | 'timer' | 'journey' | 'features'; }
 const { kind } = Astro.props;
 const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 // 會員旅程：11/10 Jessy 嫌原版色塊太多太雜，選了 A 表格版（只用黑灰字，靠粗細分層）
@@ -89,6 +89,35 @@ const JR = [
       ))}
     </ol>
   </Board>
+)}
+
+{kind === 'features' && (
+  <Plate label="會員 App：主要功能（可以左右滑）" card={false} alt="會員 App 的七個功能：我的通行卡、方案明細、失效方案、館內計時器、預計扣點、出示 QR code、相機掃描">
+    <!-- 橫向滑的功能卡：參考 rebecca-yang.com（11/10 Jessy），一個功能一張卡；電腦版右上角有左右按鈕 -->
+    <div class="fc" data-fc>
+      <div class="fc-nav">
+        <button type="button" class="fc-btn" data-dir="-1" aria-label="上一張"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" /></svg></button>
+        <button type="button" class="fc-btn" data-dir="1" aria-label="下一張"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg></button>
+      </div>
+      <ul class="fc-row" tabindex="0" aria-label="功能卡，可以左右滑動">
+        {[
+          [appMine, '我的通行卡', '一打開就看到總點數，不用自己加總'],
+          [appPlan, '方案明細', '每個方案的期間、額度、已用多少'],
+          [appExpired, '失效方案', '用完、過期的收起來，不跟可用的混在一起'],
+          [homeTimer, '館內計時器', '首頁右下角顯示已經待了多久'],
+          [timerSheet, '預計扣點', '點開計時器，看到餘額和這次預計扣幾點'],
+          [appQr, '出示 QR code', '拿給場館的掃描器掃，進出場用同一張'],
+          [appScan, '相機掃描', '用手機相機掃場館的 QR code 進出場'],
+        ].map(([img, t, d]) => (
+          <li class="fc-card">
+            <div class="frame"><Image src={img as ImageMetadata} alt="" widths={[300, 600]} sizes="200px" /></div>
+            <p class="fc-t">{t}</p>
+            <p class="fc-d">{d}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </Plate>
 )}
 
 {kind === 'lanes' && (
@@ -346,8 +375,38 @@ const JR = [
   @media (prefers-reduced-motion: reduce) { .np-hint { animation: none; } }
   @media (max-width: 640px) { .np-hint { font-size: 10.5px; padding: 4px 8px 4px 6px; } }
 
+  /* 橫向滑的功能卡 */
+  .fc { position: relative; }
+  .fc-nav { position: absolute; top: -40px; right: 0; display: none; gap: 6px; }
+  @media (hover: hover) and (min-width: 720px) { .fc-nav { display: flex; } }
+  .fc-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--sheet); color: var(--ink); display: grid; place-items: center; cursor: pointer; padding: 0; }
+  .fc-btn:hover { background: #fff; }
+  .fc-btn:disabled { opacity: .35; cursor: default; }
+  .fc-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .fc-row { list-style: none; margin: 0; padding: 2px 2px 10px; display: grid; grid-auto-flow: column; grid-auto-columns: min(200px, 62%); gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: thin; }
+  .fc-card { scroll-snap-align: start; background: var(--sheet); border-radius: 14px; padding: 14px 14px 16px; display: grid; gap: 8px; align-content: start; }
+  .fc-card .frame { border-radius: 18px; padding: 5px; }
+  .fc-card .frame :global(img) { border-radius: 14px; }
+  :global(.prose) .fc-t { margin: 4px 0 0; font-weight: 900; font-size: 15px; }
+  :global(.prose) .fc-d { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+
   /* 手機排一列 */
   .phones { display: flex; justify-content: center; align-items: flex-start; gap: clamp(10px, 3vw, 28px); }
   .ph { margin: 0; display: grid; gap: 10px; justify-items: center; width: min(220px, 30%); }
   .ph figcaption { font-weight: 700; font-size: 14px; text-align: center; }
 </style>
+<script>
+  // 功能卡的左右按鈕：一次捲一張卡的寬度，到頭或到尾時按鈕變淡
+  document.querySelectorAll('[data-fc]').forEach((fc) => {
+    const row = fc.querySelector('.fc-row');
+    const btns = fc.querySelectorAll('.fc-btn');
+    const step = () => (row.querySelector('.fc-card')?.getBoundingClientRect().width ?? 200) + 14;
+    const sync = () => {
+      btns[0].disabled = row.scrollLeft < 4;
+      btns[1].disabled = row.scrollLeft + row.clientWidth > row.scrollWidth - 4;
+    };
+    btns.forEach((b) => b.addEventListener('click', () => row.scrollBy({ left: step() * Number(b.dataset.dir), behavior: 'smooth' })));
+    row.addEventListener('scroll', sync, { passive: true });
+    sync();
+  });
+</script>
