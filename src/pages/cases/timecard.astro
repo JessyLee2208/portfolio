@@ -8,10 +8,6 @@ import { url } from '../../lib/url.js';
 import rate from '../../assets/cases/timecard/admin-rate.png';
 import entry from '../../assets/cases/timecard/admin-entry.png';
 import topup from '../../assets/cases/timecard/admin-topup.png';
-import rOk from '../../assets/cases/timecard/refund-ok.png';
-import rNo from '../../assets/cases/timecard/refund-no.png';
-import rDone from '../../assets/cases/timecard/refund-done.png';
-import rInv from '../../assets/cases/timecard/refund-done-invoice.png';
 import { Image } from 'astro:assets';
 
 const toc = [
@@ -20,8 +16,7 @@ const toc = [
   { id: 'setup', label: '後台設定' },
   { id: 'counter', label: '櫃檯' },
   { id: 'deduct', label: '扣點順序' },
-  { id: 'refund', label: '退款' },
-  { id: 'settle', label: '核銷' },
+  { id: 'settle', label: '退款與核銷' },
   { id: 'member', label: '會員端' },
 ];
 ---
@@ -77,28 +72,10 @@ const toc = [
   <p>自己買的點數、送的贈點，到期日都不一樣。扣哪一筆，會影響會員的權益，也影響店家什麼時候拿到錢。</p>
   <TC kind="deduct" />
 
-  <p class="eyebrow" id="refund">重點二：退款</p>
-  <h2>兩種付款方式，能退的錢不一樣</h2>
-  <p>信用卡（聯邦）只能全額退，而且要一點都還沒用過；樂享券可以退剩下的額度。</p>
-  <TC kind="refund" />
-  <p>規則一多，櫃檯很難每次都判斷對。所以註銷時，系統先檢查完再告訴櫃檯能怎麼退：</p>
-  <Plate label="解法：系統先檢查，櫃檯照畫面走">
-    <div class="pair">
-      <figure><Image src={rOk} alt="註銷訂單：列出連帶的贈點、線上刷退或現場退款、發票處理方式" widths={[500, 800]} sizes="(max-width: 760px) 45vw, 320px" /><figcaption>還能刷退：列出贈點、退款方式和發票處理</figcaption></figure>
-      <figure><Image src={rNo} alt="註銷訂單：提示超過可線上刷退的期限或已使用，此權益目前僅能註銷" widths={[500, 800]} sizes="(max-width: 760px) 45vw, 320px" /><figcaption>超過期限或已使用：直接說「目前僅能註銷」</figcaption></figure>
-    </div>
-  </Plate>
-  <p>註銷成功後，畫面依付款方式提醒櫃檯下一步。</p>
-  <Plate label="解法：成功畫面告訴櫃檯接下來要做什麼">
-    <div class="pair">
-      <figure><Image src={rInv} alt="信用卡註銷成功：列出超過作廢期限、需要手動開折讓單的發票" widths={[500, 800]} sizes="(max-width: 760px) 45vw, 320px" /><figcaption>信用卡（聯邦）：哪幾張發票要手動開折讓單</figcaption></figure>
-      <figure><Image src={rDone} alt="樂享券註銷成功：退款申請已送出、通知信已寄出、幾個工作天內刷退" widths={[500, 800]} sizes="(max-width: 760px) 45vw, 320px" /><figcaption>樂享券：申請已送出、幾天內會刷退</figcaption></figure>
-    </div>
-  </Plate>
-
-  <p class="eyebrow" id="settle">重點三：核銷</p>
+  <p class="eyebrow" id="settle">重點二：退款與核銷</p>
   <h2>扣到最後剩 10.4 點，零頭該給誰？</h2>
-  <p>會員付的錢會先由 BookFast 收下，點數用掉之後才核銷撥給店家。每分鐘 1.5 點，扣到最後常常會剩零頭。</p>
+  <p>會員付的錢會先由 BookFast 收下，點數用掉之後才核銷撥給店家。退款時，信用卡（聯邦）只能全額退，而且要一點都還沒用過；樂享券則可以退剩下的額度。</p>
+  <p>每分鐘 1.5 點，扣到最後常常會剩零頭。樂享券退款時，就要決定這些零頭給誰：</p>
   <TC kind="settle" />
   <p class="muted">信用卡（聯邦）沒有部分退款，剩下的點數會在方案到期時一起核銷。</p>
   <p>報表也跟著拆開：「通行卡」改成「定期通行卡」，另外新增「計時通行卡」，店家對帳時才分得清楚兩種卡。</p>
@@ -111,9 +88,5 @@ const toc = [
 </CaseLayout>
 
 <style>
-  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 14px; align-items: start; }
-  .pair figure { margin: 0; display: grid; gap: 8px; }
-  .pair :global(img) { border-radius: 8px; border: 1px solid var(--line); }
-  .pair figcaption { font-size: 13px; line-height: 1.55; color: var(--muted); }
   .muted { color: var(--muted); font-size: 14px; }
 </style>
