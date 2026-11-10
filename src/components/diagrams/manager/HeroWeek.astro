@@ -34,7 +34,7 @@ const days = [
           <p class="dh"><span>{dayName(day.d)}</span><b>{day.n}</b></p>
           {day.slots.map((s, j) => (
             <div class="cell" style={`--k:${i * 2 + j}`}>
-              <SlotCard type={s.type} time={s.time} name={s.name} price={s.price} stock={s.stock || undefined} soldOut={s.sold} />
+              <SlotCard type={s.type} time={s.time} name={s.name} price={s.price} stock={s.stock || undefined} soldOut={s.sold} compact />
             </div>
           ))}
         </div>
@@ -55,7 +55,10 @@ const days = [
   .bar { height: 26px; background: #f1ede6; display: flex; align-items: center; gap: 6px; padding: 0 12px; }
   .bar i { width: 8px; height: 8px; border-radius: 50%; background: #d8cfc2; }
   .bar span { margin-left: 10px; font: 700 12px/1 var(--f-mono); color: var(--muted); }
-  .week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; padding: 14px 14px 6px; }
+  /* 每天至少 130px 寬（時間＋份數放得下，不會被截成…）；放不下七天時就變成左右滑（不只手機，視窗窄的電腦也一樣） */
+  .week { display: grid; grid-template-columns: repeat(7, minmax(130px, 1fr)); gap: 6px; padding: 14px 12px 6px; overflow-x: auto; scrollbar-width: none; }
+  .week::-webkit-scrollbar { display: none; }
+  .cell { min-width: 0; }
   .day { display: grid; gap: 8px; align-content: start; min-width: 0; }
   .dh { margin: 0 0 2px; display: flex; align-items: baseline; gap: 6px; font-size: 12px; color: var(--muted); border-bottom: 1px solid #eee7dc; padding-bottom: 6px; }
   .dh b { font-size: 18px; color: #333; font-family: 'Roboto', var(--f-zh); }
@@ -74,10 +77,5 @@ const days = [
   .is-in .cell { animation: slot-in .45s ease-out both; animation-delay: calc(var(--k) * 70ms + .2s); }
   @keyframes slot-in { to { opacity: 1; transform: none; } }
 
-  /* 窄螢幕：週曆改成可以左右滑 */
-  @media (max-width: 760px) {
-    .week { grid-template-columns: repeat(7, 120px); overflow-x: auto; scrollbar-width: none; }
-    .week::-webkit-scrollbar { display: none; }
-  }
   @media (prefers-reduced-motion: reduce) { .cell { opacity: 1; transform: none; } .is-in .cell { animation: none; } }
 </style>
