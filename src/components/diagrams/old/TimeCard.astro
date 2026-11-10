@@ -420,6 +420,8 @@ const JR = [
   .win .bar { height: 22px; background: #f1ede6; display: flex; align-items: center; gap: 5px; padding: 0 10px; border-bottom: 1px solid var(--line); }
   .win .bar i { width: 8px; height: 8px; border-radius: 50%; background: #d8cfc2; }
   .win :global(img) { display: block; width: 100%; height: auto; }
+  /* 場館端五張一樣高：視窗固定成後台頁的比例，彈窗類的畫面置中放在灰底上（11/10 Jessy） */
+  .desk-card .win :global(img) { aspect-ratio: 1426 / 724; height: auto; object-fit: contain; background: #e6e6e6; }
   .fc-row.phone-row { grid-auto-columns: min(190px, 46%); gap: 16px; }
   .ph-card .frame { border-radius: 20px; padding: 5px; }
   .ph-card .frame :global(img) { border-radius: 15px; }
