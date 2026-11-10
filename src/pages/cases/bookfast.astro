@@ -1,15 +1,10 @@
 ---
 // BookFast 付款流程簡化設計（舊作，2021–2022）：文字照 Notion 原文（_notion-raw/bookfast/content.md），只補中英文間空格、修明顯錯字
 import CaseLayout from '../../layouts/CaseLayout.astro';
-import Figure from '../../components/Figure.astro';
 import BF from '../../components/diagrams/old/BookFast.astro';
+import BS from '../../components/diagrams/old/BookFastScreens.astro';
 import { url } from '../../lib/url.js';
-import oldIssues from '../../assets/cases/bookfast/03.png';
-import v1 from '../../assets/cases/bookfast/06.png';
-import v2 from '../../assets/cases/bookfast/07.png';
-import v3 from '../../assets/cases/bookfast/08.png';
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const toc = [
   { id: 'why', label: '為什麼要優化結帳流程？' },
   { id: 'goals', label: '聚焦目的' },
@@ -31,11 +26,7 @@ const toc = [
   toc={toc}
   next={{ href: url('/cases/myvideo/'), title: 'myVideo 會員中心改版' }}
 >
-  <Fragment slot="hero">
-    <figure class="hero-vid">
-      <video src={`${base}/media/bookfast-hero.mp4`} poster={`${base}/media/bookfast-hero.jpg`} autoplay muted loop playsinline aria-label="BookFast 後台付款流程畫面"></video>
-    </figure>
-  </Fragment>
+  <Fragment slot="hero"><BS kind="hero" /></Fragment>
 
   <h2 id="why">為什麼要優化結帳流程？</h2>
   <p>客戶在使用結帳流程時，準確快速的結帳流程可以幫助店家更快的服務客戶。雖然說快速完成結帳很重要，但是確保客戶在結帳的過程中不會出錯是本次設計的一大挑戰。辨別資訊的必要性，並精簡結帳流程是本次優化的首要目標。</p>
@@ -57,7 +48,7 @@ const toc = [
   <BF kind="goals" />
 
   <h3>目前的問題點</h3>
-  <Figure src={oldIssues} alt="舊版後台結帳流程的問題：無法確認會員資訊、資訊內容分布較散、無法返回上一步" wide />
+  <BS kind="old" />
   <p>就既有的後台結帳流程，在進入發票開立流程後，即無法更改付款價格，且存在資訊呈現較多、內容較為鬆散的問題。</p>
 
   <hr />
@@ -87,7 +78,7 @@ const toc = [
 
   <h3>設計版本 v1.0</h3>
   <p>此版本在提供用戶更多資訊，且分步驟的方式完成結帳</p>
-  <Figure src={v1} alt="設計版本 v1.0：分步驟完成結帳" />
+  <BS kind="v1" />
   <div class="fb">
     <p class="fb-t">測試反饋</p>
     <p>在選擇完發票時，想要跟消費者做最後確認時，沒有資訊，需要點擊返回上一步。不然就會直接完成結帳。到時候發現錯誤時又需要去註銷商品重新來一次。</p>
@@ -96,7 +87,7 @@ const toc = [
   </div>
 
   <h3>設計版本 v2.0</h3>
-  <Figure src={v2} alt="設計版本 v2.0" />
+  <BS kind="v2" />
   <div class="fb">
     <p class="fb-t">測試反饋</p>
     <p>可以很清楚的知道有哪些資訊，也完成流程。只是如果客人很多的時候，感覺還是沒辦法加快速度。畢竟要確認的東西以及資訊實在太多了。</p>
@@ -104,7 +95,7 @@ const toc = [
 
   <h3>設計版本 v3.0（最終版）</h3>
   <p>將分步驟的選擇方式改為一頁式呈現，並在左方資訊確認的欄位，將所設定的資料動態呈現。確認資料的同時，完成結帳時也可以確保資料是正確的。</p>
-  <Figure src={v3} alt="設計版本 v3.0（最終版）：一頁式結帳，左方動態顯示確認資訊" />
+  <BS kind="v3" />
   <div class="fb final">
     <p class="fb-t">測試反饋</p>
     <p>經由 3 組測試後，此版本的完成速度與成功率皆是最高，因此最後將此版本定為最後版本。</p>
@@ -112,8 +103,6 @@ const toc = [
 </CaseLayout>
 
 <style>
-  .hero-vid { margin: 40px 0 0; }
-  .hero-vid video { display: block; width: 100%; border-radius: var(--radius); border: 1px solid var(--line); background: #fff; }
   .muted { color: var(--muted); font-size: 14px; }
   .walk { margin: 24px 0; padding: 20px 22px; border-radius: 16px; background: var(--sheet); border: 1px solid var(--line); }
   :global(.prose) .walk-t, :global(.prose) .fb-t { margin: 0 0 10px; font-weight: 900; }

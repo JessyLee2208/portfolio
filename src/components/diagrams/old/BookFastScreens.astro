@@ -1,0 +1,114 @@
+---
+// BookFast 的畫面圖解：把 Notion 的簡報圖（01.gif、03/06/07/08.png）拆成一張張畫面，用網站風格重排
+// 畫面截自 Notion 原圖；說明文字照原圖
+import { Image } from 'astro:assets';
+import Board from '../Board.astro';
+import '../../../styles/diagram.css';
+import old1 from '../../../assets/cases/bookfast/old-1.png';
+import old2 from '../../../assets/cases/bookfast/old-2.png';
+import old3 from '../../../assets/cases/bookfast/old-3.png';
+import v11 from '../../../assets/cases/bookfast/v1-1.png';
+import v12 from '../../../assets/cases/bookfast/v1-2.png';
+import v13 from '../../../assets/cases/bookfast/v1-3.png';
+import v21 from '../../../assets/cases/bookfast/v2-1.png';
+import v22 from '../../../assets/cases/bookfast/v2-2.png';
+import v23 from '../../../assets/cases/bookfast/v2-3.png';
+import v31 from '../../../assets/cases/bookfast/v3-1.png';
+import v32 from '../../../assets/cases/bookfast/v3-2.png';
+import v33 from '../../../assets/cases/bookfast/v3-3.png';
+interface Props { kind: 'hero' | 'old' | 'v1' | 'v2' | 'v3'; }
+const { kind } = Astro.props;
+const sizes = '(min-width: 1080px) 300px, (min-width: 760px) 30vw, 90vw';
+const versions = {
+  v1: { title: '版本 v1.0', d: '在維持原本的分步驟結帳方式後，新增了可以返回上一步的功能，並增加了更多產品的資訊，提供店家可以更快結帳', shots: [[v11, '付款'], [v12, '發票開立'], [v13, '付款成功']] },
+  v2: { title: '版本 v2.0', d: '新增了步驟示意，以及收納了發票開立方式，透過 UI 重新整理顯示資訊', shots: [[v21, '付款'], [v22, '發票開立'], [v23, '完成付款']] },
+  v3: { title: '版本 v3.0（最終版）', d: '簡化步驟，讓所有資訊在同一個流程內可以確認完畢，在輸入資料的同時也可以確認資料的正確性。', shots: [[v31, '輸入前'], [v32, '填寫收款與發票'], [v33, '付款成功']] },
+} as const;
+---
+{kind === 'hero' && (
+  <figure class="dg case-manager reveal bf-hero" aria-label="BookFast 結帳流程：從分步式改成一頁式，最終版在同一個付款視窗內完成收款、發票與確認">
+    <div class="dg-pat" aria-hidden="true"></div>
+    <div class="dg-body hero-row">
+      <div class="before">
+        <span class="tag">Before · 分步式</span>
+        <div class="stack">
+          <div class="mini m1"><Image src={old1} alt="" widths={[400]} sizes="160px" /></div>
+          <div class="mini m2"><Image src={old2} alt="" widths={[400]} sizes="160px" /></div>
+          <div class="mini m3"><Image src={old3} alt="" widths={[400]} sizes="160px" /></div>
+        </div>
+      </div>
+      <svg class="arrow-svg arr" viewBox="0 0 80 60" aria-hidden="true"><path d="M6 40 C 24 6, 56 6, 70 36 M60 30 L71 38 L74 25" /></svg>
+      <div class="after">
+        <span class="tag on">After · 一頁式</span>
+        <div class="big"><Image src={v32} alt="" widths={[640, 1000]} sizes="(min-width: 1080px) 460px, 70vw" /></div>
+      </div>
+    </div>
+    <p class="hero-cap">將分步驟的選擇方式改為一頁式呈現</p>
+  </figure>
+)}
+
+{kind === 'old' && (
+  <Board kicker="Before" title="舊版的結帳流程" c="manager" label="舊版後台結帳流程三個畫面與問題：無法確認會員資訊、無法返回上一步、資訊內容分布較散">
+    <ol class="flow3">
+      {[
+        [old1, '付款', '無法確認會員資訊，在進入結帳流程前需要再三確認'],
+        [old2, '發票開立', '無法返回上一步，如果進入發票開立畫面後需要修改金額，則只能關閉視窗重來'],
+        [old3, '付款成功', '資訊內容分布較散'],
+      ].map(([img, step, issue], i) => (
+        <li>
+          <span class="step"><b>{i + 1}</b>{step}</span>
+          <div class="shot"><Image src={img as ImageMetadata} alt={`舊版：${step}`} widths={[640, 1000]} sizes={sizes} /></div>
+          <p class="issue">{issue}</p>
+        </li>
+      ))}
+    </ol>
+  </Board>
+)}
+
+{(kind === 'v1' || kind === 'v2' || kind === 'v3') && (() => {
+  const v = versions[kind];
+  return (
+    <Board kicker={kind === 'v3' ? 'Final' : 'Iteration'} title={v.title} c="manager" label={`${v.title}：${v.d}`}>
+      <p class="vdesc">{v.d}</p>
+      <ol class:list={['flow3', { one: kind === 'v3' }]}>
+        {v.shots.map(([img, step], i) => (
+          <li>
+            <span class="step"><b>{i + 1}</b>{step}</span>
+            <div class="shot"><Image src={img as ImageMetadata} alt={`${v.title}：${step}`} widths={[640, 1000]} sizes={sizes} /></div>
+          </li>
+        ))}
+      </ol>
+    </Board>
+  );
+})()}
+
+<style>
+  /* 頂部：舊版三個步驟疊在一起 → 新版一頁式 */
+  .bf-hero { margin: 40px 0 0; }
+  .hero-row { display: grid; gap: 18px; align-items: center; justify-items: center; max-width: 960px; margin: 0 auto; }
+  @media (min-width: 760px) { .hero-row { grid-template-columns: 1fr 64px 1.6fr; } }
+  .tag { display: inline-block; font: 600 12px/1 var(--f-mono); letter-spacing: .06em; color: var(--muted); background: var(--sheet); border: 1px solid var(--line); padding: 6px 10px; border-radius: 99px; margin-bottom: 12px; }
+  .tag.on { color: #fff; background: var(--tone-ink); border-color: var(--tone-ink); }
+  .before, .after { display: grid; justify-items: center; width: 100%; }
+  .stack { position: relative; width: min(240px, 70vw); aspect-ratio: 1476 / 1220; }
+  .mini { position: absolute; width: 82%; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  .mini :global(img) { display: block; width: 100%; height: auto; filter: grayscale(.6); opacity: .9; }
+  .m1 { left: 0; top: 0; transform: rotate(-5deg); } .m2 { left: 9%; top: 12%; transform: rotate(-1deg); } .m3 { left: 18%; top: 24%; transform: rotate(3deg); }
+  .big { width: 100%; max-width: 460px; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  .big :global(img) { display: block; width: 100%; height: auto; }
+  .arr { width: 56px; height: 42px; }
+  @media (max-width: 759px) { .arr { transform: rotate(90deg); } }
+  .dg p.hero-cap { position: relative; text-align: center; font-weight: 900; font-size: clamp(18px, 2.2vw, 22px); margin: 22px 0 0; }
+
+  /* 三個畫面一排，下面放問題或說明 */
+  .flow3 { list-style: none; padding: 0; margin: 0 auto; max-width: 980px; display: grid; gap: 16px; counter-reset: s; }
+  @media (min-width: 760px) { .flow3 { grid-template-columns: repeat(3, 1fr); } }
+  .flow3 li { display: grid; gap: 10px; align-content: start; }
+  .step { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
+  .step b { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); }
+  .shot { border-radius: 10px; overflow: hidden; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .shot :global(img) { display: block; width: 100%; height: auto; }
+  :global(.dg) p.issue { margin: 0; background: var(--sheet); border: 2px solid var(--tone-ink); border-radius: 12px; padding: 10px 14px; font-size: 14px; font-weight: 600; line-height: 1.6; box-shadow: 3px 3px 0 color-mix(in srgb, var(--tone-ink) 25%, transparent); }
+  :global(.dg) p.vdesc { text-align: center; max-width: 36em; margin: -10px auto 22px; color: var(--muted); font-size: 15px; line-height: 1.7; }
+  .flow3.one .step b { background: var(--tone); }
+</style>
