@@ -312,7 +312,7 @@ const JR = [
   .lanes-wrap { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; margin: 0 -4px; padding: 4px; }
   .lanes { display: grid; grid-template-columns: 72px repeat(5, minmax(100px, 1fr)); gap: 6px; min-width: 600px; max-width: 1000px; margin: 0 auto; }
   .st { display: flex; align-items: center; gap: 6px; font-weight: 900; font-size: 14.5px; padding: 4px 2px 6px; }
-  .st b { font: 700 12px/1 var(--f-mono); color: var(--muted); }
+  .st b { width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); }
   /* 角色欄：拿掉黑色色塊，只留粗字（11/10 Jessy） */
   .who-l { display: grid; align-items: center; font-weight: 900; font-size: 13.5px; color: var(--ink); padding: 10px 4px; white-space: nowrap; }
   .cell { background: var(--sheet); border-radius: 10px; padding: 9px 10px; font-size: 13px; line-height: 1.6; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
