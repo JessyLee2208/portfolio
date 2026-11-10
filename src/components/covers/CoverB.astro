@@ -9,7 +9,7 @@ interface Props {
   big: string; unit?: string; bigLabel: string;
   label: string;
   shape?: 'circle' | 'square' | 'arch' | 'rect' | 'triangle';
-  accent?: 'star-pin' | 'clock' | 'sparkle-loop';
+  accent?: 'star-pin' | 'star-film' | 'clock' | 'sparkle-loop';
   under?: 'line' | 'dots' | 'wave';
   // 背景紋路每張封面都不一樣（11/10 Jessy）：dots 分店頁、grid Manager、lines AI、plus myVideo、rings Podcast、ruled BookFast
   pattern?: 'dots' | 'grid' | 'lines' | 'plus' | 'rings' | 'ruled';
@@ -48,6 +48,12 @@ const ringPath = {
         <>
           <svg class="acc a1" viewBox="0 0 40 40" aria-hidden="true"><path class="fill" d="M20 3 l4.6 10.6 11.4 1 -8.7 7.5 2.7 11.2 -10 -6 -10 6 2.7 -11.2 -8.7 -7.5 11.4 -1 Z" /></svg>
           <svg class="acc a2" viewBox="0 0 40 48" aria-hidden="true"><path class="fill2" d="M20 46 C 12 34, 4 26, 4 17 a16 16 0 0 1 32 0 c0 9 -8 17 -16 29 Z" /><circle class="hole" cx="20" cy="17" r="6" /></svg>
+        </>
+      )}
+      {accent === 'star-film' && (
+        <>
+          <svg class="acc a1" viewBox="0 0 40 40" aria-hidden="true"><path class="fill" d="M20 3 l4.6 10.6 11.4 1 -8.7 7.5 2.7 11.2 -10 -6 -10 6 2.7 -11.2 -8.7 -7.5 11.4 -1 Z" /></svg>
+          <svg class="acc a2 film" viewBox="0 0 48 44" aria-hidden="true"><path class="fill2" d="M5 16 L43 16 L43 40 L5 40 Z" /><path class="clap" d="M4 7 L42 3 L43 13 L5 17 Z" /><path class="line" d="M12 6 L16 15.5 M22 5 L26 14.5 M32 4 L36 13.5" /><path class="play" d="M20 22 L30 28 L20 34 Z" /></svg>
         </>
       )}
       {accent === 'clock' && (
@@ -94,7 +100,7 @@ const ringPath = {
   .blob { position: absolute; inset: 2cqw; border-radius: 50%; background: var(--tone); opacity: .92; overflow: hidden; }
   .shape-square .blob { border-radius: 4cqw; inset: 3cqw; }
   .shape-arch .blob { border-radius: 50% 50% 3cqw 3cqw / 42% 42% 3cqw 3cqw; inset: 2cqw 3cqw 3cqw; }
-  .shape-rect .blob { border-radius: 3cqw; inset: 9cqw 1cqw 9cqw 2cqw; }
+  .shape-rect .blob { border-radius: 3cqw; inset: 8cqw 1cqw 8cqw 2cqw; }
   .shape-triangle .blob { border-radius: 0; inset: 2cqw; clip-path: polygon(50% 3%, 97% 92%, 3% 92%); }
   .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px); background-size: 5.4cqw 5.4cqw; }
   .ring { position: absolute; inset: 0.6cqw; width: calc(100% - 1.2cqw); height: calc(100% - 1.2cqw); transform: translate(-1.2cqw, 1cqw) rotate(-6deg); overflow: visible; }
@@ -117,6 +123,16 @@ const ringPath = {
   .clock .fill { fill: var(--sheet); }
   .a3 { left: 3cqw; top: 9cqw; width: 3cqw; }
   .loop { left: -2cqw; bottom: 1cqw; width: 12cqw; }
+  /* 長方形、三角形：點綴貼在形狀的邊上，不要飄在外面 */
+  .shape-rect .a1 { top: 7cqw; right: 0; }
+  .shape-rect .a2 { bottom: 7.5cqw; left: 0; }
+  /* 場記板（myVideo）：白底黑條、播放鍵 */
+  .film { width: 6.6cqw; }
+  .film .fill2 { fill: var(--rust); }
+  .film .clap { fill: var(--sheet); stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+  .film .line { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; }
+  .film .play { fill: var(--sheet); }
+  .shape-triangle .clock { top: 12cqw; right: auto; left: 9cqw; }
 
   /* ── hover／捲進畫面時的小動畫 ── */
   .obj, .ring, .blob, .hand-arrow, .a1, .a2 { transition: transform .5s cubic-bezier(.3, 1.5, .5, 1); }
