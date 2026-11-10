@@ -62,15 +62,15 @@ const { kind } = Astro.props;
 
 {kind === 'survey' && (
   <Board kicker="Survey" title="問卷發放對象" c="branch" label="問卷發放對象：有 myVideo 會員資格、近一個月內有使用、觀看超過 10 分鐘；30～49 歲；App、Web">
-    <div class="survey">
+    <dl class="panel survey">
       {[
-        ['對象', ['有 myVideo 會員資格', '近一個月內有使用 myVideo 服務', '觀看分鐘數超過 10 分鐘以上']],
-        ['年齡', ['30～49 歲區間']],
-        ['設備', ['App、Web']],
-      ].map(([k, items]) => (
-        <div class="panel crit"><span class="pill-k">{k}</span><ul>{(items as string[]).map((x) => <li>{x}</li>)}</ul></div>
+        ['對象', '有 myVideo 會員資格、近一個月內有使用 myVideo 服務、觀看分鐘數超過 10 分鐘以上'],
+        ['年齡', '30～49 歲區間'],
+        ['設備', 'App、Web'],
+      ].map(([k, v]) => (
+        <div class="crit"><dt class="pill-k">{k}</dt><dd>{v}</dd></div>
       ))}
-    </div>
+    </dl>
   </Board>
 )}
 
@@ -122,13 +122,12 @@ const { kind } = Astro.props;
   .step .t { font-size: 20px; font-weight: 900; }
   .step .d { font-size: 14.5px; line-height: 1.7; color: var(--muted); }
 
-  /* 問卷對象 */
-  .survey { display: grid; gap: 14px; max-width: 860px; margin: 0 auto; }
-  @media (min-width: 760px) { .survey { grid-template-columns: 1.5fr 1fr 1fr; } }
-  .crit { display: grid; gap: 10px; align-content: start; }
-  .pill-k { justify-self: start; background: var(--tone-ink); color: #fff; font-weight: 700; font-size: 13px; padding: 4px 12px; border-radius: 6px; }
-  .crit ul { margin: 0; padding-left: 1.1em; font-size: 15px; line-height: 1.8; }
-  .crit li { margin: 0; }
+  /* 問卷對象：一張卡、三列，標籤在左、內容在右（11/10 Jessy：內容少不要佔太大） */
+  .survey { max-width: 640px; margin: 0 auto; display: grid; gap: 10px; padding: 18px 20px; }
+  .crit { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: baseline; }
+  .crit + .crit { border-top: 1px dashed var(--line); padding-top: 10px; }
+  .pill-k { background: var(--tone-ink); color: #fff; font-weight: 700; font-size: 13px; padding: 3px 10px; border-radius: 6px; }
+  .crit dd { margin: 0; font-size: 15px; line-height: 1.7; }
 
   /* 資訊架構：中心＋四方 */
   .ia { display: grid; grid-template-columns: 1fr auto 1fr; grid-template-rows: auto auto auto; gap: 18px 14px; align-items: center; justify-items: center; max-width: 620px; margin: 0 auto; position: relative; }
