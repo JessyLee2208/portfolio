@@ -78,7 +78,12 @@ const toc = [
 
   <p class="eyebrow" id="execution">設計執行與落地</p>
   <h2>先把規則定清楚，再讓三方在畫面上看得懂</h2>
-  <p>規則是這張卡的核心：扣錯一點，會員就會客訴；算錯一筆，店家就對不了帳。所以前兩個決策先定規則，第三個決策再讓店家、櫃檯和會員，在各自的畫面上看得懂這些規則。</p>
+  <p>規則是這張卡的核心：扣錯一點，會員就會客訴；算錯一筆，店家就對不了帳。所以我先定規則，再處理畫面：</p>
+  <ol class="dec">
+    <li><a href="#deduct"><span>決策 1｜扣點順序</span><b>會員手上有好幾筆點數，先扣哪一筆？</b></a></li>
+    <li><a href="#settle"><span>決策 2｜退款與核銷</span><b>扣到最後剩 10.4 點，零頭該給誰？</b></a></li>
+    <li><a href="#screens"><span>決策 3｜畫面</span><b>店家設得對、櫃檯做得快、會員看得懂</b></a></li>
+  </ol>
 
   <p class="eyebrow" id="deduct">決策 1｜扣點順序</p>
   <h2>會員手上有好幾筆點數，先扣哪一筆？</h2>
@@ -124,6 +129,13 @@ const toc = [
 </CaseLayout>
 
 <style>
+  /* 設計執行與落地：三個決策的總覽卡，點了跳到該段 */
+  .dec { list-style: none; margin: 24px 0 8px; padding: 0; display: grid; gap: 12px; }
+  @media (min-width: 720px) { .dec { grid-template-columns: repeat(3, 1fr); } }
+  .dec a { display: grid; gap: 6px; height: 100%; padding: 16px 18px; border-radius: 14px; background: var(--accent-soft); color: var(--ink); text-decoration: none; transition: background .2s ease; }
+  .dec a:hover { background: color-mix(in srgb, var(--accent-soft) 80%, var(--accent) 20%); }
+  .dec span { font-size: 12.5px; font-weight: 700; color: var(--accent); }
+  .dec b { font-size: 16px; font-weight: 900; line-height: 1.45; }
   .goals2 { list-style: none; counter-reset: g; margin: 20px 0 8px; padding: 0; display: grid; gap: 12px; }
   @media (min-width: 640px) { .goals2 { grid-template-columns: 1fr 1fr; } }
   .goals2 li { counter-increment: g; background: var(--accent-soft); border-radius: 14px; padding: 16px 18px; display: grid; gap: 6px; }
