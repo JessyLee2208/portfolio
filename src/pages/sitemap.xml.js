@@ -2,7 +2,7 @@
 import { EN_PAGES } from '../lib/i18n.js';
 
 // Manager 那篇上了密碼（11/10），不放進網站地圖
-const PAGES = ['/', '/cases/branch/', '/cases/ai-delivery/', '/cases/myvideo/', '/cases/podcast/', '/cases/bookfast/'];
+const PAGES = ['/', '/cases/branch/', '/cases/ai-delivery/', '/cases/myvideo/', '/cases/podcast/', '/cases/bookfast/', '/cases/timecard/'];
 
 export function GET({ site }) {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');

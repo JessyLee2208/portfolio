@@ -11,6 +11,7 @@ import { langOf, lurl } from '../lib/i18n.js';
 import MyVideoCover from './covers/MyVideoCover.astro';
 import PodcastCover from './covers/PodcastCover.astro';
 import BookFastCover from './covers/BookFastCover.astro';
+import TimeCardCover from './covers/TimeCardCover.astro';
 const L = langOf(Astro.url), en = L === 'en';
 ---
 <Base>
@@ -61,7 +62,12 @@ const L = langOf(Astro.url), en = L === 'en';
       <p class="label">More Works</p>
       <h2>{en ? 'Earlier work' : '更多作品'}</h2>
     </div>
-    <div class="grid-3">
+    <div class="grid-more">
+      <CaseCard href={lurl(L, '/cases/timecard/')} title={en ? 'BookFast Pay-per-minute Pass (in Chinese)' : 'BookFast 分鐘計費卡'}
+        summary={en ? '2022 · BookFast. Designed a pay-per-minute gym pass end to end, from the back office to the member app, including the deduction, refund and settlement rules.' : '2022・BookFast。從零做出按分鐘扣點的通行卡：後台、會員 App 和官網都由我設計，也定了扣點順序、退款與核銷規則。'}
+        tags={en ? ['B2B + B2C', 'Billing rules', 'Web & App'] : ['B2B＋B2C', '計費規則', 'Web & App']}>
+        <TimeCardCover />
+      </CaseCard>
       <CaseCard href={lurl(L, '/cases/bookfast/')} title={en ? 'BookFast Checkout Flow' : 'BookFast 付款流程簡化設計'}
         summary={en ? '2021 · BookFast. Lead designer for simplifying the back-office checkout, so merchants can check customers out faster. Iterated through three versions with cognitive walkthroughs.' : '2021・BookFast。後台結帳流程優化的主責設計師，用認知走查迭代三個版本，從分步式改成一頁式，讓店家更快完成結帳。'}
         tags={en ? ['B2B', 'Cognitive walkthrough', 'Web'] : ['B2B', '認知走查', 'Web']}>
@@ -104,4 +110,7 @@ const L = langOf(Astro.url), en = L === 'en';
   .grid-3 { display: grid; gap: 24px; }
   @media (min-width: 820px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
   @media (min-width: 1100px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
+  /* 更多作品：4 篇舊作排成兩欄兩列（11/10 加了分鐘計費卡） */
+  .grid-more { display: grid; gap: 24px; }
+  @media (min-width: 820px) { .grid-more { grid-template-columns: 1fr 1fr; } }
 </style>

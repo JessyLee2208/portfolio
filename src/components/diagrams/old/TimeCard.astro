@@ -1,0 +1,245 @@
+---
+// BookFast 分鐘計費卡的圖解與畫面：規則照 Figma spec（計時計次 2hMBdMAHdX2G5NHW48bQMy），畫面從 spec 複製到「做圖區」後匯出（11/10）
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Board from '../Board.astro';
+import '../../../styles/diagram.css';
+import adminList from '../../../assets/cases/timecard/admin-list.png';
+import appMine from '../../../assets/cases/timecard/app-mine.png';
+import appPlan from '../../../assets/cases/timecard/app-plan.png';
+import appExpired from '../../../assets/cases/timecard/app-expired.png';
+import appQr from '../../../assets/cases/timecard/app-qr.png';
+import appScan from '../../../assets/cases/timecard/app-scan.png';
+import rOk from '../../../assets/cases/timecard/refund-ok.png';
+import rNo from '../../../assets/cases/timecard/refund-no.png';
+import rDone from '../../../assets/cases/timecard/refund-done.png';
+import rInv from '../../../assets/cases/timecard/refund-done-invoice.png';
+interface Props { kind: 'hero' | 'flow' | 'deduct' | 'refund' | 'refund-flow' | 'settle' | 'app' | 'scan'; }
+const { kind } = Astro.props;
+const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
+---
+{kind === 'hero' && (
+  <figure class="dg case-timecard reveal tc-hero" aria-label="分鐘計費卡：後台的方案設定，以及會員 App 上的通行卡">
+    <div class="dg-pat" aria-hidden="true"></div>
+    <div class="dg-body hero-row">
+      <div class="desk"><Image src={adminList} alt="" widths={[700, 1100]} sizes="(min-width: 900px) 640px, 80vw" /></div>
+      <div class="frame hero-phone"><Image src={appMine} alt="" widths={[300, 600]} sizes="(min-width: 900px) 220px, 30vw" /></div>
+    </div>
+  </figure>
+)}
+
+{kind === 'flow' && (
+  <Board kicker="Scope" title="一張分鐘計費卡的完整流程" c="timecard" label="分鐘計費卡從開賣前設定、販售、進出場扣點、註銷退款到報表核銷，五個階段分別牽涉後台與會員端">
+    <ol class="flow">
+      {[
+        ['開賣前設定', ['B'], '設定每分鐘收費、緩衝時間，建立儲值方案'],
+        ['販售', ['B', 'C'], '櫃檯現場加值，會員在品牌官網、App 購買'],
+        ['進出場扣點', ['B', 'C'], 'QR code 進出場，依停留時間扣點'],
+        ['註銷退款', ['B'], '依付款方式判斷能不能退、退多少'],
+        ['報表核銷', ['B'], '報表拆出計時卡，依使用狀況核銷給店家'],
+      ].map(([t, who, d], i) => (
+        <li class="panel stage">
+          <span class="num">{i + 1}</span>
+          <span class="t">{t}</span>
+          <span class="who">{(who as string[]).map((w) => <i class={w === 'B' ? 'b' : 'c'}>{w === 'B' ? '後台' : '會員端'}</i>)}</span>
+          <span class="d">{d}</span>
+        </li>
+      ))}
+    </ol>
+  </Board>
+)}
+
+{kind === 'deduct' && (
+  <Board kicker="Deduction Order" title="同一張卡，先扣哪一筆？" c="timecard" label="扣點順序：一、最先到期的方案；二、到期日相同時，已經用過的先扣；三、點數先扣，贈點最後。例子：會員有四筆額度，扣點順序是 B 方案點數、C 方案點數、B 方案贈點、A 方案點數">
+    <ol class="rules">
+      {[['最先到期的先扣', '到期日越近，越先用掉'], ['用過的先扣', '到期日一樣時，額度不完整的先扣'], ['點數先扣，贈點最後', '會員花錢買的點數，比送的贈點先用']].map(([t, d], i) => (
+        <li class="panel rule"><span class="num">{i + 1}</span><span class="t">{t}</span><span class="d">{d}</span></li>
+      ))}
+    </ol>
+    <div class="panel ex">
+      <p class="ex-t">例子：會員的卡裡有 4 筆額度，這次進場要扣 50 點</p>
+      <table class="ex-tb">
+        <thead><tr><th>順序</th><th>額度</th><th>到期日</th><th>剩餘</th><th>為什麼排這裡</th></tr></thead>
+        <tbody>
+          <tr><td><b class="o">1</b></td><td>B 方案・點數</td><td>2023/01/31</td><td>45 / 100</td><td>最早到期，而且已經用過</td></tr>
+          <tr><td><b class="o">2</b></td><td>C 方案・點數</td><td>2023/01/31</td><td>100 / 100</td><td>同一天到期，但還沒用過</td></tr>
+          <tr><td><b class="o">3</b></td><td>B 方案・贈點</td><td>2023/01/31</td><td>20 / 20</td><td>同一天到期，贈點排在點數後面</td></tr>
+          <tr class="dim"><td><b class="o">4</b></td><td>A 方案・點數</td><td>2023/03/31</td><td>120 / 120</td><td>最晚到期，最後才扣</td></tr>
+        </tbody>
+      </table>
+      <p class="ex-r">這次扣 50 點：B 方案點數扣完 45 點，剩下 5 點從 C 方案扣。</p>
+    </div>
+  </Board>
+)}
+
+{kind === 'refund' && (
+  <Board kicker="Refund Rules" title="兩種付款方式，兩套退款規則" c="timecard" label="退款規則：聯邦信用卡只能單筆全額退款，而且額度要完整；樂享券可以退剩餘額度。兩種都要在付款日 60 天內、方案到期日 10 天內">
+    <div class="cmp">
+      <div class="panel col">
+        <span class="ct">信用卡（聯邦）</span>
+        <span class="lab">可以退多少</span><span class="v">單筆全額</span>
+        <span class="lab">條件</span><span class="v">額度完整：一點都還沒用過</span>
+      </div>
+      <div class="panel col">
+        <span class="ct">樂享券</span>
+        <span class="lab">可以退多少</span><span class="v">剩餘額度</span>
+        <span class="lab">條件</span><span class="v">用過也能退，退還沒用完的部分</span>
+      </div>
+    </div>
+    <p class="both"><b>兩種都一樣</b>付款日 +60 天內，而且在方案到期日 +10 天內</p>
+  </Board>
+)}
+
+{kind === 'refund-flow' && (
+  <figure class="dg case-timecard reveal rf" aria-label="註銷退款流程：可刷退時選退款方式與發票處理；超過期限只能註銷；完成後依付款方式顯示不同的成功畫面">
+    <div class="dg-pat" aria-hidden="true"></div>
+    <p class="dg-kicker">Refund Flow</p>
+    <div class="dg-head"><p class="dg-title">櫃檯註銷一張卡的流程</p><svg class="dg-uline" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C 50 4, 120 18, 196 8" /></svg></div>
+    <div class="dg-body rf-grid">
+      <div class="rf-col">
+        <p class="rf-step"><span class="num">1</span>註銷前：系統先檢查</p>
+        <div class="shot"><Image src={rOk} alt="" widths={[500, 800]} sizes="(min-width: 900px) 330px, 90vw" /></div>
+        <p class="rf-cap">還在可刷退期間：列出連帶的贈點、可以線上刷退或現場退款，發票由系統作廢或手動開折讓單</p>
+        <div class="shot crop"><Image src={rNo} alt="" widths={[500, 800]} sizes="(min-width: 900px) 330px, 90vw" /></div>
+        <p class="rf-cap">超過期限或已使用：直接告訴櫃檯「此權益目前僅能註銷」，不會退錯錢</p>
+      </div>
+      <div class="rf-col">
+        <p class="rf-step"><span class="num">2</span>註銷成功：依付款方式顯示</p>
+        <div class="shot"><Image src={rInv} alt="" widths={[500, 800]} sizes="(min-width: 900px) 330px, 90vw" /></div>
+        <p class="rf-cap">信用卡（聯邦）：發票超過可作廢期限的，列出來提醒櫃檯手動開折讓單</p>
+        <div class="shot"><Image src={rDone} alt="" widths={[500, 800]} sizes="(min-width: 900px) 330px, 90vw" /></div>
+        <p class="rf-cap">樂享券：告訴櫃檯退款申請已經送出、通知信寄到哪裡、幾天內會刷退</p>
+      </div>
+    </div>
+  </figure>
+)}
+
+{kind === 'settle' && (
+  <Board kicker="Settlement" title="剩下的零頭怎麼辦？" c="timecard" label="核銷規則：樂享券註銷時剩 10.4 點，退 10 點給會員；0.4 點無條件進位成 1 點，走點數核銷給店家">
+    <div class="split">
+      <div class="panel src"><span class="lab">註銷時剩下</span><span class="big">10.4<small>點</small></span></div>
+      <svg class="arr" viewBox="0 0 60 120" aria-hidden="true"><path d="M4 60 C 24 60, 30 22, 54 22 M4 60 C 24 60, 30 98, 54 98 M46 16 L55 22 L46 28 M46 92 L55 98 L46 104" /></svg>
+      <div class="outs">
+        <div class="panel out"><span class="lab">整數退給會員</span><span class="big">10<small>點</small></span></div>
+        <div class="panel out shop"><span class="lab">零頭進位，核銷給店家</span><span class="big">1<small>點</small></span><span class="note2">註銷日視為點數使用日，+14 天核銷</span></div>
+      </div>
+    </div>
+    <div class="pc">
+      <div class="panel"><span class="lab">好處</span>最後一筆就算沒有全部用完，店家也拿得到錢，風險控制在幾十元內</div>
+      <div class="panel"><span class="lab">風險</span>會員發現少退了零頭，可能跟店家起爭議</div>
+      <div class="panel"><span class="lab">配套</span>販售條款註明遇到非整數無條件捨去；真的有爭議，由店家自行退款給會員</div>
+    </div>
+  </Board>
+)}
+
+{kind === 'app' && (
+  <figure class="dg case-timecard reveal tc-phones" aria-label="會員 App：我的通行卡、通行卡方案、失效方案">
+    <div class="dg-pat" aria-hidden="true"></div>
+    <div class="dg-body phones">
+      {[phone(appMine, '我的：一眼看到總點數'), phone(appPlan, '方案明細：額度與期間'), phone(appExpired, '失效方案：用完的收起來')].map(({ img, cap }, i) => (
+        <figure class={`ph p${i}`}>
+          <div class="frame"><Image src={img} alt="" widths={[300, 600]} sizes="(min-width: 760px) 220px, 30vw" /></div>
+          <figcaption>{cap}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </figure>
+)}
+
+{kind === 'scan' && (
+  <figure class="dg case-timecard reveal tc-phones" aria-label="App 進出場：出示 QR code 給掃描器，或用相機掃場館的 QR code">
+    <div class="dg-pat" aria-hidden="true"></div>
+    <div class="dg-body phones">
+      {[phone(appQr, '出示 QR code 給掃描器'), phone(appScan, '用相機掃場館的 QR code')].map(({ img, cap }, i) => (
+        <figure class={`ph p${i}`}>
+          <div class="frame"><Image src={img} alt="" widths={[300, 600]} sizes="(min-width: 760px) 220px, 30vw" /></div>
+          <figcaption>{cap}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </figure>
+)}
+
+<style>
+  .num { width: 26px; height: 26px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--tone-ink); color: #fff; font: 700 13px/1 var(--f-mono); flex: none; }
+
+  /* 頂部：後台畫面＋疊一支手機 */
+  .tc-hero { margin: 40px 0 0; }
+  .hero-row { position: relative; max-width: 900px; margin: 0 auto; padding-right: clamp(40px, 12%, 120px); }
+  .desk { border-radius: 12px; overflow: hidden; box-shadow: 0 18px 30px -18px rgba(0,0,0,.4); border: 1px solid var(--line); background: #fff; }
+  .desk :global(img) { display: block; width: 100%; height: auto; }
+  .frame.hero-phone { position: absolute; right: 0; bottom: -20px; width: clamp(110px, 24%, 210px); }
+  /* 手機寬度時後台畫面比手機矮，往下推一點，手機才不會超出上緣 */
+  @media (max-width: 640px) { .desk { margin-top: 48px; } .frame.hero-phone { width: 26%; bottom: -8px; border-radius: 14px; padding: 4px; } .frame.hero-phone :global(img) { border-radius: 11px; } }
+
+  .frame { width: 100%; background: #111; border-radius: 22px; padding: 6px; box-shadow: 0 18px 30px -18px rgba(0,0,0,.5); }
+  .frame :global(img) { display: block; width: 100%; height: auto; border-radius: 17px; }
+
+  /* 流程五階段 */
+  .flow { list-style: none; padding: 0; margin: 0 auto; max-width: 980px; display: grid; gap: 12px; }
+  @media (min-width: 820px) { .flow { grid-template-columns: repeat(5, 1fr); } }
+  .stage { display: grid; gap: 6px; align-content: start; padding: 16px 14px 18px; }
+  .stage .t { font-size: 17px; font-weight: 900; }
+  .who { display: flex; gap: 4px; flex-wrap: wrap; }
+  .who i { font-style: normal; font: 700 11.5px/1 var(--f-mono); padding: 4px 7px; border-radius: 99px; }
+  .who i.b { background: var(--ink); color: var(--paper); }
+  .who i.c { background: var(--tone-ink); color: #fff; }
+  .stage .d { font-size: 14px; line-height: 1.65; color: var(--muted); }
+
+  /* 扣點順序 */
+  .rules { list-style: none; padding: 0; margin: 0 auto 16px; max-width: 860px; display: grid; gap: 12px; }
+  @media (min-width: 720px) { .rules { grid-template-columns: repeat(3, 1fr); } }
+  .rule { display: grid; gap: 6px; align-content: start; }
+  .rule .t { font-size: 18px; font-weight: 900; }
+  .rule .d { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .ex { max-width: 860px; margin: 0 auto; overflow-x: auto; }
+  :global(.prose) .ex-t { margin: 0 0 10px; font-weight: 900; }
+  .ex-tb { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 520px; }
+  .ex-tb th { text-align: left; font-size: 12.5px; color: var(--muted); font-weight: 700; padding: 6px 8px; border-bottom: 1px solid var(--line); background: none; }
+  .ex-tb td { padding: 9px 8px; border-bottom: 1px solid var(--line); }
+  .ex-tb .o { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--tone-soft); color: var(--tone-ink); font: 700 12px/1 var(--f-mono); }
+  .ex-tb tr:not(.dim) td:nth-child(2) { font-weight: 700; }
+  .ex-tb .dim td { color: var(--muted); }
+  :global(.prose) .ex-r { margin: 12px 0 0; font-size: 14.5px; font-weight: 700; color: var(--tone-ink); }
+
+  /* 退款規則對照 */
+  .cmp { display: grid; gap: 14px; max-width: 760px; margin: 0 auto; }
+  @media (min-width: 640px) { .cmp { grid-template-columns: 1fr 1fr; } }
+  .col { display: grid; gap: 4px; align-content: start; }
+  .ct { font-size: 20px; font-weight: 900; text-align: center; margin-bottom: 8px; }
+  .lab { font-weight: 700; font-size: 12.5px; color: var(--tone-ink); margin-top: 6px; display: block; }
+  .v { font-size: 17px; font-weight: 700; }
+  :global(.prose) .both { max-width: 760px; margin: 14px auto 0; background: var(--tone-ink); color: #fff; border-radius: 12px; padding: 12px 16px; font-size: 15px; text-align: center; }
+  .both b { margin-right: 10px; opacity: .8; font-size: 13px; }
+
+  /* 退款流程畫面 */
+  .rf-grid { display: grid; gap: 28px; max-width: 760px; margin: 0 auto; }
+  @media (min-width: 720px) { .rf-grid { grid-template-columns: 1fr 1fr; } }
+  .rf-col { display: grid; gap: 10px; align-content: start; }
+  :global(.prose) .rf-step { margin: 0; display: flex; gap: 8px; align-items: center; font-weight: 900; font-size: 16px; }
+  .shot { border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: #fff; box-shadow: var(--shadow); }
+  .shot :global(img) { display: block; width: 100%; height: auto; }
+  :global(.prose) .rf-cap { margin: 0 0 12px; font-size: 14px; line-height: 1.65; color: var(--muted); }
+
+  /* 核銷零頭 */
+  .split { display: grid; grid-template-columns: 1fr 50px 1.2fr; align-items: center; gap: 8px; max-width: 640px; margin: 0 auto 18px; }
+  .split .panel { display: grid; gap: 2px; justify-items: center; text-align: center; padding: 14px 12px; }
+  .split .lab { margin: 0; }
+  .big { font: 900 clamp(30px, 5vw, 42px)/1.1 var(--f-display); }
+  .big small { font-size: 15px; margin-left: 3px; font-family: var(--f-zh); }
+  .outs { display: grid; gap: 12px; }
+  .out.shop { background: var(--tone-ink); color: #fff; }
+  .out.shop .lab { color: #fff; opacity: .85; }
+  .note2 { font-size: 12px; opacity: .85; }
+  .arr { width: 100%; height: 120px; overflow: visible; }
+  .arr path { fill: none; stroke: var(--tone-ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .pc { display: grid; gap: 12px; max-width: 760px; margin: 0 auto; }
+  @media (min-width: 720px) { .pc { grid-template-columns: repeat(3, 1fr); } }
+  .pc .panel { font-size: 14.5px; line-height: 1.65; }
+  .pc .lab { margin: 0 0 4px; }
+
+  /* 手機排一列 */
+  .tc-phones .phones { display: flex; justify-content: center; align-items: flex-start; gap: clamp(10px, 3vw, 28px); }
+  .ph { margin: 0; display: grid; gap: 10px; justify-items: center; width: min(220px, 30%); }
+  .ph figcaption { font-weight: 700; font-size: 14px; text-align: center; }
+</style>

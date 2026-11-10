@@ -10,10 +10,10 @@ interface Props {
   big: string; unit?: string; bigLabel: string;
   label: string;
   shape?: 'circle' | 'square' | 'arch' | 'rect' | 'triangle' | 'pill';
-  accent?: 'star-pin' | 'star-film' | 'clock' | 'sparkle-loop' | 'notes-loop' | 'card-coin';
+  accent?: 'star-pin' | 'star-film' | 'clock' | 'sparkle-loop' | 'notes-loop' | 'card-coin' | 'stopwatch';
   under?: 'line' | 'dots' | 'wave';
   // 背景紋路每張封面都不一樣（11/10 Jessy）：dots 分店頁、grid Manager、lines AI、plus myVideo、waves Podcast、ruled BookFast
-  pattern?: 'dots' | 'grid' | 'lines' | 'plus' | 'waves' | 'ruled';
+  pattern?: 'dots' | 'grid' | 'lines' | 'plus' | 'waves' | 'ruled' | 'ticks';
 }
 const { tone, no, kick, title, sub, big, unit, bigLabel, label, shape = 'circle', accent = 'star-pin', under = 'line', pattern = 'dots', locked = false, hover } = Astro.props;
 const ringPath = {
@@ -68,6 +68,9 @@ const ringPath = {
           <svg class="acc loop" viewBox="0 0 100 60" aria-hidden="true"><path class="line" d="M8 40 C 10 10, 50 6, 56 28 C 60 44, 40 50, 36 36 C 32 20, 60 10, 88 22 M78 14 L90 22 L80 32" /></svg>
         </>
       )}
+      {accent === 'stopwatch' && (
+        <svg class="acc a1 clock stopwatch" viewBox="0 0 48 52" aria-hidden="true"><path class="line" d="M20 3 L28 3 M24 3 L24 8 M38 11 L41 8" /><path class="fill" d="M24 8 C 36 7, 45 17, 44 29 C 43 41, 34 49, 23 48 C 11 47, 3 38, 4 27 C 5 16, 13 8, 26 8" /><path class="hand" d="M24 17 L24 29 L31 33" /></svg>
+      )}
       {accent === 'card-coin' && (
         <>
           <svg class="acc a1 ccard" viewBox="0 0 56 40" aria-hidden="true"><rect class="body" x="3" y="3" width="50" height="34" rx="5" /><path class="stripe" d="M3 12 L53 12" /><rect class="chip" x="10" y="20" width="10" height="8" rx="1.5" /><path class="dig" d="M30 28 L44 28" /></svg>
@@ -104,6 +107,8 @@ const ringPath = {
   .pat-plus { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 8v8M8 12h8' stroke='%239a9286' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E"); background-size: 3.6cqw 3.6cqw; opacity: .35; }
   /* 波浪：像音樂的波動（Podcast），顏色用灰米 */
   .pat-waves { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='20'%3E%3Cpath d='M0 10 Q 12 2 24 10 T 48 10' fill='none' stroke='%239a9286' stroke-width='1.2'/%3E%3C/svg%3E"); background-size: 6cqw 2.8cqw; opacity: .25; }
+  /* 碼錶刻度（分鐘計費卡） */
+  .pat-ticks { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='36'%3E%3Cpath d='M0.7 0v12M12 0v6M24 0v6M36 0v6M48 0v6' stroke='%239a9286' stroke-width='1.3'/%3E%3C/svg%3E"); background-size: 7cqw 4.2cqw; opacity: .35; }
   .pat-ruled { background-image: repeating-linear-gradient(0deg, var(--pc) 0 1.2px, transparent 1.2px 2.2cqw); opacity: .4; }
   .cv-text { position: relative; z-index: 2; }
   .bignum { position: relative; display: inline-block; margin-top: 2.6cqw; }
@@ -174,6 +179,7 @@ const ringPath = {
 
   /* ── hover／捲進畫面時的小動畫 ── */
   .obj, .ring, .blob, .hand-arrow, .a1, .a2 { transition: transform .5s cubic-bezier(.3, 1.5, .5, 1); }
+  .stopwatch .hand { transform-origin: 24px 29px !important; }
   .clock .hand { transform-box: view-box; transform-origin: 24px 25px; transition: transform .9s cubic-bezier(.4, 0, .2, 1); }
   .loop .line { stroke-dasharray: 260; stroke-dashoffset: 0; }
 

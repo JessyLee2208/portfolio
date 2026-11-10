@@ -1,7 +1,7 @@
 ---
 // 圖解外框：跟封面同一套語言（案例主色淺底＋該案例的紋路＋白卡），手繪只當點綴
 import '../../styles/diagram.css';
-interface Props { kicker?: string; title?: string; c: 'branch' | 'manager' | 'ai' | 'myvideo' | 'podcast' | 'bookfast'; label: string; }
+interface Props { kicker?: string; title?: string; c: 'branch' | 'manager' | 'ai' | 'myvideo' | 'podcast' | 'bookfast' | 'timecard'; label: string; }
 const { kicker, title, c, label } = Astro.props;
 ---
 <figure class:list={['dg', 'reveal', `case-${c}`]} aria-label={label}>
