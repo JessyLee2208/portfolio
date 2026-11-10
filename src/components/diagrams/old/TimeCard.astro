@@ -325,6 +325,13 @@ const JR = [
   .ch span:not(.ch-n) { font-size: 13px; color: var(--muted); line-height: 1.5; }
   .ch-n { font: 700 12px/1 var(--f-mono); color: var(--muted); }
   .ch:not(:last-child)::after { content: '↓'; position: absolute; left: 50%; bottom: -20px; transform: translateX(-50%); color: var(--tone-ink); font-weight: 900; font-size: 14px; }
+  /* 手機：每格一行（編號＋標題＋說明），不要四張大卡疊起來（11/10 Jessy） */
+  @media (max-width: 719px) {
+    .chain { gap: 14px; }
+    .ch { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; padding: 10px 14px; }
+    .ch b { font-size: 15px; }
+    .ch:not(:last-child)::after { bottom: -14px; font-size: 11px; }
+  }
   @media (min-width: 720px) { .ch:not(:last-child)::after { content: '→'; left: auto; right: -21px; bottom: auto; top: 50%; transform: translateY(-50%); } }
 
   /* 會員旅程時間軸：階段用線串起來，每階段一句話＋一張畫面＋一句解法 */
