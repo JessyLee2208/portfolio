@@ -12,9 +12,10 @@ import SlotCard from '../diagrams/manager/SlotCard.astro';
   </div>
 </CoverB>
 <style>
+  /* .sheet.sheet：加權重，蓋過 SlotCard 自己的字級（CSS 載入順序會變，不能靠先後） */
   .sheet { width: 25cqw; background: var(--sheet); border-radius: 2cqw; padding: 1.8cqw; display: grid; gap: 1.1cqw; transform: rotate(-4deg); box-shadow: 0 3cqw 5cqw -3cqw rgba(0,0,0,.35); }
-  .sheet :global(.head) { padding: .8cqw 1.1cqw; }
-  .sheet :global(.head b) { font-size: 1.7cqw; }
-  .sheet :global(.head span), .sheet :global(.head em) { font-size: 1.2cqw; padding: .2cqw .6cqw; }
-  .sheet :global(.bd) { padding: .6cqw 1.1cqw .9cqw; font-size: 1.5cqw; }
+  .sheet.sheet :global(.head) { padding: .8cqw 1.1cqw; }
+  .sheet.sheet :global(.head b) { font-size: 1.7cqw; }
+  .sheet.sheet :global(.head span), .sheet.sheet :global(.head em) { font-size: 1.2cqw; padding: .2cqw .6cqw; }
+  .sheet.sheet :global(.bd) { padding: .6cqw 1.1cqw .9cqw; font-size: 1.5cqw; }
 </style>

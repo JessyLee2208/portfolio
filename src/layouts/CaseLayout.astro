@@ -43,12 +43,12 @@ const { title, description, kicker, lead, meta, toc, tone, next } = Astro.props;
 </Base>
 
 <style>
-  .case { --tone: var(--rust); --tone-soft: var(--rust-soft); --tone-ink: var(--rust); }
+  .case { --tone: var(--rust); --tone-soft: var(--rust-soft); --tone-ink: var(--rust-ink); }
   .case.tone-green { --tone: var(--accent); --tone-soft: var(--accent-soft); --tone-ink: var(--accent); }
-  .case.tone-mustard { --tone: var(--mustard); --tone-soft: var(--mustard-soft); --tone-ink: #b88422; }
+  .case.tone-mustard { --tone: var(--mustard); --tone-soft: var(--mustard-soft); --tone-ink: var(--mustard-ink); }
 
   .case-head { padding-top: 32px; }
-  .back { display: inline-block; margin-bottom: 24px; color: var(--muted); text-decoration: none; font-size: 14px; }
+  .back { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 14px; color: var(--muted); text-decoration: none; font-size: 14px; }
   .back:hover { color: var(--ink); }
   .case-head h1 { font-size: clamp(32px, 5vw, 52px); margin: 8px 0 0; }
   .hero-media :global(.fig) { margin: 40px 0 0; }

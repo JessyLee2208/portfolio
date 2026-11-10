@@ -10,7 +10,7 @@ import { url } from '../lib/url.js';
 <Base>
   <HeroPeek>
       <p class="label">Product Designer · 8+ years</p>
-      <h1 class="hero-title">把複雜的規則，<br />變成用戶一眼看得懂的設計。</h1>
+      <h1 class="hero-title">把複雜的規則，<br /><span class="nw">變成用戶一眼</span><span class="nw">看得懂的設計。</span></h1>
       <!-- 文字照 Notion 作品集首頁 -->
       <p class="hero-sub">產品設計師，8 年以上經驗，C 端與 B 端產品都做過。在 FunNow 設計過用戶訂位的 App 與網站，也設計過店家管理時段與庫存的後台，橫跨 FunNow、Eatigo、Niceday 三個品牌與 iOS／Android／Web 三個平台。我擅長從用戶研究和數據出發，把複雜的業務規則和系統邏輯，整理成清楚的資訊架構。</p>
       <ul class="links">
@@ -49,6 +49,8 @@ import { url } from '../lib/url.js';
 </Base>
 
 <style>
+  /* 標題換行只在詞組之間，手機不會剩「計。」一行 */
+  .nw { display: inline-block; }
   .hero-title { font-size: clamp(30px, 5vw, 52px); line-height: 1.25; margin: 10px 0 16px; }
   .hero-sub { color: var(--muted); margin: 0; max-width: 62ch; }
   .links { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }

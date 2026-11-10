@@ -12,6 +12,9 @@
   --rust-soft: #f6e4da;
   --mustard: #d9a441;    /* 點綴：芥末黃 */
   --mustard-soft: #f7ecd2;
+  /* 文字、白字底色用的深一階（米色底上對比 ≥ 4.5） */
+  --rust-ink: #a84d2b;
+  --mustard-ink: #8c6416;
 
   --f-display: 'Bricolage Grotesque', 'Noto Sans TC', system-ui, sans-serif;
   --f-body: 'IBM Plex Sans', 'Noto Sans TC', system-ui, sans-serif;
@@ -30,7 +33,7 @@
   :root:not([data-theme="light"]) {
     --paper: #141613; --sheet: #1b1e1b; --ink: #ebe8e1; --muted: #a39f96; --line: #2e312d;
     --accent: #7cc4a8; --accent-soft: #1f2e28; --mark: #2f4a3f;
-    --rust: #e08a6a; --rust-soft: #3a261d; --mustard: #e7bd63; --mustard-soft: #3a311c;
+    --rust: #e08a6a; --rust-soft: #3a261d; --mustard: #e7bd63; --mustard-soft: #3a311c; --rust-ink: #e08a6a; --mustard-ink: #e7bd63;
     --shadow: 0 1px 0 rgba(0,0,0,.3), 0 10px 28px -14px rgba(0,0,0,.6);
     color-scheme: dark;
   }
@@ -38,7 +41,7 @@
 :root[data-theme="dark"] {
   --paper: #141613; --sheet: #1b1e1b; --ink: #ebe8e1; --muted: #a39f96; --line: #2e312d;
   --accent: #7cc4a8; --accent-soft: #1f2e28; --mark: #2f4a3f;
-  --rust: #e08a6a; --rust-soft: #3a261d; --mustard: #e7bd63; --mustard-soft: #3a311c;
+  --rust: #e08a6a; --rust-soft: #3a261d; --mustard: #e7bd63; --mustard-soft: #3a311c; --rust-ink: #e08a6a; --mustard-ink: #e7bd63;
   --shadow: 0 1px 0 rgba(0,0,0,.3), 0 10px 28px -14px rgba(0,0,0,.6);
   color-scheme: dark;
 }
@@ -68,7 +71,7 @@ html[lang="en"] :is(h1, h2, h3) { font-family: var(--f-display); font-weight: 80
 .label {
   font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
 }
-.hl { color: var(--rust); font-weight: 700; }   /* Notion 裡的橘字重點 */
+.hl { color: var(--rust-ink); font-weight: 700; }   /* Notion 裡的橘字重點 */
 .num { font-variant-numeric: tabular-nums; }
 
 .chip {

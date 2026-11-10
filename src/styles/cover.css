@@ -17,3 +17,14 @@
 .cover .cv-chip { display: inline-flex; align-items: baseline; gap: .8cqw; margin: 2.4cqw 0 0; background: var(--sheet); border-radius: 99px; padding: 1cqw 2cqw; font: 700 1.7cqw/1 var(--f-zh); box-shadow: var(--shadow); }
 .cover .cv-chip b { font: 800 2.4cqw/1 var(--f-display); color: var(--accent); }
 .cover .cv-visual { height: 100%; display: grid; place-items: center; padding: 6cqw 6cqw 6cqw 0; }
+
+/* 封面縮很小時（手機）：小字會只剩 5～6px，乾脆藏起來，只留編號、標題、大數字 */
+@container (max-width: 560px) {
+  .cover .cv-kick, .cover .cv-sub, .cover .bignum small { display: none; }
+  .cover .cv-no { font-size: 3.4cqw; padding: 1.2cqw 2cqw; }
+  .cover.cover .num span { font-size: 4cqw; }
+  .cover .cv-title { font-size: 6.2cqw; margin-top: 2.4cqw; }
+}
+
+/* 磚紅封面的「pp」小單位：用深一階的磚紅，米色底上才看得清楚 */
+.cover.cover.tone-rust .num span { color: var(--rust-ink); }

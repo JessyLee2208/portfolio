@@ -57,7 +57,7 @@ const box = (r: Region) => {
   .call { position: absolute; width: 170px; display: flex; align-items: center; gap: 4px; }
   /* 說明小卡要跟白色截圖分開：案例主色描邊＋字加粗，看起來是貼上去的註解 */
   .call p { margin: 0; background: var(--sheet); border: 2px solid var(--tone-ink); border-radius: 12px; padding: 10px 12px; font-size: 13.5px; font-weight: 600; line-height: 1.6; box-shadow: 3px 3px 0 color-mix(in srgb, var(--tone-ink) 25%, transparent); }
-  .call b { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 6px; border-radius: 50%; background: var(--tone-ink); color: #fff; font: 700 11px/1 var(--f-mono); vertical-align: 1px; }
+  .call b { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 6px; border-radius: 50%; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); vertical-align: 1px; }
   .plain .call p { border: 0; font-weight: 400; box-shadow: var(--shadow); }
   .plain .arw path { stroke: var(--ink); stroke-width: 2.4; }
   .arw { width: 44px; flex: none; overflow: visible; }

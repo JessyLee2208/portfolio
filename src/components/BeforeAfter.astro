@@ -31,7 +31,7 @@ const { before, after, alt, beforeLabel = '改版前', afterLabel = '改版後',
   .handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; background: var(--ink); transform: translateX(-1px); pointer-events: none; }
   .handle span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--paper); display: grid; place-items: center; font-size: 16px; }
   .tag { position: absolute; bottom: 12px; font: 700 12px/1 var(--f-zh); background: var(--ink); color: var(--paper); padding: 6px 10px; border-radius: 999px; pointer-events: none; }
-  .tag.l { left: 12px; } .tag.r { right: 12px; background: var(--rust); color: #fff; }
+  .tag.l { left: 12px; } .tag.r { right: 12px; background: var(--rust-ink); color: #fff; }
   input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
   input:focus-visible ~ .handle span { outline: 2px solid var(--accent); outline-offset: 3px; }
   figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); text-align: center; }
