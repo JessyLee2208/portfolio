@@ -129,6 +129,9 @@ const toc = [
 </CaseLayout>
 
 <style>
+  /* 這篇的標題都是一整句（參考 rachelchen.tech），用 900 會整頁太粗：降到 700、26px（11/10 Jessy：字太粗） */
+  :global(.case .case-body .prose h2) { font-weight: 700; font-size: clamp(22px, 2.6vw, 26px); line-height: 1.4; }
+  :global(.case .case-body .prose h3) { font-weight: 700; }
   /* 設計執行與落地：三個決策的總覽卡，點了跳到該段 */
   .dec { list-style: none; margin: 24px 0 8px; padding: 0; display: grid; gap: 12px; }
   @media (min-width: 720px) { .dec { grid-template-columns: repeat(3, 1fr); } }
