@@ -8,16 +8,19 @@ interface Props {
   no: string; kick: string; title: string; sub: string;
   big: string; unit?: string; bigLabel: string;
   label: string;
-  shape?: 'circle' | 'square' | 'arch';
+  shape?: 'circle' | 'square' | 'arch' | 'rect' | 'triangle';
   accent?: 'star-pin' | 'clock' | 'sparkle-loop';
   under?: 'line' | 'dots' | 'wave';
-  pattern?: 'dots' | 'grid' | 'lines';
+  // 背景紋路每張封面都不一樣（11/10 Jessy）：dots 分店頁、grid Manager、lines AI、checker myVideo、rings Podcast、ruled BookFast
+  pattern?: 'dots' | 'grid' | 'lines' | 'checker' | 'rings' | 'ruled';
 }
 const { tone, no, kick, title, sub, big, unit, bigLabel, label, shape = 'circle', accent = 'star-pin', under = 'line', pattern = 'dots', locked = false } = Astro.props;
 const ringPath = {
   circle: 'M100 8 C 152 6, 194 46, 192 100 C 190 156, 150 194, 98 192 C 44 190, 6 150, 9 98 C 12 46, 50 10, 106 9',
   square: 'M30 12 C 80 8, 140 10, 172 12 C 188 14, 190 30, 189 60 C 188 110, 190 150, 188 172 C 186 188, 170 190, 140 189 C 90 188, 50 190, 28 188 C 12 186, 10 170, 11 140 C 12 90, 10 50, 12 28 C 13 16, 22 12, 36 11',
   arch: 'M12 190 C 10 140, 10 110, 14 92 C 24 40, 60 10, 100 9 C 142 8, 178 40, 187 92 C 191 112, 190 150, 188 191 C 140 189, 60 190, 16 190',
+  rect: 'M14 44 C 70 40, 130 42, 186 43 C 190 80, 189 120, 187 157 C 130 160, 70 158, 13 157 C 10 120, 11 80, 15 46',
+  triangle: 'M100 12 C 130 62, 160 116, 190 178 C 130 181, 70 180, 10 179 C 40 120, 70 64, 102 13',
 }[shape];
 ---
 <div class:list={['cover', 'cover-b', `tone-${tone}`, `shape-${shape}`]} role="img" aria-label={label}>
@@ -70,6 +73,9 @@ const ringPath = {
   .pat-dots { background-image: radial-gradient(var(--pc) 1.2px, transparent 1.4px); background-size: 2.4cqw 2.4cqw; }
   .pat-grid { background-image: linear-gradient(var(--pc) 1px, transparent 1px), linear-gradient(90deg, var(--pc) 1px, transparent 1px); background-size: 3.2cqw 3.2cqw; opacity: .6; }
   .pat-lines { background-image: repeating-linear-gradient(-35deg, var(--pc) 0 1.5px, transparent 1.5px 1.8cqw); opacity: .7; }
+  .pat-checker { background-image: conic-gradient(var(--pc) 25%, transparent 0 50%, var(--pc) 0 75%, transparent 0); background-size: 4cqw 4cqw; opacity: .35; }
+  .pat-rings { background-image: repeating-radial-gradient(circle at 78% 50%, var(--pc) 0 1.5px, transparent 1.5px 2.6cqw); opacity: .7; }
+  .pat-ruled { background-image: repeating-linear-gradient(0deg, var(--pc) 0 1.5px, transparent 1.5px 2.2cqw); opacity: .7; }
   .cv-text { position: relative; z-index: 2; }
   .bignum { position: relative; display: inline-block; margin-top: 2.6cqw; }
   .num { margin: 0; display: flex; align-items: baseline; gap: .5cqw; }
@@ -87,10 +93,14 @@ const ringPath = {
   .blob { position: absolute; inset: 2cqw; border-radius: 50%; background: var(--tone); opacity: .92; overflow: hidden; }
   .shape-square .blob { border-radius: 4cqw; inset: 3cqw; }
   .shape-arch .blob { border-radius: 50% 50% 3cqw 3cqw / 42% 42% 3cqw 3cqw; inset: 2cqw 3cqw 3cqw; }
+  .shape-rect .blob { border-radius: 3cqw; inset: 9cqw 1cqw 9cqw 2cqw; }
+  .shape-triangle .blob { border-radius: 0; inset: 2cqw; clip-path: polygon(50% 3%, 97% 92%, 3% 92%); }
   .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px); background-size: 5.4cqw 5.4cqw; }
   .ring { position: absolute; inset: 0.6cqw; width: calc(100% - 1.2cqw); height: calc(100% - 1.2cqw); transform: translate(-1.2cqw, 1cqw) rotate(-6deg); overflow: visible; }
   .shape-square .ring { transform: translate(-1.4cqw, 1.2cqw) rotate(-3deg); inset: 1.6cqw; width: calc(100% - 3.2cqw); height: calc(100% - 3.2cqw); }
   .shape-arch .ring { transform: translate(-1.2cqw, 1cqw) rotate(-3deg); }
+  .shape-rect .ring { transform: translate(-1.2cqw, 1cqw) rotate(-3deg); }
+  .shape-triangle .ring { transform: translate(-1cqw, .8cqw) rotate(-4deg); }
   .ring path { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
   .obj { position: relative; z-index: 2; display: grid; place-items: center; }
 
