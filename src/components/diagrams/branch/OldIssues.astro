@@ -4,25 +4,42 @@ import Board from '../Board.astro';
 import AnnotatedShot from '../AnnotatedShot.astro';
 import oldIos from '../../../assets/cases/branch/fig_old_ios.png';
 import oldWeb from '../../../assets/cases/branch/fig_old_web.png';
+import { langOf } from '../../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const c = en ? {
+  title: 'The old venue page', label: 'Screenshots of the old venue page on app and web, with four problems circled',
+  sync: 'App and web showed different information',
+  altApp: 'Old venue page, app', altWeb: 'Old venue page, web',
+  r1: 'Above the fold: not enough to tell if it’s the right place',
+  r2: 'Mostly plan cards; venue info squeezed into a small block',
+  r3: 'One review, no overall picture, and missing details lower down, so users turned to Google',
+} : {
+  title: '舊版的分店頁', label: '舊版分店頁 App 與 Web 截圖，用手繪框圈出四個問題',
+  sync: 'App 與 Web 呈現的資訊不同步',
+  altApp: '舊版分店頁 App 截圖', altWeb: '舊版分店頁 Web 截圖',
+  r1: '資訊首屏，決策資訊不足，用戶無法決策是否他想要的店',
+  r2: '分店頁大半是方案卡，店家資訊被壓縮在首屏一小塊',
+  r3: '評論只有單則，看不出整體評價，且後半段缺少完整資訊，導致用戶需要透過 google 或是其他平台查找資料',
+};
 ---
-<Board kicker="Before" title="舊版的分店頁" c="branch" label="舊版分店頁 App 與 Web 截圖，用手繪框圈出四個問題">
+<Board kicker="Before" title={c.title} c="branch" label={c.label}>
   <div class="old">
     <div class="sync">
-      <p><b>4</b>App 與 Web 呈現的資訊不同步</p>
+      <p><b>4</b>{c.sync}</p>
       <svg class="brace" viewBox="0 0 400 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 22 C 4 10, 10 12, 190 12 C 196 12, 200 6, 200 2 C 200 6, 204 12, 210 12 C 390 12, 396 10, 396 22" /></svg>
     </div>
     <div class="shots">
       <div>
         <p class="cap">App</p>
-        <AnnotatedShot src={oldIos} alt="舊版分店頁 App 截圖" widths={[375, 750]} sizes="240px" regions={[
-          { n: 1, x: 2, y: 1, w: 96, h: 29, side: 'left', text: '資訊首屏，決策資訊不足，用戶無法決策是否他想要的店' },
-          { n: 2, x: 2, y: 41, w: 96, h: 56, side: 'left', text: '分店頁大半是方案卡，店家資訊被壓縮在首屏一小塊' },
+        <AnnotatedShot src={oldIos} alt={c.altApp} widths={[375, 750]} sizes="240px" regions={[
+          { n: 1, x: 2, y: 1, w: 96, h: 29, side: 'left', text: c.r1 },
+          { n: 2, x: 2, y: 41, w: 96, h: 56, side: 'left', text: c.r2 },
         ]} />
       </div>
       <div>
         <p class="cap">Web</p>
-        <AnnotatedShot src={oldWeb} alt="舊版分店頁 Web 截圖" widths={[480, 900]} sizes="420px" regions={[
-          { n: 3, x: 4, y: 47, w: 53, h: 25, side: 'right', text: '評論只有單則，看不出整體評價，且後半段缺少完整資訊，導致用戶需要透過 google 或是其他平台查找資料' },
+        <AnnotatedShot src={oldWeb} alt={c.altWeb} widths={[480, 900]} sizes="420px" regions={[
+          { n: 3, x: 4, y: 47, w: 53, h: 25, side: 'right', text: c.r3 },
         ]} />
       </div>
     </div>

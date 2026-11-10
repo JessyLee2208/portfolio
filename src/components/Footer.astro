@@ -1,14 +1,16 @@
 ---
 import Avatar from './Avatar.astro';
 import BrandIcon from './BrandIcon.astro';
+import { langOf } from '../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
 ---
 <footer class="site-footer" id="contact">
   <div class="wrap inner">
     <div class="say">
       <Avatar uid="ftr" size={72} expr={2} />
       <div>
-        <p class="big">謝謝你看到這裡！</p>
-        <p class="muted">有任何問題，歡迎寫信給我。</p>
+        <p class="big">{en ? 'Thanks for stopping by!' : '謝謝你看到這裡！'}</p>
+        <p class="muted">{en ? 'Questions or just want to chat? Drop me an email.' : '有任何問題，歡迎寫信給我。'}</p>
       </div>
     </div>
     <ul class="links">
@@ -18,7 +20,7 @@ import BrandIcon from './BrandIcon.astro';
       <li><a href="https://github.com/JessyLee2208" target="_blank" rel="noopener"><BrandIcon name="github" />GitHub</a></li>
     </ul>
   </div>
-  <p class="wrap copy label">© 2026 Jessy Lee · 網站由我設計、用 Astro 寫成</p>
+  <p class="wrap copy label">{en ? '© 2026 Jessy Lee · Designed by me, built with Astro' : '© 2026 Jessy Lee · 網站由我設計、用 Astro 寫成'}</p>
 </footer>
 <style>
   .site-footer { margin-top: 96px; border-top: 1px solid var(--line); padding: 48px 0 32px; }

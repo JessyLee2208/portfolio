@@ -2,6 +2,8 @@
 // 首頁案例卡片：封面（slot）已有編號、類別、標題、大數字，下面只放封面沒有的：一句說明、標籤、看案例
 interface Props { href: string; title: string; summary: string; tags: string[]; wide?: boolean; }
 const { href, title, summary, tags, wide = false } = Astro.props;
+import { langOf } from '../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
 ---
 <a class:list={['case-card', 'reveal', { wide }]} href={href}>
   <div class="media"><slot /></div>
@@ -10,7 +12,7 @@ const { href, title, summary, tags, wide = false } = Astro.props;
     <p class="summary">{summary}</p>
     <div class="foot">
       <ul class="tags">{tags.map((t) => <li class="chip">{t}</li>)}</ul>
-      <span class="more">看案例 →</span>
+      <span class="more">{en ? 'Read case study →' : '看案例 →'}</span>
     </div>
   </div>
 </a>

@@ -1,17 +1,20 @@
 ---
 import Avatar from './Avatar.astro';
-import { url } from '../lib/url.js';
+import { langOf, lurl, altUrl } from '../lib/i18n.js';
+const L = langOf(Astro.url), en = L === 'en';
+const alt = altUrl(Astro.url);
 ---
 <header class="site-header">
   <div class="wrap bar">
-    <a class="brand" href={url('/')} aria-label="Jessy Lee 首頁">
+    <a class="brand" href={lurl(L, '/')} aria-label={en ? 'Jessy Lee home' : 'Jessy Lee 首頁'}>
       <Avatar uid="hdr" size={36} />
       <span class="name display">Jessy Lee</span>
     </a>
-    <nav aria-label="主選單">
-      <a href={url('/#works')}>作品</a>
-      <a href={url('/#contact')}>聯絡</a>
-      <a href="https://jessylee2208.github.io/resume/" target="_blank" rel="noopener">履歷 ↗</a>
+    <nav aria-label={en ? 'Main' : '主選單'}>
+      <a href={lurl(L, '/#works')}>{en ? 'Work' : '作品'}</a>
+      <a href={lurl(L, '/#contact')}>{en ? 'Contact' : '聯絡'}</a>
+      <a href="https://jessylee2208.github.io/resume/" target="_blank" rel="noopener">{en ? 'Resume ↗' : '履歷 ↗'}</a>
+      {alt && <a class="lang" href={alt} lang={en ? 'zh-Hant' : 'en'} aria-label={en ? '切換成中文' : 'Switch to English'}>{en ? '中文' : 'EN'}</a>}
     </nav>
   </div>
 </header>
@@ -23,5 +26,7 @@ import { url } from '../lib/url.js';
   nav { display: flex; gap: 4px; }
   nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); text-decoration: none; font-size: 15px; padding: 0 10px; border-radius: 999px; }
   nav a:hover { background: var(--accent-soft); color: var(--accent); }
+  /* 語言切換：框起來，跟一般選單分開 */
+  nav a.lang { margin-left: 4px; border: 1px solid var(--line); font: 600 13px/1 var(--f-mono); letter-spacing: .04em; padding: 0 12px; }
   @media (max-width: 420px) { .name { display: none; } nav a { padding: 0 8px; font-size: 14px; } }
 </style>

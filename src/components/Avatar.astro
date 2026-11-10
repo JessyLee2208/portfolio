@@ -17,6 +17,8 @@ interface Props {
 }
 const { expr = 0, size = 160, interactive = false, cycle = [0, 1, 2, 3, 4], full = false, class: cls = '' } = Astro.props;
 const dir = 'avatar';
+import { langOf } from '../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
 
 // 畫布座標（跟 build-avatar.py 的 VIEWBOX 一致）
 const VB = { x: 27, y: 71, w: 500, h: 564 };
@@ -35,7 +37,7 @@ const Tag = interactive ? 'button' : 'span';
   class:list={['avatar', { 'is-interactive': interactive, 'is-full': full }, cls]}
   style={`--size:${size}px; --h:${h}px`}
   data-expr={expr}
-  {...(interactive ? { type: 'button', 'data-cycle': cycle.join(','), 'aria-label': '戳一下 Jessy' } : { role: 'img', 'aria-label': 'Jessy 的手繪頭像' })}
+  {...(interactive ? { type: 'button', 'data-cycle': cycle.join(','), 'aria-label': en ? 'Poke Jessy' : '戳一下 Jessy' } : { role: 'img', 'aria-label': en ? 'Hand-drawn portrait of Jessy' : 'Jessy 的手繪頭像' })}
 >
   <span class="frame">
     {full

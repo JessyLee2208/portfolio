@@ -3,7 +3,9 @@
 import Avatar from '../Avatar.astro';
 interface Props { who: 'jessy' | 'ai' | 'eng'; label?: string; uid?: string; class?: string; }
 const { who, label, uid = 'cur', class: cls = '' } = Astro.props;
-const text = label ?? (who === 'jessy' ? 'Jessy' : who === 'ai' ? 'AI' : '工程師');
+import { langOf } from '../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const text = label ?? (who === 'jessy' ? 'Jessy' : who === 'ai' ? 'AI' : en ? 'Engineer' : '工程師');
 ---
 <span class:list={['cursor', `who-${who}`, cls]} aria-hidden="true">
   {who === 'jessy'

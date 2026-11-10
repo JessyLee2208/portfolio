@@ -10,17 +10,19 @@ interface Props {
   caption?: string;
   start?: number;          // 一開始分隔線在哪（%）；預設 85：先看到大部分的舊版，再往左拉看新版
 }
-const { before, after, alt, beforeLabel = '改版前', afterLabel = '改版後', ratio = '16 / 10', maxWidth = '100%', caption, start = 85 } = Astro.props;
+import { langOf } from '../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const { before, after, alt, beforeLabel = en ? 'Before' : '改版前', afterLabel = en ? 'After' : '改版後', ratio = '16 / 10', maxWidth = '100%', caption, start = 85 } = Astro.props;
 ---
 <figure class="ba reveal" style={`--ratio:${ratio}; --mw:${maxWidth}`}>
   <div class="stage" style={`--pos:${start}%`}>
-    <Image src={after} alt={`${alt}（${afterLabel}）`} widths={[480, 900, 1440]} sizes="(max-width: 760px) 100vw, 720px" class="img" />
+    <Image src={after} alt={en ? `${alt} (${afterLabel})` : `${alt}（${afterLabel}）`} widths={[480, 900, 1440]} sizes="(max-width: 760px) 100vw, 720px" class="img" />
     <div class="before-wrap" aria-hidden="true">
       <Image src={before} alt="" widths={[480, 900, 1440]} sizes="(max-width: 760px) 100vw, 720px" class="img" />
     </div>
     <span class="tag l">{beforeLabel}</span><span class="tag r">{afterLabel}</span>
     <div class="handle" aria-hidden="true"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4" /></svg></span></div>
-    <input type="range" min="0" max="100" value={start} aria-label={`拖曳比較${beforeLabel}和${afterLabel}`} />
+    <input type="range" min="0" max="100" value={start} aria-label={en ? `Drag to compare ${beforeLabel} and ${afterLabel}` : `拖曳比較${beforeLabel}和${afterLabel}`} />
   </div>
   {caption && <figcaption>{caption}</figcaption>}
 </figure>

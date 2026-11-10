@@ -9,9 +9,14 @@ import newWeb from '../../../assets/cases/branch/fig_new_web.png';
 // 三個停點：截圖高度的 %（看重點＝頂端、看評價＝「評論」標題、看細節＝「地址」）
 const STOPS = { ios: [0, 39.5, 51], web: [0, 30.5, 38.5] };
 // 旁邊的說明：用資訊架構那三層的標題（Notion 原文）
-const STEPS = ['看重點：是不是我要的', '看評價：別人覺得怎樣？', '看細節：最終決定依據'];
+import { langOf } from '../../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const STEPS = en
+  ? ['The gist：Is this the place for me?', 'Reviews：What do others think?', 'The details：What seals the decision']
+  : ['看重點：是不是我要的', '看評價：別人覺得怎樣？', '看細節：最終決定依據'];
+const label = en ? 'New venue page: the web and app screens pause on three parts in turn: the summary at the top, reviews, and venue details' : '新版分店頁：Web 與 App 畫面依序停在首屏重點、評價、店家細節三段';
 ---
-<figure class="dg case-branch reveal hero-scroll" aria-label="新版分店頁：Web 與 App 畫面依序停在首屏重點、評價、店家細節三段">
+<figure class="dg case-branch reveal hero-scroll" aria-label={label}>
   <div class="dg-pat" aria-hidden="true"></div>
   <div class="wrapx">
   <div class="cap" aria-hidden="true">

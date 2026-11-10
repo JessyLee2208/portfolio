@@ -29,3 +29,8 @@
 
 /* 磚紅封面的「pp」小單位：用深一階的磚紅，米色底上才看得清楚 */
 .cover.cover.tone-rust .num span { color: var(--rust-ink); }
+
+/* 英文封面：英文標題比中文長，用英文字體、字級小一點 */
+html[lang="en"] .cover .cv-title { font-family: var(--f-display); font-weight: 800; font-size: 4.3cqw; line-height: 1.08; letter-spacing: -.01em; }
+html[lang="en"] .cover .cv-sub { font-family: var(--f-body); }
+@container (max-width: 560px) { html[lang="en"] .cover .cv-title { font-size: 5.6cqw; } }

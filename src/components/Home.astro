@@ -1,0 +1,78 @@
+---
+// 首頁內容（中英共用）：src/pages/index.astro 和 src/pages/en/index.astro 都用這個
+import BrandIcon from './BrandIcon.astro';
+import Base from '../layouts/Base.astro';
+import HeroPeek from './HeroPeek.astro';
+import CaseCard from './CaseCard.astro';
+import BranchCover from './covers/BranchCover.astro';
+import ManagerCover from './covers/ManagerCover.astro';
+import AiCover from './covers/AiCover.astro';
+import { langOf, lurl } from '../lib/i18n.js';
+const L = langOf(Astro.url), en = L === 'en';
+---
+<Base>
+  <HeroPeek>
+      <p class="label">Product Designer · 8+ years</p>
+      {en ? (
+        <h1 class="hero-title en">I turn complex rules into designs people get at a glance.</h1>
+        <p class="hero-sub">Product designer with 8+ years of experience across consumer and business products. At FunNow, I’ve designed the booking app and website, as well as the back office merchants use to manage time slots and inventory, across three brands (FunNow, Eatigo, Niceday) and three platforms (iOS, Android, Web). I start from user research and data, and turn complex business rules and system logic into clear information architecture.</p>
+      ) : (
+        <h1 class="hero-title">把複雜的規則，<br /><span class="nw">變成用戶一眼</span><span class="nw">看得懂的設計。</span></h1>
+        <!-- 文字照 Notion 作品集首頁 -->
+        <p class="hero-sub">產品設計師，8 年以上經驗，C 端與 B 端產品都做過。在 FunNow 設計過用戶訂位的 App 與網站，也設計過店家管理時段與庫存的後台，橫跨 FunNow、Eatigo、Niceday 三個品牌與 iOS／Android／Web 三個平台。我擅長從用戶研究和數據出發，把複雜的業務規則和系統邏輯，整理成清楚的資訊架構。</p>
+      )}
+      <ul class="links">
+        <li><a class="btn primary" href="https://jessylee2208.github.io/resume/" target="_blank" rel="noopener"><BrandIcon name="resume" />Resume</a></li>
+        <li><a class="btn" href="https://www.linkedin.com/in/jessy-lee-2208/" target="_blank" rel="noopener"><BrandIcon name="linkedin" />LinkedIn</a></li>
+        <li><a class="btn" href="https://medium.com/@jessylee2208" target="_blank" rel="noopener"><BrandIcon name="medium" />Medium</a></li>
+        <li><a class="btn" href="https://github.com/JessyLee2208" target="_blank" rel="noopener"><BrandIcon name="github" />GitHub</a></li>
+      </ul>
+    </HeroPeek>
+
+  <section class="wrap works" id="works">
+    <div class="sec-head">
+      <p class="label">Selected Works</p>
+      <h2>{en ? 'Case studies' : '精選作品'}</h2>
+    </div>
+    <div class="grid">
+      <CaseCard wide href={lurl(L, '/cases/branch/')} title={en ? 'FunNow Venue Page Redesign' : 'FunNow 分店頁改版'}
+        summary={en ? 'Before booking, users kept leaving to look venues up on Google. I redesigned the venue page into the place where people choose a venue, with one layout shared by eight business categories, so they can decide without leaving the page.' : '用戶訂位前都會跳去 Google 查店家。我把分店頁重新設計成「選店」的地方，讓八個產業共用同一個版面，用戶都能在頁面內完成判斷。'}
+        tags={en ? ['User research', 'Information architecture', 'Data analysis', 'Design QA'] : ['用戶研究', '資訊架構', '數據分析', 'Design QA']}>
+        <BranchCover />
+      </CaseCard>
+      <div class="grid-2">
+        <CaseCard href={lurl(L, '/cases/manager/')} title={en ? 'FunNow Manager Time Slot Redesign' : 'FunNow Manager 販售時段改版'}
+          summary={en ? 'Merchants couldn’t tell which time slots needed a discount, or whether customers could still buy the ones they’d set up. I redesigned the time slot settings and reworked the inventory rules behind them.' : '店家看不出哪個時段需要設優惠、設好的優惠客人還買不買得到。我重新設計時段設定的介面，也重新規劃背後的庫存規則。'}
+          tags={en ? ['B2B', 'Inventory rules', 'UI/UX'] : ['B2B', '庫存規則', 'UI/UX']}>
+          <ManagerCover />
+        </CaseCard>
+        <CaseCard href={lurl(L, '/cases/ai-delivery/')} title={en ? 'Rethinking Design Handoff with AI' : '用 AI 改造設計交付流程'}
+          summary={en ? 'After interviewing engineers, I added an AI review step before handoff, and flagged every AI-verified detail so engineers know what to double-check.' : '我訪談工程師後，把 AI review 放進交稿前，並把 AI 查證過的內容標出來請工程師複查。'}
+          tags={en ? ['Engineer interviews', 'Working with AI', 'Process design'] : ['工程師訪談', 'AI 協作', '流程設計']}>
+          <AiCover />
+        </CaseCard>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* 標題換行只在詞組之間，手機不會剩「計。」一行 */
+  .nw { display: inline-block; }
+  /* 字級照文字欄寬度縮放：第二句 13 個字永遠排得下一行，不管螢幕多寬、瀏覽器有沒有放大 */
+  .hero-title { font-size: clamp(20px, calc(100cqw / 13.6), 52px); line-height: 1.25; margin: 10px 0 16px; }
+  /* 英文標題：一般排版，最多約 3 行 */
+  .hero-title.en { font-size: clamp(30px, 6.4cqw, 52px); line-height: 1.12; max-width: 15em; }
+  .hero-sub { color: var(--muted); margin: 0; max-width: 62ch; }
+  .links { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 15px; transition: background .2s ease; }
+  .btn:hover { background: var(--accent-soft); }
+  .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+
+  .works { margin-top: 48px; scroll-margin-top: 80px; }
+  .sec-head { margin-bottom: 28px; }
+  .sec-head h2 { font-size: clamp(28px, 4vw, 40px); margin-top: 8px; }
+  .grid, .grid-2 { display: grid; gap: 24px; }
+  @media (min-width: 820px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+</style>

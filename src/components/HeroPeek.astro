@@ -2,12 +2,18 @@
 // 首頁開場：沒有卡片，文字在左；Jessy 手繪的探頭圖貼在畫面最右邊，跟文字放同一列
 // 互動：點一下換表情＋換對話；2.5 秒內連點 5 下會生氣；電腦版頭會往游標方向歪
 import Avatar from './Avatar.astro';
+import { langOf } from '../lib/i18n.js';
 interface Props { lines?: string[]; }
+const en = langOf(Astro.url) === 'en';
 const {
-  lines = ["Hi, I'm Jessy 👋", '要看我的作品嗎？', '作品在下面喔 👇', '我是產品設計師 ✏️', '再戳一下試試看？'],
+  lines = en
+    ? ["Hi, I'm Jessy 👋", 'Want to see my work?', 'My work is right below 👇', "I'm a product designer ✏️", 'Poke me again?']
+    : ["Hi, I'm Jessy 👋", '要看我的作品嗎？', '作品在下面喔 👇', '我是產品設計師 ✏️', '再戳一下試試看？'],
 } = Astro.props;
+// 生氣／原諒的台詞
+const moods = en ? ['Stop poking me! 😤', 'Okay, you’re forgiven 😉'] : ['不要再戳了啦！😤', '好啦，原諒你 😉'];
 ---
-<section class="hero-peek" data-lines={JSON.stringify(lines)}>
+<section class="hero-peek" data-lines={JSON.stringify(lines)} data-moods={JSON.stringify(moods)}>
   <div class="wrap row">
     <div class="text"><slot /></div>
   </div>
@@ -80,6 +86,7 @@ const {
 <script>
   document.querySelectorAll<HTMLElement>('.hero-peek').forEach((root) => {
     const lines: string[] = JSON.parse(root.dataset.lines || '[]');
+    const [angryLine, sorryLine]: string[] = JSON.parse(root.dataset.moods || '[]');
     const speech = root.querySelector<HTMLElement>('.speech')!;
     const tilt = root.querySelector<HTMLElement>('.tilt')!;
     const face = root.querySelector<HTMLElement>('.avatar')!;
@@ -101,8 +108,8 @@ const {
       if (pokes.length >= 5) {
         angry = true; pokes = [];
         face.dataset.expr = '5';
-        say('不要再戳了啦！😤', true);
-        setTimeout(() => { angry = false; face.dataset.expr = '2'; say('好啦，原諒你 😉'); }, 2000);
+        say(angryLine, true);
+        setTimeout(() => { angry = false; face.dataset.expr = '2'; say(sorryLine); }, 2000);
         return;
       }
       line = (line + 1) % lines.length;

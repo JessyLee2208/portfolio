@@ -1,19 +1,27 @@
 ---
 // 聚焦目的：重點是字。大字，並標出對應的決策（Notion 原文的對應）
 import Board from '../Board.astro';
-const goals = [
+import { langOf } from '../../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const goalsEn = [
+  { kick: 'For users', name: 'Faster decisions', link: 'Decision 1 · The gist' },
+  { kick: 'For the product', name: 'Complete information', link: 'Decision 3 · The details' },
+  { kick: 'For users', name: 'More confident decisions', link: 'Decision 2 · Reviews' },
+];
+const goalsZh = [
   { kick: '提升用戶', name: '決策效率', link: '決策 1｜看概況' },
   { kick: '提升產品', name: '資訊完整度', link: '決策 3｜看細節' },
   { kick: '提升用戶', name: '決策信心', link: '決策 2｜看評價' },
 ];
+const goals = en ? goalsEn : goalsZh;
 ---
-<Board kicker="Focus" title="聚焦目的" c="branch" label="三個聚焦目的：提升用戶的決策效率、提升產品的資訊完整度、提升用戶的決策信心，各自對應一個設計決策">
+<Board kicker="Focus" title={en ? 'Goals' : '聚焦目的'} c="branch" label={en ? 'Three goals: faster decisions for users, more complete product information, and more confident decisions for users, each tied to one design decision' : '三個聚焦目的：提升用戶的決策效率、提升產品的資訊完整度、提升用戶的決策信心，各自對應一個設計決策'}>
   <ol class="goals">
     {goals.map((g) => (
       <li class="panel">
         <p class="kick">{g.kick}</p>
         <p class="name">{g.name}</p>
-        <p class="link">對應　<b>{g.link}</b></p>
+        <p class="link">{en ? 'See ' : '對應　'}<b>{g.link}</b></p>
       </li>
     ))}
   </ol>

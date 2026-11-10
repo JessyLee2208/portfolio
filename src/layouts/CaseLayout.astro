@@ -1,7 +1,7 @@
 ---
 // 案例頁版型：封面＋標題＋摘要＋專案資訊，內文左側有目錄（電腦版），底部下一篇
 import Base from './Base.astro';
-import { url } from '../lib/url.js';
+import { langOf, lurl } from '../lib/i18n.js';
 interface TocItem { id: string; label: string; }
 interface MetaItem { label: string; value: string; }
 interface Props {
@@ -11,11 +11,12 @@ interface Props {
   next?: { href: string; title: string };
 }
 const { title, description, kicker, lead, meta, toc, tone, next } = Astro.props;
+const L = langOf(Astro.url), en = L === 'en';
 ---
 <Base title={`${title} · Jessy Lee`} description={description}>
   <article class:list={['case', `tone-${tone}`]}>
     <header class="wrap case-head">
-      <a class="back" href={url('/#works')}>← 回到作品</a>
+      <a class="back" href={lurl(L, '/#works')}>{en ? '← All work' : '← 回到作品'}</a>
       <p class="label">{kicker}</p>
       <h1>{title}</h1>
       <p class="lead" set:html={lead} />
@@ -26,16 +27,16 @@ const { title, description, kicker, lead, meta, toc, tone, next } = Astro.props;
     </header>
 
     <div class="wrap case-body">
-      <nav class="toc" aria-label="本頁目錄">
-        <p class="label">目錄</p>
+      <nav class="toc" aria-label={en ? 'On this page' : '本頁目錄'}>
+        <p class="label">{en ? 'Contents' : '目錄'}</p>
         <ol>{toc.map((t) => <li><a href={`#${t.id}`} data-toc={t.id}>{t.label}</a></li>)}</ol>
       </nav>
       <div class="prose"><slot /></div>
     </div>
 
     {next && (
-      <nav class="wrap case-next" aria-label="下一篇">
-        <p class="label">下一篇</p>
+      <nav class="wrap case-next" aria-label={en ? 'Next case study' : '下一篇'}>
+        <p class="label">{en ? 'Next' : '下一篇'}</p>
         <a href={next.href}>{next.title} →</a>
       </nav>
     )}

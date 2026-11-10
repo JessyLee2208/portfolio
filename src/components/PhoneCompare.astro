@@ -9,16 +9,18 @@ interface Props {
   caption?: string;
 }
 const { before, after, alt, beforeStart = 0, afterStart = 0, caption } = Astro.props;
+import { langOf } from '../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
 const shots = [
-  { img: before, label: '改版前', start: beforeStart, cls: 'l' },
-  { img: after, label: '改版後', start: afterStart, cls: 'r' },
+  { img: before, label: en ? 'Before' : '改版前', start: beforeStart, cls: 'l' },
+  { img: after, label: en ? 'After' : '改版後', start: afterStart, cls: 'r' },
 ];
 ---
 <figure class="pc reveal">
   <div class="pair">
     {shots.map((p) => (
       <div class="shot">
-        <Image src={p.img} alt={`${alt}（${p.label}）`} widths={[375, 750]} sizes="340px" style={`transform: translateY(-${(p.start * 100).toFixed(1)}%)`} />
+        <Image src={p.img} alt={en ? `${alt} (${p.label})` : `${alt}（${p.label}）`} widths={[375, 750]} sizes="340px" style={`transform: translateY(-${(p.start * 100).toFixed(1)}%)`} />
         <span class:list={['tag', p.cls]}>{p.label}</span>
       </div>
     ))}

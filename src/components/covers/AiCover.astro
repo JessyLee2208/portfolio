@@ -1,14 +1,19 @@
 ---
 import '../../styles/diagram.css';
 import CoverB from './CoverB.astro';
+import { langOf } from '../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const c = en
+  ? { title: 'Rethinking design<br />handoff with AI', sub: 'AI catches everything; I judge each item', bigLabel: 'Open questions found per spec in the first pass (avg.)', label: 'Rethinking design handoff with AI, cover: a spec annotation where AI-verified content is flagged', small: 'Figma annotations', n1: 'Hide when no offer applies', n2: 'Status “0” = not applicable', ai: 'AI-verified' }
+  : { title: '用 AI 改造<br />設計交付流程', sub: 'AI 找得全，我再逐條判斷', bigLabel: '第一輪平均每份 spec 找出的待確認點', label: '用 AI 改造設計交付流程封面：spec 標註上，AI 查證過的內容被標出來', small: 'Figma 標註板', n1: '沒有可用優惠時隱藏', n2: '狀態值「0」＝不適用', ai: 'AI 查證' };
 ---
-<CoverB tone="mustard" pattern="lines" shape="arch" accent="sparkle-loop" under="wave" no="03" kick="Design Ops · AI" title="用 AI 改造<br />設計交付流程"
-  sub="AI 找得全，我再逐條判斷" big="~36" bigLabel="第一輪平均每份 spec 找出的待確認點"
-  label="用 AI 改造設計交付流程封面：spec 標註上，AI 查證過的內容被標出來">
+<CoverB tone="mustard" pattern="lines" shape="arch" accent="sparkle-loop" under="wave" no="03" kick="Design Ops · AI" title={c.title}
+  sub={c.sub} big="~36" bigLabel={c.bigLabel}
+  label={c.label}>
   <div class="panel spec">
-    <p class="t">Spec<small>Figma 標註板</small></p>
-    <div class="note"><span class="pill">1-1</span>沒有可用優惠時隱藏</div>
-    <div class="note"><span class="pill">1-2</span>狀態值「0」＝不適用<span class="ai">AI 查證</span></div>
+    <p class="t">Spec<small>{c.small}</small></p>
+    <div class="note"><span class="pill">1-1</span>{c.n1}</div>
+    <div class="note"><span class="pill">1-2</span>{c.n2}<span class="ai">{c.ai}</span></div>
     <div class="note"><span class="pill">1-3</span>…</div>
   </div>
 </CoverB>

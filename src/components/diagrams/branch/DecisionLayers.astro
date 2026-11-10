@@ -1,13 +1,21 @@
 ---
 import Board from '../Board.astro';
 import Avatar from '../../Avatar.astro';
-const layers = [
+import { langOf } from '../../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+const layersEn = [
+  { t: 'The gist: Is this the place for me?', d: ['The first thing users do on a venue page is decide whether the place is worth a closer look.', 'So the top of the page only shows what can be judged at a glance: photos and vibe tags for the feel, rating and average spend for value, area and distance for whether it’s within reach, and opening hours for whether it’s open when they want to go. This layer helps the wrong people leave early and the right people keep scrolling with confidence.'], e: 0 },
+  { t: 'Reviews: What do others think?', d: ['Once a place looks promising, users want to hear from others to make sure they’re not wrong. In our research, almost every participant went to Google to read reviews to back up their choice.'], e: 3 },
+  { t: 'The details: What seals the decision', d: ['After deciding to go, the question becomes “will anything go wrong when I get there?”: how to get there, private rooms or parking, card payment, dining rules. These details don’t make anyone want to go, but missing them makes people hesitate to book, or find out on arrival that the place isn’t what they expected. So they all sit at the end, laid out in full, for one final check before booking.'], e: 1 },
+];
+const layersZh = [
   { t: '看重點：是不是我要的', d: ['用戶點進分店頁的第一件事，是確認這家店值不值得繼續看下去。', '所以首屏只放能一眼判斷的資訊：照片和氣氛標籤看調性、評分和均消看值不值得、區域與距離看去不去得了、營業時間看想去的時間有沒有開。這一層要讓不適合的人早點離開，適合的人放心往下看。'], e: 0 },
   { t: '看評價：別人覺得怎樣？', d: ['覺得「好像不錯」之後，用戶會想看看別人的經驗，確認自己沒有判斷錯。研究中幾乎每位受訪者都會先跳去 Google 看評論，佐證自己的判斷。'], e: 3 },
   { t: '看細節：最終決定依據', d: ['決定要去之後，用戶在意的變成「實際去會不會有問題」：怎麼去、有沒有包廂或停車位、能不能刷卡、有沒有用餐規定。這些資訊不會讓人想去，但缺了會讓人不敢訂，或是到店後才發現不符期待。所以放在最後一次完整攤開，讓決定要訂的人做最後確認。'], e: 1 },
 ];
+const layers = en ? layersEn : layersZh;
 ---
-<Board kicker="Information Architecture" title="照著用戶的決策流程排" c="branch" label="分店頁資訊架構：看重點、看評價、看細節三層">
+<Board kicker="Information Architecture" title={en ? 'Ordered by how users decide' : '照著用戶的決策流程排'} c="branch" label={en ? 'Venue page information architecture in three layers: the gist, reviews, the details' : '分店頁資訊架構：看重點、看評價、看細節三層'}>
   <ol class="layers">
     {layers.map((l, i) => (
       <li class="layer">

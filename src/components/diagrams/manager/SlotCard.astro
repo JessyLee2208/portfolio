@@ -1,7 +1,12 @@
 ---
 // FunNow Manager 時段卡片（照產品原色：類型用顏色區分）
 interface Props { type: 'loop' | 'promo' | 'special' | 'pause'; time: string; name?: string; price?: string; stock?: string; soldOut?: boolean; old?: boolean; mark?: string; }
-const { type, time, name, price, stock, soldOut = false, old = false, mark } = Astro.props;
+const { type, time, price, stock, soldOut = false, old = false, mark } = Astro.props;
+import { langOf } from '../../../lib/i18n.js';
+const en = langOf(Astro.url) === 'en';
+// 英文頁：時段類型名稱和「售完」換成英文（傳進來的還是中文，這裡對照）
+const EN: Record<string, string> = { 循環設定: 'Recurring', 特殊設定: 'Special', 限時促銷: 'Flash sale', 時段暫停: 'Paused' };
+const name = en && Astro.props.name ? EN[Astro.props.name] ?? Astro.props.name : Astro.props.name;
 ---
 {old ? (
   <div class:list={['slot', 'old', `t-${type}`]}>
@@ -9,7 +14,7 @@ const { type, time, name, price, stock, soldOut = false, old = false, mark } = A
   </div>
 ) : (
   <div class:list={['slot', `t-${type}`, { sold: soldOut }]}>
-    <div class="head"><b>{time}</b>{soldOut ? <em>售完</em> : stock && <span>{stock}</span>}{mark && <i class="mark">{mark}</i>}</div>
+    <div class="head"><b>{time}</b>{soldOut ? <em>{en ? 'Sold out' : '售完'}</em> : stock && <span>{stock}</span>}{mark && <i class="mark">{mark}</i>}</div>
     <div class="bd">{name && <span>{name}</span>}{price && <span>{price}</span>}</div>
   </div>
 )}
