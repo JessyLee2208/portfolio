@@ -49,13 +49,21 @@ const {
   }
   .speech::before { right: -14px; width: 14px; height: 20px; background: var(--bc); }
   .speech::after { right: -9.9px; width: 12.3px; height: 17.5px; background: #fffdf9; }
+  /* 電腦版：泡泡放在小人頭的上方，尾巴朝下指向頭（11/10 Jessy：放旁邊會壓到介紹文字） */
+  @media (min-width: 761px) {
+    .speech { right: auto; left: 2%; top: auto; bottom: 91%; transform-origin: 70% bottom; }
+    .speech::before, .speech::after { top: auto; left: 70%; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+    .speech::before { right: auto; bottom: -14px; width: 20px; height: 14px; transform: translateX(-50%); }
+    .speech::after { right: auto; bottom: -9.9px; width: 17.5px; height: 12.3px; transform: translateX(-50%); }
+  }
   .speech.swap { animation: bubble-in .35s cubic-bezier(.3, 1.6, .5, 1) both; }
   .speech.angry { --bc: var(--rust); color: var(--rust); }
 
   /* 窄螢幕：小人縮小，放在文字上方右側 */
   @media (max-width: 760px) {
     .hero-peek { --av: 170px; }
-    .row { min-height: 0; padding-top: calc(var(--av) * 1.13 + 8px); }
+    /* 小人身體下緣跟標題只留一點空隙（11/10 Jessy：手機版小人跟標題離太遠） */
+    .row { min-height: 0; padding-top: calc(var(--av) * .96); }
     .text { max-width: 100%; }
     .peeker { top: 0; transform: translate(28%, 4%); animation-name: peek-in-sm; }
     .lean { transform: rotate(-12deg); }
