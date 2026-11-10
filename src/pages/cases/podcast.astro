@@ -1,0 +1,142 @@
+---
+// MyMusic Podcast（舊作，2020）：文字照 Notion 原文（_notion-raw/podcast/content.md），只補中英文間空格、修明顯錯字
+// 受測者名單（06.png）的姓名欄已模糊處理
+import CaseLayout from '../../layouts/CaseLayout.astro';
+import Figure from '../../components/Figure.astro';
+import { url } from '../../lib/url.js';
+import heroImg from '../../assets/cases/podcast/01.png';
+import process from '../../assets/cases/podcast/02.png';
+import ia from '../../assets/cases/podcast/03.png';
+import flow from '../../assets/cases/podcast/04.png';
+import testPrep from '../../assets/cases/podcast/05.png';
+import participants from '../../assets/cases/podcast/06.png';
+import tasks from '../../assets/cases/podcast/07.png';
+import styleGuide from '../../assets/cases/podcast/08.png';
+import design from '../../assets/cases/podcast/09.png';
+import spec from '../../assets/cases/podcast/10.png';
+import { Image } from 'astro:assets';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const toc = [
+  { id: 'about', label: 'About MyMusic Podcast' },
+  { id: 'process', label: 'Design Process' },
+  { id: 'research', label: '確認需求與資料收集' },
+  { id: 'testing', label: '測試設計 & 執行測試' },
+  { id: 'design', label: '設計執行' },
+  { id: 'handoff', label: '交互文件檔交付' },
+];
+---
+<CaseLayout
+  title="MyMusic Podcast"
+  kicker="05 · B2C · App · 2020"
+  tone="mustard"
+  description="MyMusic Podcast 新服務的 UI/UX 主責設計師，負責規劃所有流程、建置 UI 設計元件、定義 Style、設計測試任務，以及後續的交互文件設計。"
+  lead="了解 MyMusic 的使用用戶，對於新服務的使用需求與習慣，以及找出用戶對於新服務的期待。透過用戶測試，在正式開發前調整設計，降低用戶的學習門檻及提升產品的易用性。"
+  meta={[
+    { label: '專案時間', value: '2020 年 8 月 - 2020 年 10 月' },
+    { label: '團隊', value: '4 人' },
+    { label: '規劃設備', value: 'Web（RWD）、App（iOS & Android）' },
+  ]}
+  toc={toc}
+  next={{ href: url('/cases/branch/'), title: 'FunNow 分店頁改版' }}
+>
+  <Fragment slot="hero">
+    <div class="hero-img"><Image src={heroImg} alt="MyMusic Podcast 畫面" widths={[800, 1400, 2000]} sizes="(max-width: 1120px) 100vw, 1088px" /></div>
+  </Fragment>
+
+  <h2 id="about">About MyMusic Podcast</h2>
+  <p>台灣大哥大旗下音樂串流服務平台 MyMusic 提供華語、西洋、韓樂等近千萬首音樂曲庫。提供免費的 Podcast 為這次專案的首要任務。</p>
+
+  <h3>專案目的</h3>
+  <p>了解 MyMusic 的使用用戶，對於新服務的使用需求與習慣，以及找出用戶對於新服務的期待。</p>
+  <p>透過用戶測試，在正式開發前調整設計，降低用戶的學習門檻及提升產品的易用性。</p>
+
+  <h3>挑戰</h3>
+  <p>目前 Podcast 服務如雨後春筍般不斷出現，我們如何開闢市場，在不流失既有用戶的情況下還可以讓新用戶快速接納產品是一大挑戰。必須要考慮新舊用戶在 App 的使用習慣與模式下進行設計與開發。</p>
+
+  <h3>我的角色</h3>
+  <p>負責規劃與主導 UX Research 的方向、製作 prototype，UI 主責設計、交互設計報告書、調研結果報告書撰寫</p>
+  <p class="muted">本次改版於 2021 年 5 月 24 號在台灣正式上線</p>
+
+  <hr />
+
+  <h2 id="process">Design Process</h2>
+  <Figure src={process} alt="產品開發時的設計流程：明確需求、分析問題、介面流程設計、原型製作與測試" caption="產品開發時的設計流程" />
+
+  <h3>執行方向與步驟</h3>
+  <ol>
+    <li>確認需求與資料收集
+      <ul><li>初步 IA、介面設計＆流程設計</li></ul>
+    </li>
+    <li>測試設計＆執行測試
+      <ul><li>測試結案報告</li></ul>
+    </li>
+    <li>設計執行
+      <ul><li>定義設計風格</li><li>UI 元件設計，流程修正</li></ul>
+    </li>
+    <li>交互文件檔交付</li>
+  </ol>
+
+  <hr />
+
+  <h2 id="research">一. 確認需求與資料收集</h2>
+  <p><strong>產品研究／資料收集</strong></p>
+  <p>開始接收到 PM 的產品需求時，希望能夠在現有的 App 上開發 Podcast 的功能，且會獨立出一個專屬區域來執行與操作。但是還是有很多細節會與現行的產品有關聯，例如搜索＆登入等等相關。</p>
+  <p>所以在接到需求後，首先針對現有產品進行了解後，便開始規劃流程與 Wireframe 繪製，同時與 PM 及工程師確認功能及流程的可行性。</p>
+  <p><strong>初步 IA、介面設計＆流程設計</strong></p>
+  <p>整理產品的 IA 資訊架構（Information Architecture），確保畫面與構想在 PM 提出的需求中</p>
+  <Figure src={ia} alt="MyMusic IA 資訊架構" caption="MyMusic IA 資訊架構" />
+  <Figure src={flow} alt="MyMusic Podcast 專區 Flow 繪製" caption="MyMusic Podcast 專區 Flow 繪製" wide />
+  <p>確定好 Flow 以及後續執行方向後，就開始要明確我們這次的測試重點。</p>
+
+  <hr />
+
+  <h2 id="testing">二. 測試設計＆執行測試</h2>
+  <h3>測試流程規劃</h3>
+  <p>在確定了所有需求後，開始準備執行測試。首先要先規劃測試的流程以及目的，盡量預先將想要知道的問題以及情境羅列及整理，可以幫助在測試的過程中更快的找到用戶真正的需求及目的。</p>
+  <p>所以在準備測試的過程如下圖</p>
+  <Figure src={testPrep} alt="測試準備流程：訂定測試範圍與目標、選定受測者族群、設計用戶招募問卷、用戶招募、設計測試任務與流程、規劃測試空間與設備、準備測試內容、測試流程" caption="測試準備流程" />
+
+  <h3>目標用戶訂定</h3>
+  <p>我們鎖定的用戶族群為目前 MyMusic 的使用族群。為了減少測試樣本的誤差值，因此將年齡鎖定在同一範圍 30～40 歲，性別為男女各半。且為了避免設備的誤差值，在進行受測者招募時，慣用系統也是 Android 與 iOS 各半。</p>
+  <Figure src={participants} alt="最後選定的受測者名單（姓名已模糊處理）" caption="最後選定的受測者名單（姓名已模糊處理）" />
+
+  <h3>設定 Task 與測項</h3>
+  <p>為了能夠降低後續改善產品的問題，我們主要評分標準會以任務的<span class="hl">完成度</span>、<span class="hl">出錯率</span>、<span class="hl">測試時間</span>三個方面來進行評估，及最後的 SUS 易用性量表來決定功能的更改與修正的順序與存留。</p>
+  <Figure src={tasks} alt="Podcast 測試 Task" caption="Podcast 測試 Task" />
+
+  <div class="proto">
+    <video src={`${base}/media/podcast-prototype.mp4`} poster={`${base}/media/podcast-prototype.jpg`} controls muted playsinline preload="none" aria-label="Podcast prototype 操作錄影"></video>
+    <ul>
+      <li>Prototype（Framer X 製作）</li>
+      <li>共編文件（測試進行時，更快的紀錄與會後檢討更容易找到重點）</li>
+      <li>會議室預約（確保測試進行中不會有其他干擾）</li>
+      <li>SUS 量表準備，以及測前問題與測後問題</li>
+    </ul>
+  </div>
+
+  <hr />
+
+  <h2 id="design">三. 設計執行</h2>
+  <h3>Style Guide</h3>
+  <p>在確定好配色與設計風格後，我們就開始著手組建 MyMusic Podcast 的 Design system</p>
+  <Figure src={styleGuide} alt="MyMusic Podcast Design system" wide />
+
+  <h3>Design</h3>
+  <Figure src={design} alt="MyMusic Podcast 介面設計" />
+
+  <hr />
+
+  <h2 id="handoff">四. 交互文件檔交付</h2>
+  <Figure src={spec} alt="交互文檔撰寫，協助工程師更快理解內容及開發流程" caption="交互文檔撰寫，協助工程師更快理解內容及開發流程" wide />
+</CaseLayout>
+
+<style>
+  .hero-img { margin: 40px 0 0; }
+  .hero-img :global(img) { display: block; width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+  .muted { color: var(--muted); font-size: 14px; }
+  .proto { display: grid; gap: 20px; align-items: center; margin: 28px 0; }
+  @media (min-width: 640px) { .proto { grid-template-columns: 220px 1fr; } }
+  .proto video { width: 100%; max-width: 240px; border-radius: 16px; border: 1px solid var(--line); background: #111; justify-self: center; }
+  .proto ul { margin: 0; }
+</style>

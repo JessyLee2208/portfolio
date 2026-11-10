@@ -1,0 +1,114 @@
+---
+// myVideo 會員中心改版（舊作，2020）：文字照 Notion 原文（_notion-raw/myvideo/content.md），只補中英文間空格、修明顯錯字
+import CaseLayout from '../../layouts/CaseLayout.astro';
+import Figure from '../../components/Figure.astro';
+import { url } from '../../lib/url.js';
+import goals from '../../assets/cases/myvideo/02.png';
+import oldIssues from '../../assets/cases/myvideo/03.png';
+import method from '../../assets/cases/myvideo/04.png';
+import competitors from '../../assets/cases/myvideo/05.png';
+import surveyTarget from '../../assets/cases/myvideo/06.png';
+import iaUnits from '../../assets/cases/myvideo/07.png';
+import usability from '../../assets/cases/myvideo/08.png';
+import plans from '../../assets/cases/myvideo/09.png';
+import account from '../../assets/cases/myvideo/10.png';
+import family from '../../assets/cases/myvideo/11.png';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const toc = [
+  { id: 'about', label: 'About myVideo' },
+  { id: 'goals', label: '聚焦目的' },
+  { id: 'research', label: '研究執行方法' },
+  { id: 'execution', label: '設計執行與落地' },
+];
+---
+<CaseLayout
+  title="myVideo 會員中心改版"
+  kicker="04 · B2C · Web（RWD）· 2020"
+  tone="rust"
+  description="會員中心是價值與信息的匯集地，用戶需要在眾多的優惠訊息中做出決策。我負責規劃 Research 方向、製作 prototype、主持訪談，重整會員中心的資訊架構。"
+  lead="會員中心是價值與信息的匯集地，用戶需要在眾多的優惠訊息中做出決策。因此整個架構需要清晰、直觀、易懂，是提升用戶查找訊息以及提高決策效率和滿意度的關鍵點。"
+  meta={[
+    { label: '專案時間', value: '2020 年 10 月 - 2020 年 11 月' },
+    { label: '團隊', value: '4 人' },
+    { label: '規劃設備', value: 'Web（RWD）' },
+  ]}
+  toc={toc}
+  next={{ href: url('/cases/podcast/'), title: 'MyMusic Podcast' }}
+>
+  <Fragment slot="hero">
+    <figure class="hero-vid">
+      <video src={`${base}/media/myvideo-hero.mp4`} poster={`${base}/media/myvideo-hero.jpg`} autoplay muted loop playsinline aria-label="myVideo 會員中心改版畫面"></video>
+    </figure>
+  </Fragment>
+
+  <h2 id="about">About myVideo</h2>
+  <p>myVideo 是台灣大哥大提供的數位媒體內容服務，支援多種跨平台裝置上觀看隨選影片（Video-On-Demand）與直播內容（Live Channel）。</p>
+
+  <h3>專案目的</h3>
+  <p><span class="hl">會員中心是價值與信息的匯集地，用戶需要在眾多的優惠訊息中做出決策</span>。因此整個架構需要清晰、直觀、易懂，是提升用戶查找訊息以及提高決策效率和滿意度的關鍵點。</p>
+
+  <h3>挑戰</h3>
+  <p>myVideo 的會員方案多元（租借、月費制、點數消費等），擁有身份共享功能、登入方式多元。因此在設計會員中心時，如何統整及呈現用戶的資訊，以及如何克服舊用戶的使用習慣，這是本次專案的最大挑戰。</p>
+
+  <h3>我的角色</h3>
+  <p>負責規劃 Research 方向、製作 prototype、訪談主持人、wireframe、調研結果報告、協助 UI 設計</p>
+  <p class="muted">本次改版於 2021 年 3 月 20 號正式上線</p>
+
+  <hr />
+
+  <h2 id="goals">聚焦目的</h2>
+  <p>我們在開始項目前，與利益關係人以及事前的資料收集，將本次改版的目的聚焦在下面三個方向。分別是：</p>
+  <Figure src={goals} alt="聚焦目的：提升用戶的決策效率、查找速度、使用感受" />
+
+  <h3>Why? and How?</h3>
+  <p>我們通過 GA、支付轉化漏斗分析以及綜合事前的用戶問卷調查發現，改版前的會員中心信息架構較鬆散和單一，缺乏關鍵信息的強化與提示。現行方案的提示不明顯，且無法線上進行作業，導致用戶無法在使用的過程中順利完成任務進而放棄。</p>
+  <Figure src={oldIssues} alt="改版前的會員中心：資訊架構鬆散、方案明細不夠詳細、優惠區域不夠明顯" />
+  <p>此外，目前的家人共享功能、序號兌換與會員中心的入口分別散落在不同地方，容易產生用戶在修改個人資訊與其他身份資訊的入口資訊混淆。</p>
+
+  <hr />
+
+  <h2 id="research">研究執行方法</h2>
+  <Figure src={method} alt="研究執行方法：資料收集、問卷調查、訪談與易用性測試" />
+
+  <h3>資料收集</h3>
+  <p>透過競品分析，參考與 myVideo 的營收模式、重點功能相似的產品來研究其資訊架構，幫助團隊更快的將框架重新定義，並作為事前問卷調查的主要依據。</p>
+  <Figure src={competitors} alt="競品分析：Netflix、Apple TV+、愛奇藝、Spotify、Melon、KKBOX 的共享帳號、資訊架構類型與營收方式" />
+
+  <h3>問卷調查</h3>
+  <p>在做問卷調查前，首先需要了解我們想透過這份問卷得到什麼樣的答案。而本次問卷的發放目的主要著重於 <span class="hl">了解用戶對會員中心的需求及期待</span>＆<span class="hl">現有用戶的使用行為與狀況掌握</span>。</p>
+  <p>所以我們將發放對象縮限至下方</p>
+  <Figure src={surveyTarget} alt="問卷發放對象" caption="問卷發放對象" />
+  <p>根據問卷的回饋、GA、支付轉化漏斗分析、競品的資訊架構整理後，<span class="hl">依照用戶對會員感知的資訊進行重新分類</span>，分別整理出下面幾個單元。</p>
+  <Figure src={iaUnits} alt="資訊架構重整單元劃分：身份管理、資訊總覽、帳號設定、交易總覽" caption="資訊架構重整單元劃分" />
+
+  <h3>易用性測試摘要</h3>
+  <Figure src={usability} alt="易用性的平均分數為 68 分，因此可以將此分數作為產品及格分數" caption="易用性的平均分數為 68 分，因此可以將此分數作為產品及格分數" />
+
+  <hr />
+
+  <h2 id="execution">設計執行與落地</h2>
+  <p>透過易用性測試、訪談以及前期的資料收集，我們著手進行改版設計，解決現存問題：會員中心框架重構、清楚呈現會員資訊、視覺語言升級、組件重整。</p>
+  <p>下面是改版前後效果對比，單元重新劃分</p>
+
+  <h3>方案與交易紀錄</h3>
+  <p><span class="tag-b">Before</span>將方案與帳號資訊顯示在同一區域，交易紀錄為獨立選單<br /><span class="tag-a">After</span>獨立出交易紀錄的獨立單元，方便用戶針對交易進行查找</p>
+  <Figure src={plans} alt="方案與交易紀錄改版前後" wide />
+
+  <h3>帳戶資訊</h3>
+  <p><span class="tag-b">Before</span>將個人資訊與方案放在同個分類，付款設定與密碼保護則為不同選單。<br /><span class="tag-a">After</span>將帳號設定獨立出來，方便使用者做帳號的相關設定</p>
+  <Figure src={account} alt="帳戶資訊改版前後" wide />
+
+  <h3>家人共享</h3>
+  <p><span class="tag-b">Before</span>會員中心沒有身份修改與編輯，入口獨立。<br /><span class="tag-a">After</span>將身份編輯與新增功能合併至會員中心，且獨立出一個單元。並將所有身分同時攤開，選擇編輯身份時不必切頁</p>
+  <Figure src={family} alt="家人共享改版前後" wide />
+</CaseLayout>
+
+<style>
+  .hero-vid { margin: 40px 0 0; }
+  .hero-vid video { display: block; width: 100%; border-radius: var(--radius); border: 1px solid var(--line); background: #111; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .tag-b, .tag-a { display: inline-block; font: 700 12px/1 var(--f-mono); padding: 5px 8px; border-radius: 6px; margin-right: 8px; vertical-align: 1px; }
+  .tag-b { background: var(--line); color: var(--muted); }
+  .tag-a { background: var(--tone-soft); color: var(--tone-ink); }
+</style>
