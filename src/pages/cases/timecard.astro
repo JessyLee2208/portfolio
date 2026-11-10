@@ -7,12 +7,13 @@ import TC from '../../components/diagrams/old/TimeCard.astro';
 import { url } from '../../lib/url.js';
 import rate from '../../assets/cases/timecard/admin-rate.png';
 import entry from '../../assets/cases/timecard/admin-entry.png';
+import topup from '../../assets/cases/timecard/admin-topup.png';
 import webBuy from '../../assets/cases/timecard/web-buy.png';
 import webCard from '../../assets/cases/timecard/web-mycard.png';
 
 const toc = [
   { id: 'why', label: '為什麼要做分鐘計費？' },
-  { id: 'scope', label: '一張卡的完整流程' },
+  { id: 'roles', label: '不同角色怎麼看分鐘計費' },
   { id: 'setup', label: '後台：設定收費與方案' },
   { id: 'deduct', label: '重點一：扣點順序' },
   { id: 'refund', label: '重點二：退款規則' },
@@ -47,9 +48,11 @@ const toc = [
 
   <hr />
 
-  <h2 id="scope">一張卡的完整流程</h2>
-  <p>動工前先把一張分鐘計費卡會經過的每個環節列出來，確認每一段誰會用到、要改哪些畫面：</p>
-  <TC kind="flow" />
+  <h2 id="roles">不同角色怎麼看分鐘計費</h2>
+  <p>同一張分鐘計費卡，會員、場館老闆、櫃檯人員和 BookFast 在意的事都不一樣。動工前先把每個角色的需求列出來，後面的設計都是在回應這些需求：</p>
+  <TC kind="roles" />
+  <p>再把四個角色放進同一條流程，看一張卡從開賣到核銷，每個階段是誰在做什麼：</p>
+  <TC kind="lanes" />
 
   <hr />
 
@@ -65,13 +68,15 @@ const toc = [
     <li><b>自訂啟用時間</b>：會員在品牌電商購買時自己選日期</li>
     <li><b>指定啟用</b>：由場館指定開始日期</li>
   </ul>
+  <p>會員到櫃檯買的時候，櫃檯可以直接在後台幫會員加值：選會員、選方案，方案裡設好的贈點會自動帶入（現場也能改），左邊一樣即時顯示明細和總計。</p>
+  <Figure src={topup} alt="後台分鐘計費卡加值：左邊是會員持有點數與加值明細，右邊選加值方案、贈送點數與啟用時間" caption="櫃檯現場加值：選好方案，贈點自動帶入" wide />
 
   <hr />
 
   <h2 id="deduct">重點一：扣點順序</h2>
   <p>會員手上常常不只一筆額度：有自己買的點數、有送的贈點，到期日也各不相同。進場扣點時要先扣哪一筆，會直接影響會員的權益，也影響店家什麼時候拿得到錢。我定了三條規則，依序判斷：</p>
   <TC kind="deduct" />
-  <p>櫃檯幫會員登記進場時，畫面上會列出會員所有可用的卡，計時卡直接顯示餘額，定期卡顯示到期日。</p>
+  <p>會員沒帶手機、或掃描有問題的時候，櫃檯也可以手動幫會員登記進出場。畫面上會列出會員所有可用的卡，計時卡直接顯示餘額，定期卡顯示到期日。</p>
   <Figure src={entry} alt="後台進場登記：選擇會員後，列出計時卡餘額與定期卡到期日" caption="進場登記：計時卡顯示餘額，定期卡顯示到期日" />
 
   <hr />
@@ -95,6 +100,8 @@ const toc = [
   <h2 id="member">會員端：App 與官網</h2>
   <p>對會員來說，最重要的是「我還剩多少點」。App 的「我的」把通行卡做成卡片，直接顯示總點數；點進去可以看每個方案的期間、額度和使用紀錄，用完的方案收進「失效方案」，不會跟可用的混在一起。</p>
   <TC kind="app" />
+  <p>人在場館裡的時候，App 首頁右下角會有一個計時器，顯示已經待了多久；點開可以看到進場時間、目前餘額和預計扣多少點，還沒出場就知道這次會花多少。</p>
+  <TC kind="timer" />
   <p>進出場用 QR code，可以把 QR code 拿給掃描器掃，也可以用手機相機掃場館的 QR code。出場時系統會自動選好進場用的那張卡；卡片欠款時會顯示欠款餘額，進場、出場和異常狀況都會推播通知會員。</p>
   <TC kind="scan" />
   <p>會員也可以在品牌官網購買方案、查看自己的通行卡。購買頁把點數、通行會館、啟用方式和使用期限都列在付款前，買之前就看得到。</p>

@@ -14,9 +14,11 @@ import rOk from '../../../assets/cases/timecard/refund-ok.png';
 import rNo from '../../../assets/cases/timecard/refund-no.png';
 import rDone from '../../../assets/cases/timecard/refund-done.png';
 import rInv from '../../../assets/cases/timecard/refund-done-invoice.png';
+import homeTimer from '../../../assets/cases/timecard/app-home-timer.png';
+import timerSheet from '../../../assets/cases/timecard/app-timer.png';
 import newBase from '../../../assets/cases/timecard/admin-new-base.png';
 import newForm from '../../../assets/cases/timecard/admin-new-form.png';
-interface Props { kind: 'hero' | 'flow' | 'deduct' | 'refund' | 'refund-flow' | 'settle' | 'app' | 'scan' | 'new-plan'; }
+interface Props { kind: 'hero' | 'flow' | 'deduct' | 'refund' | 'refund-flow' | 'settle' | 'app' | 'scan' | 'new-plan' | 'roles' | 'lanes' | 'timer'; }
 const { kind } = Astro.props;
 const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 ---
@@ -30,24 +32,44 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
   </figure>
 )}
 
-{kind === 'flow' && (
-  <Board kicker="Scope" title="一張分鐘計費卡的完整流程" c="timecard" label="分鐘計費卡從開賣前設定、販售、進出場扣點、註銷退款到報表核銷，五個階段分別牽涉後台與會員端">
-    <ol class="flow">
+{kind === 'roles' && (
+  <Board kicker="Stakeholders" title="四個角色，各自在意的事" c="timecard" label="會員、場館老闆、櫃檯人員、BookFast 對分鐘計費各自在意的事，以及對應到的設計重點">
+    <div class="roles">
       {[
-        ['開賣前設定', ['B'], '設定每分鐘收費、緩衝時間，建立儲值方案'],
-        ['販售', ['B', 'C'], '櫃檯現場加值，會員在品牌官網、App 購買'],
-        ['進出場扣點', ['B', 'C'], 'QR code 進出場，依停留時間扣點'],
-        ['註銷退款', ['B'], '依付款方式判斷能不能退、退多少'],
-        ['報表核銷', ['B'], '報表拆出計時卡，依使用狀況核銷給店家'],
-      ].map(([t, who, d], i) => (
-        <li class="panel stage">
-          <span class="num">{i + 1}</span>
-          <span class="t">{t}</span>
-          <span class="who">{(who as string[]).map((w) => <i class={w === 'B' ? 'b' : 'c'}>{w === 'B' ? '後台' : '會員端'}</i>)}</span>
-          <span class="d">{d}</span>
-        </li>
+        ['會員', ['計費方式要清楚：每分鐘幾點、怎麼算', '在場館裡也能知道自己實際待了多久', '還剩多少點，點數不要過期浪費'], ['扣點順序', '會員端']],
+        ['場館老闆', ['知道怎麼建立方案才是正確的方案', '計費方式有沒有設對', '錢什麼時候拿得到，對帳要清楚'], ['後台設定', '核銷']],
+        ['櫃檯人員', ['可以在櫃檯快速幫會員加值', '可以手動登記進出場', '退款時照畫面走就不會退錯'], ['現場加值', '進場登記', '註銷流程']],
+        ['BookFast', ['會員付的錢先由 BookFast 保管，撥給店家要有依據', '退款和爭議的風險要控制住'], ['退款規則', '核銷']],
+      ].map(([who, needs, map]) => (
+        <div class="panel role">
+          <span class="rt">{who}</span>
+          <ul>{(needs as string[]).map((n) => <li>{n}</li>)}</ul>
+          <span class="map">{(map as string[]).map((m) => <i>{m}</i>)}</span>
+        </div>
       ))}
-    </ol>
+    </div>
+  </Board>
+)}
+
+{kind === 'lanes' && (
+  <Board kicker="Swimlane" title="一張卡從開賣到核銷，各方做什麼" c="timecard" label="泳道圖：會員、櫃檯人員、場館老闆、BookFast 在開賣前、販售、進出場、註銷退款、核銷五個階段各自做的事">
+    <div class="lanes-wrap" tabindex="0" aria-label="泳道圖，可以左右滑動">
+      <div class="lanes">
+        <span class="corner"></span>
+        {['開賣前', '販售', '進出場', '註銷退款', '核銷'].map((st, i) => <span class="st"><b>{i + 1}</b>{st}</span>)}
+        {[
+          ['會員', ['', '在品牌官網、App 購買方案', '掃 QR code 進出場；App 上看已經待多久、預計扣幾點', '向場館提出退款', '']],
+          ['櫃檯人員', ['', '在櫃檯幫會員現場加值', '手動幫會員登記進出場', '在後台註銷，照畫面選退款方式與發票處理', '']],
+          ['場館老闆', ['設定每分鐘收費、緩衝時間，建立方案', '方案上架，設定販售渠道與數量', '', '', '從報表對帳，收到撥款']],
+          ['BookFast', ['', '代收會員付的錢（信用卡、樂享券）', '依停留時間和扣點順序扣點', '判斷能不能退、退多少，線上刷退', '依使用狀況核銷撥款給店家，零頭進位']],
+        ].map(([who, cells]) => (
+          <>
+            <span class="who-l">{who}</span>
+            {(cells as string[]).map((c) => c ? <span class="cell">{c}</span> : <span class="cell empty" aria-hidden="true"></span>)}
+          </>
+        ))}
+      </div>
+    </div>
   </Board>
 )}
 
@@ -162,6 +184,20 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
   </figure>
 )}
 
+{kind === 'timer' && (
+  <figure class="dg case-timecard reveal tc-phones" aria-label="App 首頁的計時器：顯示已經待了多久；點開顯示進場時間、餘額與預計扣點">
+    <div class="dg-pat" aria-hidden="true"></div>
+    <div class="dg-body phones">
+      {[phone(homeTimer, '首頁右下：已經待了多久'), phone(timerSheet, '點開：餘額與預計扣點')].map(({ img, cap }, i) => (
+        <figure class={`ph p${i}`}>
+          <div class="frame"><Image src={img} alt="" widths={[300, 600]} sizes="(min-width: 760px) 220px, 30vw" /></div>
+          <figcaption>{cap}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </figure>
+)}
+
 {kind === 'scan' && (
   <figure class="dg case-timecard reveal tc-phones" aria-label="App 進出場：出示 QR code 給掃描器，或用相機掃場館的 QR code">
     <div class="dg-pat" aria-hidden="true"></div>
@@ -191,16 +227,25 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
   .frame { width: 100%; background: #111; border-radius: 22px; padding: 6px; box-shadow: 0 18px 30px -18px rgba(0,0,0,.5); }
   .frame :global(img) { display: block; width: 100%; height: auto; border-radius: 17px; }
 
-  /* 流程五階段 */
-  .flow { list-style: none; padding: 0; margin: 0 auto; max-width: 980px; display: grid; gap: 12px; }
-  @media (min-width: 820px) { .flow { grid-template-columns: repeat(5, 1fr); } }
-  .stage { display: grid; gap: 6px; align-content: start; padding: 16px 14px 18px; }
-  .stage .t { font-size: 17px; font-weight: 900; }
-  .who { display: flex; gap: 4px; flex-wrap: wrap; }
-  .who i { font-style: normal; font: 700 11.5px/1 var(--f-mono); padding: 4px 7px; border-radius: 99px; }
-  .who i.b { background: var(--ink); color: var(--paper); }
-  .who i.c { background: var(--tone-ink); color: #fff; }
-  .stage .d { font-size: 14px; line-height: 1.65; color: var(--muted); }
+  /* 四個角色 */
+  .roles { display: grid; gap: 12px; max-width: 980px; margin: 0 auto; }
+  @media (min-width: 720px) { .roles { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .roles { grid-template-columns: repeat(4, 1fr); } }
+  .role { display: grid; gap: 8px; align-content: start; }
+  .rt { font-size: 19px; font-weight: 900; }
+  .role ul { margin: 0; padding-left: 1.1em; font-size: 14px; line-height: 1.65; }
+  .role li { margin: 0 0 4px; }
+  .map { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .map i { font-style: normal; font: 700 11.5px/1 var(--f-zh); padding: 5px 8px; border-radius: 99px; background: var(--tone-soft); color: var(--tone-ink); }
+
+  /* 泳道圖：窄螢幕左右滑 */
+  .lanes-wrap { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; margin: 0 -4px; padding: 4px; }
+  .lanes { display: grid; grid-template-columns: 86px repeat(5, minmax(104px, 1fr)); gap: 6px; min-width: 660px; max-width: 1000px; margin: 0 auto; }
+  .st { display: flex; align-items: center; gap: 6px; font-weight: 900; font-size: 14.5px; padding: 4px 2px 6px; }
+  .st b { width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); }
+  .who-l { display: grid; align-items: center; font-weight: 900; font-size: 13.5px; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 10px 6px; text-align: center; white-space: nowrap; }
+  .cell { background: var(--sheet); border-radius: 10px; padding: 10px 11px; font-size: 13.5px; line-height: 1.6; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+  .cell.empty { background: transparent; border: 1px dashed color-mix(in srgb, var(--tone) 35%, transparent); }
 
   /* 扣點順序 */
   .rules { list-style: none; padding: 0; margin: 0 auto 16px; max-width: 860px; display: grid; gap: 12px; }
