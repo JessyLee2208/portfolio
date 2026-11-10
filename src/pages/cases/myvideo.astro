@@ -4,6 +4,9 @@ import CaseLayout from '../../layouts/CaseLayout.astro';
 import { url } from '../../lib/url.js';
 import MV from '../../components/diagrams/old/MyVideo.astro';
 import MS from '../../components/diagrams/old/MyVideoScreens.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import heroBefore from '../../assets/cases/myvideo/plans-b1.png';
+import heroAfter from '../../assets/cases/myvideo/plans-a1.png';
 
 const toc = [
   { id: 'about', label: 'About myVideo' },
@@ -26,7 +29,7 @@ const toc = [
   toc={toc}
   next={{ href: url('/cases/podcast/'), title: 'MyMusic Podcast' }}
 >
-  <Fragment slot="hero"><MS kind="hero" /></Fragment>
+  <Fragment slot="hero"><div class="hero-ba"><BeforeAfter before={heroBefore} after={heroAfter} alt="myVideo 會員中心" ratio="1229 / 890" caption="我的帳戶 → 改版後的會員中心：拖曳中間的把手比較改版前後" /></div></Fragment>
 
   <h2 id="about">About myVideo</h2>
   <p>myVideo 是台灣大哥大提供的數位媒體內容服務，支援多種跨平台裝置上觀看隨選影片（Video-On-Demand）與直播內容（Live Channel）。</p>
@@ -90,4 +93,7 @@ const toc = [
 
 <style>
   .muted { color: var(--muted); font-size: 14px; }
+  /* 頂部改用拉桿（11/10 Jessy），比內文寬一點 */
+  .hero-ba { margin-top: 40px; }
+  .hero-ba :global(.ba) { margin: 0 auto; max-width: 960px; }
 </style>
