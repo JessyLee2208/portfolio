@@ -175,6 +175,9 @@ const ringPath = {
   .cover-b:is(:hover, .play) .blob { transform: scale(1.03); }
   .cover-b:is(:hover, .play) .hand-arrow { animation: poke .6s ease; }
   .cover-b:is(:hover, .play) .a1:not(.clock) { transform: rotate(72deg) scale(1.15); }
+  /* 信用卡、音符不要轉 72 度（那是給星星的），改成小幅晃一下 */
+  .cover-b:is(:hover, .play) .a1.ccard { transform: rotate(-2deg) translateY(-.8cqw); }
+  .cover-b:is(:hover, .play) .a1.mnote { transform: rotate(-8deg) translateY(-.6cqw); }
   .cover-b:is(:hover, .play) .a2 { animation: bounce .7s ease; }
   .cover-b:is(:hover, .play) .clock .hand { transform: rotate(360deg); }
   .cover-b:is(:hover, .play) .a3 { animation: twinkle .8s ease; }
