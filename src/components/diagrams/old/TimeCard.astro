@@ -7,8 +7,8 @@ import Plate from '../../Plate.astro';
 import '../../../styles/diagram.css';
 import adminList from '../../../assets/cases/timecard/admin-list.png';
 import adminRate from '../../../assets/cases/timecard/admin-rate.png';
-import adminTopup from '../../../assets/cases/timecard/admin-topup.png';
-import adminEntry from '../../../assets/cases/timecard/admin-entry.png';
+import heroTopup from '../../../assets/cases/timecard/hero-topup.png';
+import heroEntry from '../../../assets/cases/timecard/hero-entry.png';
 import appMine from '../../../assets/cases/timecard/app-mine.png';
 import appPlan from '../../../assets/cases/timecard/app-plan.png';
 import appExpired from '../../../assets/cases/timecard/app-expired.png';
@@ -48,7 +48,7 @@ const JR = [
         <button type="button" class="fc-btn" data-dir="1" aria-label="下一張"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg></button>
       </div>
       <ul class="fc-row desk-row" tabindex="0" aria-label="場館端畫面，可以左右滑動">
-        {[[adminList, '方案列表'], [adminRate, '費用設定'], [newBase, '新增方案'], [adminTopup, '櫃檯現場加值'], [adminEntry, '手動登記進出場']].map(([img, cap]) => (
+        {[[adminList, '方案列表'], [adminRate, '費用設定'], [newBase, '新增方案'], [heroTopup, '櫃檯現場加值'], [heroEntry, '手動登記進出場']].map(([img, cap]) => (
           <li class="desk-card">
             <div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i></div><Image src={img as ImageMetadata} alt={cap as string} widths={[700, 1100]} sizes="(min-width: 900px) 560px, 80vw" /></div>
             <p class="cap">{cap}</p>
