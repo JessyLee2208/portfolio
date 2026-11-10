@@ -25,13 +25,13 @@ import newForm from '../../../assets/cases/timecard/admin-new-form.png';
 interface Props { kind: 'hero' | 'deduct' | 'refund' | 'settle' | 'app' | 'scan' | 'new-plan' | 'roles' | 'lanes' | 'timer' | 'journey' | 'features'; }
 const { kind } = Astro.props;
 const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
-// 會員旅程：11/10 Jessy 嫌原版色塊太多太雜，選了 A 表格版（只用黑灰字，靠粗細分層）
+// 會員旅程（11/10 Jessy：不放手機畫面，只留階段、心裡想、解法）：11/10 Jessy 嫌原版色塊太多太雜，選了 A 表格版（只用黑灰字，靠粗細分層）
 const JR = [
-  { st: '購買', think: '每分鐘多少錢？買多少才夠？', img: appPlan, fix: '方案的點數、期間、通行會館都列清楚' },
-  { st: '進場', think: '這張卡能用嗎？還有欠款嗎？', img: appQr, fix: '進場畫面顯示點數；有欠款要先補完才能進' },
-  { st: '在館內', think: '我待多久了？會扣多少？', img: homeTimer, fix: '首頁右下角的計時器，顯示已經待了多久' },
-  { st: '出場', think: '扣了多少？還剩多少？', img: timerSheet, fix: '點開就看到預計扣幾點，自動選好進場那張卡' },
-  { st: '之後', think: '還剩多少點？快過期了嗎？', img: appMine, fix: '「我的」一眼看到總點數，用完的收進失效方案' },
+  { st: '購買', think: '每分鐘多少錢？買多少才夠？', fix: '方案的點數、期間、通行會館都列清楚' },
+  { st: '進場', think: '這張卡能用嗎？還有欠款嗎？', fix: '進場畫面顯示點數；有欠款要先補完才能進' },
+  { st: '在館內', think: '我待多久了？會扣多少？', fix: '首頁右下角的計時器，顯示已經待了多久' },
+  { st: '出場', think: '扣了多少？還剩多少？', fix: '點開就看到預計扣幾點，自動選好進場那張卡' },
+  { st: '之後', think: '還剩多少點？快過期了嗎？', fix: '「我的」一眼看到總點數，用完的收進失效方案' },
 ];
 
 ---
@@ -94,13 +94,12 @@ const JR = [
 
 {kind === 'journey' && (
   <!-- 會員旅程：階段＋真實畫面的時間軸（參考 Uber 等作品集把每個階段對到 UI 截圖），11/10 Jessy 選 -->
-  <Board plate wide title="會員旅程：從買卡到出場" c="timecard" label="會員旅程：購買、進場、在館內、出場、之後五個階段，會員心裡在想的事，以及對應的 App 畫面與解法">
+  <Board plate wide title="會員旅程：從買卡到出場" c="timecard" label="會員旅程：購買、進場、在館內、出場、之後五個階段，會員心裡在想的事，以及對應的解法">
     <ol class="tl">
       {JR.map((r, i) => (
         <li class="tl-st">
           <p class="tl-head"><span class="tl-n">{i + 1}</span><b>{r.st}</b></p>
           <p class="tl-q">「{r.think}」</p>
-          <div class="frame tl-ph"><Image src={r.img} alt="" widths={[260, 520]} sizes="150px" /></div>
           <p class="tl-f">{r.fix}</p>
         </li>
       ))}
@@ -320,15 +319,9 @@ const JR = [
     .tl-head b { background: var(--tone-soft); padding-right: 8px; position: relative; z-index: 1; }
     .tl-st:last-child .tl-head::after { display: none; }
   }
-  :global(.prose) .tl-q { font-size: 13.5px; color: var(--muted); line-height: 1.55; min-height: 3.1em; }
-  .tl-ph { width: min(150px, 100%); border-radius: 18px; padding: 5px; }
-  .tl-ph :global(img) { border-radius: 13px; }
+  :global(.prose) .tl-q { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+  @media (min-width: 760px) { :global(.prose) .tl-q { min-height: 3.1em; } }
   :global(.prose) .tl-f { font-size: 13.5px; font-weight: 700; line-height: 1.55; }
-  @media (max-width: 759px) {
-    .tl-st { grid-template-columns: 110px 1fr; column-gap: 14px; row-gap: 6px; }
-    .tl-head, .tl-q { grid-column: 1 / -1; }
-    .tl-ph { width: 110px; }
-  }
 
   /* service blueprint：互動線實線、可見線虛線，空格留白 */
   .bp { display: grid; grid-template-columns: 82px repeat(5, minmax(100px, 1fr)); gap: 6px; min-width: 600px; }
