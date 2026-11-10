@@ -19,7 +19,7 @@ import homeTimer from '../../../assets/cases/timecard/app-home-timer.png';
 import timerSheet from '../../../assets/cases/timecard/app-timer.png';
 import newBase from '../../../assets/cases/timecard/admin-new-base.png';
 import newForm from '../../../assets/cases/timecard/admin-new-form.png';
-interface Props { kind: 'hero' | 'deduct' | 'refund' | 'settle' | 'app' | 'scan' | 'new-plan' | 'roles' | 'lanes' | 'timer'; }
+interface Props { kind: 'hero' | 'deduct' | 'refund' | 'settle' | 'app' | 'scan' | 'new-plan' | 'roles' | 'lanes' | 'timer' | 'journey'; }
 const { kind } = Astro.props;
 const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 ---
@@ -48,6 +48,28 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
           <span class="map">{(map as string[]).map((m) => <i>{m}</i>)}</span>
         </div>
       ))}
+    </div>
+  </Board>
+)}
+
+{kind === 'journey' && (
+  <Board plate title="會員旅程：從買卡到出場" c="timecard" label="會員旅程：購買、進場、在館內、出場、之後五個階段，會員在做什麼、心裡在想什麼、痛點，以及對應的解法">
+    <div class="lanes-wrap" tabindex="0" aria-label="會員旅程圖，可以左右滑動">
+      <div class="jr">
+        <span class="corner"></span>
+        {['購買', '進場', '在館內', '出場', '之後'].map((st, i) => <span class="st"><b>{i + 1}</b>{st}</span>)}
+        {[
+          ['做什麼', 'do', ['在官網、App 或櫃檯買點數方案', '掃 QR code 進場', '運動中', '掃 QR code 出場', '查紀錄、加值或退款']],
+          ['心裡想', 'think', ['每分鐘多少錢？買多少才夠？', '這張卡能用嗎？還有欠款嗎？', '我待多久了？會扣多少？', '扣了多少？還剩多少？', '點數快過期了嗎？還能退嗎？']],
+          ['痛點', 'pain', ['不知道計費方式，很難判斷要買哪個方案', '手上有好幾張卡，不知道會用哪張', '計費看不見，擔心超時多扣', '點數不夠時怎麼辦？扣的是哪一筆？', '規則複雜，不知道能退多少']],
+          ['解法', 'fix', ['購買頁列出點數、會館、啟用方式和期限', '顯示這張卡的點數；有欠款時卡片壓上欠款圖和欠款餘額，補完才能進場', '首頁計時器顯示已待多久、預計扣幾點', '自動選進場那張卡，照扣點順序扣；點數不夠也能出場，差額變成欠款', '「我的」看總點數和各方案，用完的收進失效方案；退款規則']],
+        ].map(([lab, cls, cells]) => (
+          <>
+            <span class:list={['who-l', `jl-${cls}`]}>{lab}</span>
+            {(cells as string[]).map((c) => <span class:list={['cell', `jc-${cls}`]}>{c}</span>)}
+          </>
+        ))}
+      </div>
     </div>
   </Board>
 )}
@@ -215,6 +237,13 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
   .st b { width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); }
   .who-l { display: grid; align-items: center; font-weight: 900; font-size: 13.5px; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 10px 6px; text-align: center; white-space: nowrap; }
   .cell { background: var(--sheet); border-radius: 10px; padding: 9px 10px; font-size: 13px; line-height: 1.6; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+  /* 會員旅程：卡住的地方用暖色、我們的設計用綠色，其他兩列白卡 */
+  .jr { display: grid; grid-template-columns: 74px repeat(5, minmax(100px, 1fr)); gap: 6px; min-width: 600px; }
+  .who-l.jl-pain { background: var(--rust-ink, #9a4a2c); }
+  .who-l.jl-fix { background: var(--tone-ink); }
+  .cell.jc-think { font-style: normal; color: var(--muted); }
+  .cell.jc-pain { background: var(--rust-soft, #f6e3da); border-color: transparent; }
+  .cell.jc-fix { background: var(--tone-ink); color: #fff; border-color: transparent; }
   .cell.empty { background: transparent; border: 1px dashed color-mix(in srgb, var(--tone) 35%, transparent); }
 
   /* 扣點順序 */
