@@ -1,5 +1,5 @@
 ---
-// BookFast 付款流程封面（舊作）：跟主打三篇同一套版型（CoverB），stone 色、大字放年份
+// BookFast 付款流程封面（舊作）：跟主打三篇同一套版型（CoverB），stone 色、大字放年份；畫面用最終版 v3.0 的付款視窗（取自 Notion 08.png），時鐘點綴呼應「更快結帳」
 import { Image } from 'astro:assets';
 import CoverB from './CoverB.astro';
 import screen from '../../assets/cases/bookfast/screen.png';
@@ -9,11 +9,11 @@ const c = en
   ? { kick: 'BookFast · B2B · Web', title: 'BookFast<br />Checkout Flow', sub: 'Helping merchants check out<br />customers faster', bigLabel: 'Earlier work · Cognitive walkthrough', label: 'BookFast checkout flow (2021) cover: the back-office payment screen' }
   : { kick: 'BookFast · B2B · Web', title: 'BookFast<br />付款流程簡化', sub: '讓店家可以更快速的<br />完成結帳', bigLabel: '舊作 · 認知走查', label: 'BookFast 付款流程簡化設計（2021）封面：後台付款畫面' };
 ---
-<CoverB tone="stone" pattern="grid" shape="square" accent="clock" under="dots" no="06" kick={c.kick} title={c.title}
+<CoverB tone="stone" pattern="grid" shape="square" accent="clock" under="line" no="06" kick={c.kick} title={c.title}
   sub={c.sub} big="2021" bigLabel={c.bigLabel} label={c.label}>
   <div class="win"><Image src={screen} alt="" widths={[600, 900]} sizes="(min-width: 820px) 300px, 60vw" /></div>
 </CoverB>
 <style>
-  .win { width: 36cqw; border-radius: 1.4cqw; overflow: hidden; transform: rotate(-4deg); box-shadow: 0 3cqw 5cqw -3cqw rgba(0,0,0,.45); background: #fff; }
+  .win { width: 38cqw; border-radius: 1.4cqw; overflow: hidden; transform: rotate(-4deg); box-shadow: 0 3cqw 5cqw -3cqw rgba(0,0,0,.45); background: #fff; }
   .win :global(img) { display: block; width: 100%; height: auto; }
 </style>
