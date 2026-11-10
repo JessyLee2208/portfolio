@@ -1,0 +1,39 @@
+---
+// 舊作封面：「檔案封套」風格，刻意跟主打三篇（CoverB 色塊＋大數字）不同
+// 米白底、細黑框、大年份、灰階產品畫面（11/10 Jessy 選）
+import '../../styles/cover.css';
+interface Props { year: string; org: string; title: string; meta: string; label: string; }
+const { year, org, title, meta, label } = Astro.props;
+---
+<div class="cover archive" role="img" aria-label={label}>
+  <div class="frame">
+    <div class="txt">
+      <p class="org">ARCHIVE · {org}</p>
+      <p class="year">{year}</p>
+      <span class="rule" aria-hidden="true"></span>
+      <p class="ttl" set:html={title} />
+      <p class="meta">{meta}</p>
+    </div>
+    <div class="pic"><slot /></div>
+  </div>
+</div>
+<style>
+  .cover.archive { background: #efebe3; display: block; }
+  .frame { position: absolute; inset: 3.2cqw; border: .25cqw solid var(--ink); border-radius: 1.2cqw; display: grid; grid-template-columns: 44% 1fr; grid-template-rows: 100%; align-items: center; overflow: hidden; background: var(--paper); }
+  .txt { padding: 0 2cqw 0 5cqw; }
+  .org { margin: 0; font: 600 1.4cqw/1 var(--f-mono); letter-spacing: .06em; color: var(--muted); white-space: nowrap; }
+  .year { margin: 2cqw 0 0; font: 800 9cqw/.9 var(--f-display); letter-spacing: -.03em; color: var(--ink); }
+  .rule { display: block; width: 6cqw; border-top: .35cqw solid var(--ink); margin: 2.2cqw 0 0; }
+  .ttl { margin: 2cqw 0 0; font: 900 3.6cqw/1.25 var(--f-zh); color: var(--ink); }
+  .meta { margin: 1.4cqw 0 0; font: 500 1.6cqw/1.4 var(--f-mono); color: var(--muted); }
+  .pic { height: 100%; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 4cqw 4cqw 4cqw 0; box-sizing: border-box; }
+  .pic :global(picture), .pic :global(img) { min-height: 0; }
+  .pic :global(img) { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; filter: grayscale(1) contrast(1.05); border: .2cqw solid var(--ink); border-radius: .8cqw; transition: filter .4s ease; }
+  /* 滑過卡片時恢復顏色 */
+  :global(.case-card:hover) .pic :global(img) { filter: none; }
+  html[lang="en"] .ttl { font-family: var(--f-display); font-weight: 800; letter-spacing: -.01em; }
+  @container (max-width: 560px) {
+    .org { font-size: 2.2cqw; } .meta { font-size: 2.4cqw; } .ttl { font-size: 4.6cqw; }
+  }
+  @media (prefers-reduced-motion: reduce) { .pic :global(img) { transition: none; } }
+</style>
