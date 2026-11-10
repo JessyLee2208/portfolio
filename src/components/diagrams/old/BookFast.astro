@@ -5,7 +5,7 @@ interface Props { kind: 'goals' | 'method' | 'compare'; }
 const { kind } = Astro.props;
 ---
 {kind === 'goals' && (
-  <Board kicker="Focus" title="聚焦目的" c="manager" label="聚焦目的：提升用戶的決策效率、資訊確認">
+  <Board kicker="Focus" title="聚焦目的" c="bookfast" label="聚焦目的：提升用戶的決策效率、資訊確認">
     <ol class="goals">
       {['決策效率', '資訊確認'].map((n) => (
         <li class="panel"><span class="kick">提升用戶</span><span class="name">{n}</span></li>
@@ -15,7 +15,7 @@ const { kind } = Astro.props;
 )}
 
 {kind === 'method' && (
-  <Board kicker="Research Method" title="研究執行方法" c="manager" label="研究執行方法：資料收集、設計、認知走查">
+  <Board kicker="Research Method" title="研究執行方法" c="bookfast" label="研究執行方法：資料收集、設計、認知走查">
     <ol class="steps">
       {[
         ['資料收集', '了解大部分結帳的流程，整理客戶對於結帳流程的反饋'],
@@ -29,7 +29,7 @@ const { kind } = Astro.props;
 )}
 
 {kind === 'compare' && (
-  <Board kicker="Step-by-step vs One-page" title="分步式 vs 一頁式結帳流程" c="manager" label="分步式與一頁式結帳流程的優缺點與適合的類型">
+  <Board kicker="Step-by-step vs One-page" title="分步式 vs 一頁式結帳流程" c="bookfast" label="分步式與一頁式結帳流程的優缺點與適合的類型">
     <div class="cmp">
       {[
         { t: '分步式結帳流程', pro: ['一次只做一件事情，更容易集中且資訊不易過載', '可以確認幾個步驟會完成，進而有心理準備'], con: ['若步驟過於繁多，容易導致用戶失去耐心，進而流失訂單'], fit: '大型電商、結帳時需確認的事情繁多且複雜' },

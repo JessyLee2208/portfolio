@@ -6,7 +6,7 @@ const { kind } = Astro.props;
 const prep = ['訂定測試範圍與目標', '選定受測者族群', '設計用戶招募問卷', '用戶招募', '設計測試任務與流程', '規劃測試空間與設備', '準備測試內容', '測試流程'];
 ---
 {kind === 'process' && (
-  <Board kicker="Design Process" title="產品開發時的設計流程" c="ai" label="設計流程：明確需求、分析問題，接著介面流程設計與原型製作與測試反覆迭代">
+  <Board kicker="Design Process" title="產品開發時的設計流程" c="podcast" label="設計流程：明確需求、分析問題，接著介面流程設計與原型製作與測試反覆迭代">
     <div class="proc">
       <span class="circ">明確需求</span>
       <span class="dash" aria-hidden="true"></span>
@@ -22,7 +22,7 @@ const prep = ['訂定測試範圍與目標', '選定受測者族群', '設計用
 )}
 
 {kind === 'prep' && (
-  <Board kicker="Test Preparation" title="測試準備流程" c="ai" label={`測試準備流程：${prep.join('、')}`}>
+  <Board kicker="Test Preparation" title="測試準備流程" c="podcast" label={`測試準備流程：${prep.join('、')}`}>
     <ol class="prep">
       {prep.map((t, i) => <li class="panel"><span class="n">{String(i + 1).padStart(2, '0')}</span><span class="t">{t}</span></li>)}
     </ol>

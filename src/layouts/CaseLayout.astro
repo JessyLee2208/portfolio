@@ -8,7 +8,7 @@ interface MetaItem { label: string; value: string; }
 interface Props {
   title: string; description: string; kicker: string; lead: string;
   meta: MetaItem[]; toc: TocItem[];
-  tone: 'rust' | 'green' | 'mustard';
+  tone: 'rust' | 'green' | 'mustard' | 'stone';
   next?: { href: string; title: string };
   locked?: boolean;   // 要密碼才看得到（見 LockGate）
 }
@@ -49,6 +49,8 @@ const L = langOf(Astro.url), en = L === 'en';
 <style>
   .case { --tone: var(--rust); --tone-soft: var(--rust-soft); --tone-ink: var(--rust-ink); }
   .case.tone-green { --tone: var(--accent); --tone-soft: var(--accent-soft); --tone-ink: var(--accent); }
+  /* 舊作：灰米色（重點字用深一階，米色底上對比 ≥ 4.5） */
+  .case.tone-stone { --tone: #9a9286; --tone-soft: #ece8e1; --tone-ink: #6b6358; }
   .case.tone-mustard { --tone: var(--mustard); --tone-soft: var(--mustard-soft); --tone-ink: var(--mustard-ink); }
 
   .case-head { padding-top: 32px; }

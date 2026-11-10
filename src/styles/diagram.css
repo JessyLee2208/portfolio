@@ -6,6 +6,8 @@
 }
 .dg.case-manager { --tone: var(--accent); --tone-soft: var(--accent-soft); --tone-ink: var(--accent); }
 .dg.case-ai { --tone: var(--mustard); --tone-soft: var(--mustard-soft); --tone-ink: var(--mustard-ink); }
+/* 舊作（myVideo、Podcast、BookFast）：灰米色底，紋路跟各自的封面一樣，不跟主打三篇重複 */
+.dg:is(.case-myvideo, .case-podcast, .case-bookfast) { --tone: #9a9286; --tone-soft: #ece8e1; --tone-ink: #6b6358; }
 @media (min-width: 720px) { .dg { padding: 44px 40px 48px; } }
 
 /* 背景紋路：分店頁點點、Manager 格線、AI 斜線 */
@@ -13,6 +15,9 @@
   mask-image: radial-gradient(ellipse at 50% 40%, transparent 35%, #000 100%); }
 .case-branch .dg-pat { background-image: radial-gradient(var(--pc) 1.2px, transparent 1.4px); background-size: 18px 18px; }
 .case-manager .dg-pat { background-image: linear-gradient(var(--pc) 1px, transparent 1px), linear-gradient(90deg, var(--pc) 1px, transparent 1px); background-size: 24px 24px; opacity: .6; }
+.case-myvideo .dg-pat { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 8v8M8 12h8' stroke='%239a9286' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E"); background-size: 22px 22px; opacity: .5; }
+.case-podcast .dg-pat { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='20'%3E%3Cpath d='M0 10 Q 12 2 24 10 T 48 10' fill='none' stroke='%239a9286' stroke-width='1.2'/%3E%3C/svg%3E"); background-size: 40px 17px; opacity: .45; }
+.case-bookfast .dg-pat { background-image: repeating-linear-gradient(0deg, var(--pc) 0 1px, transparent 1px 16px); opacity: .6; }
 .case-ai .dg-pat { background-image: repeating-linear-gradient(-35deg, var(--pc) 0 1.5px, transparent 1.5px 14px); opacity: .7; }
 .dg-body, .dg-head, .dg-kicker { position: relative; }
 

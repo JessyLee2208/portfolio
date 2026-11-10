@@ -16,7 +16,7 @@ const { kind } = Astro.props;
   ];
   const K = ['共享帳號', '資訊架構', '營收方式', '身分別內容'];
   return (
-    <Board kicker="Competitive Analysis" title="競品分析" c="branch" label="競品分析對照表：Netflix、Apple TV+、愛奇藝、Spotify、Melon、KKBOX 的共享帳號、資訊架構、營收方式、身分別內容變化">
+    <Board kicker="Competitive Analysis" title="競品分析" c="myvideo" label="競品分析對照表：Netflix、Apple TV+、愛奇藝、Spotify、Melon、KKBOX 的共享帳號、資訊架構、營收方式、身分別內容變化">
       <div class="mx-wrap">
         <table class="mx">
           <thead><tr><th></th>{P.map((p) => <th class:list={{ ref: p.ref }}>{p.ref && <span class="star" aria-label="主要參考">★</span>}{p.n}</th>)}</tr></thead>
@@ -37,7 +37,7 @@ const { kind } = Astro.props;
 })()}
 
 {kind === 'goals' && (
-  <Board kicker="Focus" title="聚焦目的" c="branch" label="聚焦目的：提升用戶的決策效率、查找速度、使用感受">
+  <Board kicker="Focus" title="聚焦目的" c="myvideo" label="聚焦目的：提升用戶的決策效率、查找速度、使用感受">
     <ol class="goals">
       {['決策效率', '查找速度', '使用感受'].map((n) => (
         <li class="panel"><span class="kick">提升用戶</span><span class="name">{n}</span></li>
@@ -47,7 +47,7 @@ const { kind } = Astro.props;
 )}
 
 {kind === 'method' && (
-  <Board kicker="Research Method" title="研究執行方法" c="branch" label="研究執行方法：資料收集、問卷調查、訪談與易用性測試">
+  <Board kicker="Research Method" title="研究執行方法" c="myvideo" label="研究執行方法：資料收集、問卷調查、訪談與易用性測試">
     <ol class="steps">
       {[
         ['資料收集', '了解他產品的資訊架構，相似的重點功能如何呈現？'],
@@ -61,7 +61,7 @@ const { kind } = Astro.props;
 )}
 
 {kind === 'survey' && (
-  <Board kicker="Survey" title="問卷發放對象" c="branch" label="問卷發放對象：有 myVideo 會員資格、近一個月內有使用、觀看超過 10 分鐘；30～49 歲；App、Web">
+  <Board kicker="Survey" title="問卷發放對象" c="myvideo" label="問卷發放對象：有 myVideo 會員資格、近一個月內有使用、觀看超過 10 分鐘；30～49 歲；App、Web">
     <dl class="panel survey">
       {[
         ['對象', '有 myVideo 會員資格、近一個月內有使用 myVideo 服務、觀看分鐘數超過 10 分鐘以上'],
@@ -75,7 +75,7 @@ const { kind } = Astro.props;
 )}
 
 {kind === 'ia' && (
-  <Board kicker="Information Architecture" title="資訊架構重整單元劃分" c="branch" label="會員中心框架重構：身份管理、資訊總覽、帳號設定、交易總覽四個單元">
+  <Board kicker="Information Architecture" title="資訊架構重整單元劃分" c="myvideo" label="會員中心框架重構：身份管理、資訊總覽、帳號設定、交易總覽四個單元">
     <div class="ia">
       <span class="node n-top">資訊總覽</span>
       <span class="node n-left">身份管理</span>
@@ -87,7 +87,7 @@ const { kind } = Astro.props;
 )}
 
 {kind === 'usability' && (
-  <Board kicker="Usability Test" title="易用性測試摘要" c="branch" label="易用性測試：Task 一易用性評分 70；Task 二身份共享 A 版本 77、B 版本 52">
+  <Board kicker="Usability Test" title="易用性測試摘要" c="myvideo" label="易用性測試：Task 一易用性評分 70；Task 二身份共享 A 版本 77、B 版本 52">
     <div class="ut">
       {[
         { n: '一', cnt: 11, t: '帳戶總覽、交易總覽、帳號設定', d: '透過易用性測試，找出用戶會遇到困難或認知障礙的地方，並進行修改', bars: [['評分', 70, true]] },

@@ -26,7 +26,7 @@ const versions = {
 } as const;
 ---
 {kind === 'hero' && (
-  <figure class="dg case-manager reveal bf-hero" aria-label="BookFast 結帳流程：從分步式改成一頁式，最終版在同一個付款視窗內完成收款、發票與確認">
+  <figure class="dg case-bookfast reveal bf-hero" aria-label="BookFast 結帳流程：從分步式改成一頁式，最終版在同一個付款視窗內完成收款、發票與確認">
     <div class="dg-pat" aria-hidden="true"></div>
     <div class="dg-body hero-row">
       <div class="before">
@@ -48,7 +48,7 @@ const versions = {
 )}
 
 {kind === 'old' && (
-  <Board kicker="Before" title="舊版的結帳流程" c="manager" label="舊版後台結帳流程三個畫面與問題：無法確認會員資訊、無法返回上一步、資訊內容分布較散">
+  <Board kicker="Before" title="舊版的結帳流程" c="bookfast" label="舊版後台結帳流程三個畫面與問題：無法確認會員資訊、無法返回上一步、資訊內容分布較散">
     <ol class="flow3">
       {[
         [old1, '付款', '無法確認會員資訊，在進入結帳流程前需要再三確認'],
@@ -68,7 +68,7 @@ const versions = {
 {(kind === 'v1' || kind === 'v2' || kind === 'v3') && (() => {
   const v = versions[kind];
   return (
-    <Board kicker={kind === 'v3' ? 'Final' : 'Iteration'} title={v.title} c="manager" label={`${v.title}：${v.d}`}>
+    <Board kicker={kind === 'v3' ? 'Final' : 'Iteration'} title={v.title} c="bookfast" label={`${v.title}：${v.d}`}>
       <p class="vdesc">{v.d}</p>
       <ol class:list={['flow3', { one: kind === 'v3' }]}>
         {v.shots.map(([img, step], i) => (

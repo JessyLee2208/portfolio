@@ -28,7 +28,7 @@ const pairs = {
 } as const;
 ---
 {kind === 'hero' && (
-  <figure class="dg case-branch reveal mv-hero" aria-label="myVideo 會員中心改版：舊版的帳戶頁，改成交易紀錄、帳號設定、家人共享三個單元">
+  <figure class="dg case-myvideo reveal mv-hero" aria-label="myVideo 會員中心改版：舊版的帳戶頁，改成交易紀錄、帳號設定、家人共享三個單元">
     <div class="dg-pat" aria-hidden="true"></div>
     <div class="dg-body hero-row">
       <div class="col">
@@ -49,7 +49,7 @@ const pairs = {
 )}
 
 {kind === 'old' && (
-  <Board kicker="Before" title="改版前的會員中心" c="branch" label="改版前的會員中心：資訊架構鬆散、方案明細不夠詳細、優惠區域不夠明顯">
+  <Board kicker="Before" title="改版前的會員中心" c="myvideo" label="改版前的會員中心：資訊架構鬆散、方案明細不夠詳細、優惠區域不夠明顯">
     <div class="shot wide"><Image src={oldAnnot} alt="改版前的會員中心帳戶頁" widths={[800, 1200]} sizes="(min-width: 1080px) 860px, 92vw" /></div>
     <ol class="issues">
       <li><b>1</b>資訊架構鬆散，需要花時間找到相應的資訊位置</li>
@@ -72,7 +72,7 @@ const pairs = {
     </div>
   );
   return (
-    <Board kicker="Before → After" title={p.title} c="branch" label={`${p.title}：改版前${p.before.text}；改版後${p.after.text}`}>
+    <Board kicker="Before → After" title={p.title} c="myvideo" label={`${p.title}：改版前${p.before.text}；改版後${p.after.text}`}>
       <div class="pair">
         {side(p.before, false)}
         <svg class="arrow-svg parr" viewBox="0 0 80 60" aria-hidden="true"><path d="M6 40 C 24 6, 56 6, 70 36 M60 30 L71 38 L74 25" /></svg>
