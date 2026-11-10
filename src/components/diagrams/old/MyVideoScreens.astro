@@ -6,25 +6,25 @@ import Board from '../Board.astro';
 import '../../../styles/diagram.css';
 import oldAnnot from '../../../assets/cases/myvideo/old-annot.png';
 import pb1 from '../../../assets/cases/myvideo/plans-b1.png';
-import pb2 from '../../../assets/cases/myvideo/plans-b2.png';
-import pb3 from '../../../assets/cases/myvideo/plans-b3.png';
 import pa1 from '../../../assets/cases/myvideo/plans-a1.png';
-import pa2 from '../../../assets/cases/myvideo/plans-a2.png';
-import pa3 from '../../../assets/cases/myvideo/plans-a3.png';
 import ab1 from '../../../assets/cases/myvideo/acct-b1.png';
-import ab2 from '../../../assets/cases/myvideo/acct-b2.png';
 import aa1 from '../../../assets/cases/myvideo/acct-a1.png';
-import aa2 from '../../../assets/cases/myvideo/acct-a2.png';
 import fb1 from '../../../assets/cases/myvideo/fam-b1.png';
-import fb2 from '../../../assets/cases/myvideo/fam-b2.png';
 import fa1 from '../../../assets/cases/myvideo/fam-a1.png';
 interface Props { kind: 'hero' | 'old' | 'plans' | 'account' | 'family'; }
 const { kind } = Astro.props;
 const sz = '(min-width: 1080px) 420px, (min-width: 760px) 44vw, 90vw';
+// 每段只放一組代表畫面，框出改了哪裡，旁邊一句話（照原文的 Before／After）；座標是圖片寬高的 %
 const pairs = {
-  plans: { title: '方案與交易紀錄', before: [[pb1, '我的帳戶'], [pb2, '點數查詢'], [pb3, '交易紀錄']], after: [[pa1, '我的訂閱方案'], [pa2, '租借購買紀錄'], [pa3, 'myVideo 錢錢']] },
-  account: { title: '帳戶資訊', before: [[ab1, '個人資訊與方案'], [ab2, '付款設定']], after: [[aa1, '帳號資訊'], [aa2, '設定']] },
-  family: { title: '家人共享', before: [[fb1, '選擇身份'], [fb2, '編輯身份（獨立頁面）']], after: [[fa1, '家人共享：所有身份同時攤開']] },
+  plans: { title: '方案與交易紀錄',
+    before: { img: pb1, cap: '我的帳戶', box: [21, 43, 70, 30], text: '將方案與帳號資訊顯示在同一區域，交易紀錄為獨立選單' },
+    after: { img: pa1, cap: '交易紀錄', box: [14, 21, 13, 25], text: '獨立出交易紀錄的獨立單元，方便用戶針對交易進行查找' } },
+  account: { title: '帳戶資訊',
+    before: { img: ab1, cap: '我的帳戶', box: [19, 9, 41, 8], text: '將個人資訊與方案放在同個分類，付款設定與密碼保護則為不同選單' },
+    after: { img: aa1, cap: '帳號設定', box: [14, 21, 13, 21], text: '將帳號設定獨立出來，方便使用者做帳號的相關設定' } },
+  family: { title: '家人共享',
+    before: { img: fb1, cap: '選擇身份（獨立入口）', box: [37, 17, 26, 36], text: '會員中心沒有身份修改與編輯，入口獨立' },
+    after: { img: fa1, cap: '家人共享', box: [10, 21, 84, 59], text: '將身份編輯與新增功能合併至會員中心，所有身分同時攤開，選擇編輯身份時不必切頁' } },
 } as const;
 ---
 {kind === 'hero' && (
@@ -61,21 +61,22 @@ const pairs = {
 
 {(kind === 'plans' || kind === 'account' || kind === 'family') && (() => {
   const p = pairs[kind];
+  const side = (x: typeof p.before, after: boolean) => (
+    <div class="pside">
+      <span class:list={['tag', { on: after }]}>{after ? 'After' : 'Before'}</span>
+      <div class:list={['pshot', { dim: !after }]}>
+        <Image src={x.img} alt={`${after ? '改版後' : '改版前'}：${x.cap}`} widths={[600, 900]} sizes={sz} />
+        <span class="hl" style={`left:${x.box[0]}%;top:${x.box[1]}%;width:${x.box[2]}%;height:${x.box[3]}%`}></span>
+      </div>
+      <p class:list={['pnote', { on: after }]}>{x.text}</p>
+    </div>
+  );
   return (
-    <Board kicker="Before → After" title={p.title} c="branch" label={`${p.title}改版前後`}>
-      <div class="ba2">
-        <div class="side">
-          <span class="tag">Before</span>
-          {p.before.map(([img, cap]) => (
-            <figure class="item"><div class="shot dim"><Image src={img as ImageMetadata} alt={`改版前：${cap}`} widths={[600, 900]} sizes={sz} /></div><figcaption>{cap}</figcaption></figure>
-          ))}
-        </div>
-        <div class="side">
-          <span class="tag on">After</span>
-          {p.after.map(([img, cap]) => (
-            <figure class="item"><div class="shot"><Image src={img as ImageMetadata} alt={`改版後：${cap}`} widths={[600, 900, 1200]} sizes={sz} /></div><figcaption>{cap}</figcaption></figure>
-          ))}
-        </div>
+    <Board kicker="Before → After" title={p.title} c="branch" label={`${p.title}：改版前${p.before.text}；改版後${p.after.text}`}>
+      <div class="pair">
+        {side(p.before, false)}
+        <svg class="arrow-svg parr" viewBox="0 0 80 60" aria-hidden="true"><path d="M6 40 C 24 6, 56 6, 70 36 M60 30 L71 38 L74 25" /></svg>
+        {side(p.after, true)}
       </div>
     </Board>
   );
@@ -108,10 +109,17 @@ const pairs = {
   .issues li { background: var(--sheet); border: 2px solid var(--tone-ink); border-radius: 12px; padding: 10px 14px; font-size: 14px; font-weight: 600; line-height: 1.6; box-shadow: 3px 3px 0 color-mix(in srgb, var(--tone-ink) 25%, transparent); }
   .issues b { display: inline-grid; place-items: center; width: 20px; height: 20px; margin-right: 6px; border-radius: 50%; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); vertical-align: 1px; }
 
-  /* 改版前後：左右兩欄 */
-  .ba2 { display: grid; gap: 22px; max-width: 980px; margin: 0 auto; }
-  @media (min-width: 760px) { .ba2 { grid-template-columns: 1fr 1.25fr; align-items: start; } }
-  .side { display: grid; gap: 14px; }
-  .item { margin: 0; display: grid; gap: 6px; }
-  .item figcaption { font-size: 13px; color: var(--muted); text-align: center; }
+  /* 改版前後：左右各一張，框出改動的地方，下面一句話 */
+  .pair { display: grid; gap: 14px; max-width: 980px; margin: 0 auto; align-items: start; }
+  @media (min-width: 760px) { .pair { grid-template-columns: 1fr 44px 1fr; } }
+  .pside { display: grid; gap: 10px; justify-items: center; }
+  .pshot { position: relative; width: 100%; border-radius: 10px; overflow: hidden; background: #222; border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .pshot :global(img) { display: block; width: 100%; height: auto; }
+  .pshot.dim :global(img) { filter: grayscale(.6) brightness(.85); }
+  .hl { position: absolute; border: 3px solid var(--mustard); border-radius: 8px; box-shadow: 0 0 0 999px rgba(0,0,0,.35); }
+  .pshot.dim .hl { border-color: #e9e4dc; }
+  .parr { width: 44px; height: 34px; align-self: center; justify-self: center; }
+  @media (max-width: 759px) { .parr { transform: rotate(90deg); } }
+  :global(.dg) p.pnote { margin: 0; width: 100%; background: var(--sheet); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; font-size: 14.5px; line-height: 1.6; font-weight: 600; color: var(--muted); }
+  :global(.dg) p.pnote.on { border: 2px solid var(--tone-ink); color: var(--ink); box-shadow: 3px 3px 0 color-mix(in srgb, var(--tone-ink) 25%, transparent); }
 </style>
