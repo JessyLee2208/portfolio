@@ -1,14 +1,20 @@
 ---
-// MyMusic Podcast 封面（舊作）：檔案封套風，畫面用 prototype 錄影的 Podcast 首頁
+// MyMusic Podcast 封面（舊作）：跟主打三篇同一套版型（CoverB），但用低調的 stone 色、大字放年份
 import { Image } from 'astro:assets';
-import ArchiveCover from './ArchiveCover.astro';
+import CoverB from './CoverB.astro';
 import screen from '../../assets/cases/podcast/screen.jpg';
 import { langOf } from '../../lib/i18n.js';
 const en = langOf(Astro.url) === 'en';
+const c = en
+  ? { kick: 'Taiwan Mobile · App', title: 'MyMusic<br />Podcast', sub: 'Lead UI/UX designer<br />for a new podcast service', bigLabel: 'Earlier work · Usability testing', label: 'MyMusic Podcast (2020) cover: the podcast home screen' }
+  : { kick: '台灣大哥大 · App', title: 'MyMusic<br />Podcast', sub: 'Podcast 新服務的<br />UI/UX 主責設計師', bigLabel: '舊作 · 易用性測試', label: 'MyMusic Podcast（2020）封面：Podcast 首頁畫面' };
 ---
-<ArchiveCover year="2020" org="TAIWAN MOBILE"
-  title="MyMusic<br />Podcast"
-  meta={en ? 'App · UI/UX lead · Usability test' : 'App · UI/UX 主責 · 易用性測試'}
-  label={en ? 'MyMusic Podcast (2020) cover: the podcast home screen' : 'MyMusic Podcast（2020）封面：Podcast 首頁畫面'}>
-  <Image src={screen} alt="" widths={[284]} sizes="200px" />
-</ArchiveCover>
+<CoverB tone="stone" pattern="lines" shape="arch" accent="sparkle-loop" under="wave" no="05" kick={c.kick} title={c.title}
+  sub={c.sub} big="2020" bigLabel={c.bigLabel} label={c.label}>
+  <div class="phone"><div class="scr"><Image src={screen} alt="" widths={[284]} sizes="30vw" /></div></div>
+</CoverB>
+<style>
+  .phone { height: 40cqw; aspect-ratio: 375 / 780; background: #111; border-radius: 3.2cqw; padding: .8cqw; transform: rotate(-4deg); box-shadow: 0 3cqw 5cqw -3cqw rgba(0,0,0,.45); }
+  .scr { height: 100%; overflow: hidden; border-radius: 2.5cqw; background: #fff; }
+  .scr :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+</style>

@@ -1,14 +1,21 @@
 ---
-// myVideo 會員中心改版封面（舊作）：檔案封套風，畫面用改版後的帳號設定頁（取自 Notion 10.png）
+// myVideo 會員中心改版封面（舊作）：跟主打三篇同一套版型（CoverB），但用低調的 stone 色、大字放年份
 import { Image } from 'astro:assets';
-import ArchiveCover from './ArchiveCover.astro';
+import CoverB from './CoverB.astro';
 import screen from '../../assets/cases/myvideo/screen.png';
 import { langOf } from '../../lib/i18n.js';
 const en = langOf(Astro.url) === 'en';
+const c = en
+  ? { kick: 'Taiwan Mobile · Web (RWD)', title: 'myVideo<br />Member Center', sub: 'Restructuring where members<br />decide among plans and offers', bigLabel: 'Earlier work · Research & prototype', label: 'myVideo member center redesign (2020) cover: the redesigned account settings page' }
+  : { kick: '台灣大哥大 · Web（RWD）', title: 'myVideo<br />會員中心改版', sub: '會員中心是用戶在眾多方案<br />與優惠中做決定的地方', bigLabel: '舊作 · Research 與 Prototype', label: 'myVideo 會員中心改版（2020）封面：改版後的帳號設定頁' };
 ---
-<ArchiveCover year="2020" org="TAIWAN MOBILE"
-  title={en ? 'myVideo<br />Member Center' : 'myVideo<br />會員中心改版'}
-  meta={en ? 'Web (RWD) · Research · Prototype' : 'Web（RWD）· Research · Prototype'}
-  label={en ? 'myVideo member center redesign (2020) cover: the redesigned account settings page' : 'myVideo 會員中心改版（2020）封面：改版後的帳號設定頁'}>
-  <Image src={screen} alt="" widths={[640, 1000]} sizes="(min-width: 820px) 300px, 60vw" />
-</ArchiveCover>
+<CoverB tone="stone" pattern="dots" shape="square" accent="star-pin" under="line" no="04" kick={c.kick} title={c.title}
+  sub={c.sub} big="2020" bigLabel={c.bigLabel} label={c.label}>
+  <div class="win"><div class="bar"><i></i><i></i><i></i></div><Image src={screen} alt="" widths={[640, 1000]} sizes="(min-width: 820px) 300px, 60vw" /></div>
+</CoverB>
+<style>
+  .win { width: 38cqw; background: #fff; border-radius: 1.4cqw; overflow: hidden; transform: rotate(-4deg); box-shadow: 0 3cqw 5cqw -3cqw rgba(0,0,0,.45); }
+  .bar { height: 2.4cqw; background: #f1ede6; display: flex; align-items: center; gap: .7cqw; padding: 0 1.2cqw; }
+  .bar i { width: .9cqw; height: .9cqw; border-radius: 50%; background: #d8cfc2; }
+  .win :global(img) { display: block; width: 100%; height: auto; }
+</style>

@@ -4,7 +4,7 @@
 import '../../styles/cover.css';
 interface Props {
   locked?: boolean;   // 要密碼的案例：編號旁邊放鎖頭
-  tone: 'rust' | 'green' | 'mustard';
+  tone: 'rust' | 'green' | 'mustard' | 'stone';   // stone：舊作用的低調灰米色
   no: string; kick: string; title: string; sub: string;
   big: string; unit?: string; bigLabel: string;
   label: string;
@@ -64,6 +64,8 @@ const ringPath = {
   .cover-b { --tone: var(--rust); }
   .cover-b.tone-green { --tone: var(--accent); }
   .cover-b.tone-mustard { --tone: var(--mustard); }
+  .cover-b.tone-stone { --tone: #9a9286; }
+  .tone-stone .num b { font-size: 7cqw; color: var(--ink); }
   .bgpat { position: absolute; inset: 0; --pc: color-mix(in srgb, var(--tone) 38%, transparent); mask-image: linear-gradient(90deg, transparent 30%, #000 72%); }
   .pat-dots { background-image: radial-gradient(var(--pc) 1.2px, transparent 1.4px); background-size: 2.4cqw 2.4cqw; }
   .pat-grid { background-image: linear-gradient(var(--pc) 1px, transparent 1px), linear-gradient(90deg, var(--pc) 1px, transparent 1px); background-size: 3.2cqw 3.2cqw; opacity: .6; }

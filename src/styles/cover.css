@@ -7,6 +7,10 @@
 }
 .cover.tone-rust { background: var(--rust-soft); }
 .cover.tone-mustard { background: var(--mustard-soft); }
+.cover.tone-stone { background: #ece8e1; }
+/* 舊作（stone）：畫面平常灰階，滑過卡片恢復彩色 */
+.cover.tone-stone .obj img { filter: grayscale(1); transition: filter .4s ease; }
+.case-card:hover .cover.tone-stone .obj img { filter: none; }
 .cover .cv-text { padding-left: 7cqw; padding-right: 2cqw; }
 .cover .cv-no-row { display: flex; align-items: center; gap: 1cqw; margin: 0; line-height: 1; }
 /* 鎖頭：跟編號一樣高的深色圓 */
