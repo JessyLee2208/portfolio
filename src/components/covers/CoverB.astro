@@ -9,7 +9,7 @@ interface Props {
   no: string; kick: string; title: string; sub: string;
   big: string; unit?: string; bigLabel: string;
   label: string;
-  shape?: 'circle' | 'square' | 'arch' | 'rect' | 'triangle' | 'pill';
+  shape?: 'circle' | 'square' | 'arch' | 'rect' | 'triangle' | 'pill' | 'capsule';
   accent?: 'star-pin' | 'star-film' | 'clock' | 'sparkle-loop' | 'notes-loop' | 'card-coin' | 'stopwatch';
   under?: 'line' | 'dots' | 'wave';
   // 背景紋路每張封面都不一樣（11/10 Jessy）：dots 分店頁、grid Manager、lines AI、plus myVideo、waves Podcast、ruled BookFast
@@ -22,6 +22,7 @@ const ringPath = {
   arch: 'M12 190 C 10 140, 10 110, 14 92 C 24 40, 60 10, 100 9 C 142 8, 178 40, 187 92 C 191 112, 190 150, 188 191 C 140 189, 60 190, 16 190',
   rect: 'M16 7 C 70 4, 130 6, 184 7 C 193 8, 194 16, 193 30 C 191 90, 194 150, 192 172 C 191 190, 182 193, 168 192 C 110 195, 60 191, 20 193 C 9 192, 6 184, 8 170 C 9 110, 6 60, 8 24 C 8 12, 11 8, 20 7',
   pill: 'M70 6 C 100 4, 115 7, 130 6 C 170 5, 197 46, 196 100 C 195 154, 168 195, 128 194 C 110 193, 90 196, 70 194 C 30 195, 4 156, 4 100 C 4 44, 32 6, 74 7',
+  capsule: 'M100 5 C 160 4, 194 40, 193 84 C 192 104, 194 120, 193 128 C 192 168, 158 196, 100 195 C 42 196, 8 168, 7 126 C 8 110, 6 96, 7 80 C 8 38, 44 5, 104 6',
   triangle: 'M100 12 C 130 62, 160 116, 190 178 C 130 181, 70 180, 10 179 C 40 120, 70 64, 102 13',
 }[shape];
 ---
@@ -129,6 +130,7 @@ const ringPath = {
   .shape-arch .blob { border-radius: 50% 50% 3cqw 3cqw / 42% 42% 3cqw 3cqw; inset: 2cqw 3cqw 3cqw; }
   .shape-rect .blob { border-radius: 3cqw; inset: 8cqw 1cqw 8cqw 2cqw; }
   .shape-pill .blob { border-radius: 999px; inset: 7cqw 0 7cqw 1cqw; }
+  .shape-capsule .blob { border-radius: 999px; inset: 1cqw 9cqw 1cqw 10cqw; }
   .shape-triangle .blob { border-radius: 0; inset: 2cqw; clip-path: polygon(50% 3%, 97% 92%, 3% 92%); }
   .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px); background-size: 5.4cqw 5.4cqw; }
   .ring { position: absolute; inset: 0.6cqw; width: calc(100% - 1.2cqw); height: calc(100% - 1.2cqw); transform: translate(-1.2cqw, 1cqw) rotate(-6deg); overflow: visible; }
@@ -137,6 +139,7 @@ const ringPath = {
   /* 手繪線框跟色塊同一個範圍，只錯開一點點，看起來是同一個形狀 */
   .shape-rect .ring { top: 8cqw; left: 2cqw; width: calc(100% - 3cqw); height: calc(100% - 16cqw); transform: translate(-1.2cqw, 1cqw) rotate(-2deg); }
   .shape-pill .ring { top: 7cqw; left: 1cqw; width: calc(100% - 1cqw); height: calc(100% - 14cqw); transform: translate(-1.2cqw, 1cqw) rotate(-2deg); }
+  .shape-capsule .ring { top: 1cqw; left: 10cqw; width: calc(100% - 19cqw); height: calc(100% - 2cqw); transform: translate(-1.2cqw, 1cqw) rotate(-3deg); }
   .shape-triangle .ring { transform: translate(-1cqw, .8cqw) rotate(-4deg); }
   .ring path { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
   .obj { position: relative; z-index: 2; display: grid; place-items: center; }
@@ -175,6 +178,7 @@ const ringPath = {
   .film .clap { fill: var(--sheet); stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
   .film .line { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; }
   .film .play { fill: var(--sheet); }
+  .shape-capsule .clock { top: 3cqw; right: 3cqw; left: auto; }
   .shape-triangle .clock { top: 12cqw; right: auto; left: 9cqw; }
 
   /* ── hover／捲進畫面時的小動畫 ── */

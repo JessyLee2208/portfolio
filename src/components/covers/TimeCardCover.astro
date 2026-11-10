@@ -1,5 +1,5 @@
 ---
-// BookFast 分鐘計費卡封面（舊作）：同一套版型（CoverB），stone 色、滑過變綠；三角形＋碼錶刻度紋路＋碼錶點綴，畫面用 App 進出場的 QR code 頁
+// BookFast 分鐘計費卡封面（舊作）：同一套版型（CoverB），stone 色、滑過變綠；直立膠囊＋碼錶刻度紋路（11/10 Jessy：不要三角形）＋碼錶點綴，畫面用 App 進出場的 QR code 頁
 import { Image } from 'astro:assets';
 import CoverB from './CoverB.astro';
 import screen from '../../assets/cases/timecard/app-qr.png';
@@ -9,7 +9,7 @@ const c = en
   ? { kick: 'BookFast · B2B + B2C', title: 'BookFast<br />Pay-per-minute Pass', sub: 'Gym passes charged<br />by the minute', bigLabel: 'Earlier work · Billing & settlement rules', label: 'BookFast pay-per-minute pass (2022) cover: the app entry QR code screen' }
   : { kick: 'BookFast · B2B + B2C', title: 'BookFast<br />分鐘計費卡', sub: '待多久、付多少的<br />健身房通行卡', bigLabel: '舊作 · 扣點、退款與核銷規則', label: 'BookFast 分鐘計費卡（2022）封面：App 進出場的 QR code 畫面' };
 ---
-<CoverB tone="stone" hover="green" pattern="ticks" shape="triangle" accent="stopwatch" under="line" no="04" kick={c.kick} title={c.title}
+<CoverB tone="stone" hover="green" pattern="ticks" shape="capsule" accent="stopwatch" under="line" no="04" kick={c.kick} title={c.title}
   sub={c.sub} big="2022" bigLabel={c.bigLabel} label={c.label}>
   <div class="ph"><Image src={screen} alt="" widths={[300, 500]} sizes="(min-width: 820px) 150px, 30vw" /></div>
 </CoverB>
