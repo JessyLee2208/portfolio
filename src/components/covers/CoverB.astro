@@ -19,8 +19,8 @@ const ringPath = {
   circle: 'M100 8 C 152 6, 194 46, 192 100 C 190 156, 150 194, 98 192 C 44 190, 6 150, 9 98 C 12 46, 50 10, 106 9',
   square: 'M30 12 C 80 8, 140 10, 172 12 C 188 14, 190 30, 189 60 C 188 110, 190 150, 188 172 C 186 188, 170 190, 140 189 C 90 188, 50 190, 28 188 C 12 186, 10 170, 11 140 C 12 90, 10 50, 12 28 C 13 16, 22 12, 36 11',
   arch: 'M12 190 C 10 140, 10 110, 14 92 C 24 40, 60 10, 100 9 C 142 8, 178 40, 187 92 C 191 112, 190 150, 188 191 C 140 189, 60 190, 16 190',
-  rect: 'M14 44 C 70 40, 130 42, 186 43 C 190 80, 189 120, 187 157 C 130 160, 70 158, 13 157 C 10 120, 11 80, 15 46',
-  pill: 'M60 30 C 100 28, 140 29, 158 31 C 196 36, 196 166, 158 170 C 120 173, 80 172, 42 170 C 4 166, 4 34, 44 31',
+  rect: 'M16 7 C 70 4, 130 6, 184 7 C 193 8, 194 16, 193 30 C 191 90, 194 150, 192 172 C 191 190, 182 193, 168 192 C 110 195, 60 191, 20 193 C 9 192, 6 184, 8 170 C 9 110, 6 60, 8 24 C 8 12, 11 8, 20 7',
+  pill: 'M70 6 C 100 4, 115 7, 130 6 C 170 5, 197 46, 196 100 C 195 154, 168 195, 128 194 C 110 193, 90 196, 70 194 C 30 195, 4 156, 4 100 C 4 44, 32 6, 74 7',
   triangle: 'M100 12 C 130 62, 160 116, 190 178 C 130 181, 70 180, 10 179 C 40 120, 70 64, 102 13',
 }[shape];
 ---
@@ -122,8 +122,9 @@ const ringPath = {
   .ring { position: absolute; inset: 0.6cqw; width: calc(100% - 1.2cqw); height: calc(100% - 1.2cqw); transform: translate(-1.2cqw, 1cqw) rotate(-6deg); overflow: visible; }
   .shape-square .ring { transform: translate(-1.4cqw, 1.2cqw) rotate(-3deg); inset: 1.6cqw; width: calc(100% - 3.2cqw); height: calc(100% - 3.2cqw); }
   .shape-arch .ring { transform: translate(-1.2cqw, 1cqw) rotate(-3deg); }
-  .shape-rect .ring { transform: translate(-1.2cqw, 1cqw) rotate(-3deg); }
-  .shape-pill .ring { transform: translate(-1cqw, .8cqw) rotate(-3deg); }
+  /* 手繪線框跟色塊同一個範圍，只錯開一點點，看起來是同一個形狀 */
+  .shape-rect .ring { top: 8cqw; left: 2cqw; width: calc(100% - 3cqw); height: calc(100% - 16cqw); transform: translate(-1.2cqw, 1cqw) rotate(-2deg); }
+  .shape-pill .ring { top: 7cqw; left: 1cqw; width: calc(100% - 1cqw); height: calc(100% - 14cqw); transform: translate(-1.2cqw, 1cqw) rotate(-2deg); }
   .shape-triangle .ring { transform: translate(-1cqw, .8cqw) rotate(-4deg); }
   .ring path { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
   .obj { position: relative; z-index: 2; display: grid; place-items: center; }
