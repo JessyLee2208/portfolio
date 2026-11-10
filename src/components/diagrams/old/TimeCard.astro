@@ -22,6 +22,15 @@ import newForm from '../../../assets/cases/timecard/admin-new-form.png';
 interface Props { kind: 'hero' | 'deduct' | 'refund' | 'settle' | 'app' | 'scan' | 'new-plan' | 'roles' | 'lanes' | 'timer' | 'journey'; }
 const { kind } = Astro.props;
 const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
+// 會員旅程：11/10 Jessy 嫌原版色塊太多太雜，選了 A 表格版（只用黑灰字，靠粗細分層）
+const JR = [
+  { st: '購買', do: '在官網、App 或櫃檯買點數方案', think: '每分鐘多少錢？買多少才夠？', pain: '不知道計費方式，很難判斷要買哪個方案', fix: '購買頁列出點數、會館、啟用方式和期限' },
+  { st: '進場', do: '掃 QR code 進場', think: '這張卡能用嗎？還有欠款嗎？', pain: '手上有好幾張卡，不知道會用哪張', fix: '顯示這張卡的點數；有欠款時卡片壓上欠款圖和餘額，補完才能進場' },
+  { st: '在館內', do: '運動中', think: '我待多久了？會扣多少？', pain: '計費看不見，擔心超時多扣', fix: '首頁計時器顯示已待多久、預計扣幾點' },
+  { st: '出場', do: '掃 QR code 出場', think: '扣了多少？還剩多少？', pain: '點數不夠怎麼辦？扣的是哪一筆？', fix: '自動選進場那張卡、照扣點順序扣；點數不夠也能出場，差額變成欠款' },
+  { st: '之後', do: '查紀錄、加值或退款', think: '點數快過期了嗎？還能退嗎？', pain: '規則複雜，不知道能退多少', fix: '「我的」看總點數和各方案，用完的收進失效方案' },
+];
+
 ---
 {kind === 'hero' && (
   <figure class="dg case-timecard reveal tc-hero" aria-label="分鐘計費卡：後台的方案設定，以及會員 App 上的通行卡">
@@ -54,23 +63,31 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 
 {kind === 'journey' && (
   <Board plate title="會員旅程：從買卡到出場" c="timecard" label="會員旅程：購買、進場、在館內、出場、之後五個階段，會員在做什麼、心裡在想什麼、痛點，以及對應的解法">
-    <div class="lanes-wrap" tabindex="0" aria-label="會員旅程圖，可以左右滑動">
-      <div class="jr">
-        <span class="corner"></span>
-        {['購買', '進場', '在館內', '出場', '之後'].map((st, i) => <span class="st"><b>{i + 1}</b>{st}</span>)}
-        {[
-          ['做什麼', 'do', ['在官網、App 或櫃檯買點數方案', '掃 QR code 進場', '運動中', '掃 QR code 出場', '查紀錄、加值或退款']],
-          ['心裡想', 'think', ['每分鐘多少錢？買多少才夠？', '這張卡能用嗎？還有欠款嗎？', '我待多久了？會扣多少？', '扣了多少？還剩多少？', '點數快過期了嗎？還能退嗎？']],
-          ['痛點', 'pain', ['不知道計費方式，很難判斷要買哪個方案', '手上有好幾張卡，不知道會用哪張', '計費看不見，擔心超時多扣', '點數不夠時怎麼辦？扣的是哪一筆？', '規則複雜，不知道能退多少']],
-          ['解法', 'fix', ['購買頁列出點數、會館、啟用方式和期限', '顯示這張卡的點數；有欠款時卡片壓上欠款圖和欠款餘額，補完才能進場', '首頁計時器顯示已待多久、預計扣幾點', '自動選進場那張卡，照扣點順序扣；點數不夠也能出場，差額變成欠款', '「我的」看總點數和各方案，用完的收進失效方案；退款規則']],
-        ].map(([lab, cls, cells]) => (
-          <>
-            <span class:list={['who-l', `jl-${cls}`]}>{lab}</span>
-            {(cells as string[]).map((c) => <span class:list={['cell', `jc-${cls}`]}>{c}</span>)}
-          </>
-        ))}
-      </div>
+    <!-- 桌機用表格（A），手機一步一列（B），11/10 Jessy -->
+    <div class="ja-wrap">
+      <table class="ja">
+        <thead><tr><th></th>{JR.map((r, i) => <th><span class="n">{i + 1}</span>{r.st}</th>)}</tr></thead>
+        <tbody>
+          <tr><th>做什麼</th>{JR.map((r) => <td class="d">{r.do}</td>)}</tr>
+          <tr><th>心裡想</th>{JR.map((r) => <td class="t">「{r.think}」</td>)}</tr>
+          <tr><th>痛點</th>{JR.map((r) => <td class="p">{r.pain}</td>)}</tr>
+          <tr><th>解法</th>{JR.map((r) => <td class="f">{r.fix}</td>)}</tr>
+        </tbody>
+      </table>
     </div>
+    <ol class="jb">
+      {JR.map((r, i) => (
+        <li>
+          <p class="jb-st"><span class="n">{i + 1}</span><b>{r.st}</b></p>
+          <dl class="jb-dl">
+            <dt>做什麼</dt><dd>{r.do}</dd>
+            <dt>心裡想</dt><dd class="t">「{r.think}」</dd>
+            <dt>痛點</dt><dd>{r.pain}</dd>
+            <dt>解法</dt><dd class="f">{r.fix}</dd>
+          </dl>
+        </li>
+      ))}
+    </ol>
   </Board>
 )}
 
@@ -237,13 +254,32 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
   .st b { width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); }
   .who-l { display: grid; align-items: center; font-weight: 900; font-size: 13.5px; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 10px 6px; text-align: center; white-space: nowrap; }
   .cell { background: var(--sheet); border-radius: 10px; padding: 9px 10px; font-size: 13px; line-height: 1.6; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
-  /* 會員旅程：卡住的地方用暖色、我們的設計用綠色，其他兩列白卡 */
-  .jr { display: grid; grid-template-columns: 74px repeat(5, minmax(100px, 1fr)); gap: 6px; min-width: 600px; }
-  .who-l.jl-pain { background: var(--rust-ink, #9a4a2c); }
-  .who-l.jl-fix { background: var(--tone-ink); }
-  .cell.jc-think { font-style: normal; color: var(--muted); }
-  .cell.jc-pain { background: var(--rust-soft, #f6e3da); border-color: transparent; }
-  .cell.jc-fix { background: var(--tone-ink); color: #fff; border-color: transparent; }
+  /* 會員旅程：安靜的表格，只用黑灰字、靠粗細分層；手機改成一步一列 */
+  .jb { display: none; }
+  @media (max-width: 719px) {
+    .ja-wrap { display: none; }
+    .jb { display: grid; list-style: none; margin: 0; padding: 0; gap: 10px; }
+    .jb li { background: var(--sheet); border-radius: 12px; padding: 14px 16px; }
+    :global(.prose) .jb li p { margin: 0; }
+    :global(.prose) .jb-st { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px !important; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+    .jb-st .n { font: 700 12px/1 var(--f-mono); color: var(--muted); }
+    .jb-st b { font-size: 16px; font-weight: 900; }
+    .jb-dl { margin: 0; display: grid; grid-template-columns: 3.6em 1fr; gap: 8px 12px; font-size: 14px; line-height: 1.6; }
+    .jb-dl dt { font-size: 12.5px; font-weight: 700; color: var(--muted); padding-top: 1px; }
+    .jb-dl dd { margin: 0; }
+    .jb-dl .t { color: var(--muted); }
+    .jb-dl .f { font-weight: 700; }
+  }
+  .ja { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 13.5px; line-height: 1.6; background: none; }
+  .ja th, .ja td { text-align: left; vertical-align: top; padding: 10px 10px; border-bottom: 1px solid var(--line); background: none; }
+  .ja thead th { font-size: 14.5px; font-weight: 900; color: var(--ink); border-bottom: 1.5px solid var(--ink); padding-bottom: 8px; }
+  .ja .n { font: 700 12px/1 var(--f-mono); color: var(--muted); margin-right: 6px; }
+  .ja tbody th { font-size: 12.5px; font-weight: 700; color: var(--muted); white-space: nowrap; width: 56px; }
+  .ja tbody tr:last-child th, .ja tbody tr:last-child td { border-bottom: 0; }
+  .ja .t { color: var(--muted); }
+  .ja .p { color: var(--ink); }
+  .ja .f { color: var(--ink); font-weight: 700; }
+
   .cell.empty { background: transparent; border: 1px dashed color-mix(in srgb, var(--tone) 35%, transparent); }
 
   /* 扣點順序 */
