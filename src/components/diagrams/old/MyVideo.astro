@@ -89,20 +89,27 @@ const { kind } = Astro.props;
 {kind === 'usability' && (
   <Board kicker="Usability Test" title="易用性測試摘要" c="branch" label="易用性測試：Task 一易用性評分 70；Task 二身份共享 A 版本 77、B 版本 52">
     <div class="ut">
-      <div class="panel task">
-        <span class="t">測試 Task 一：<b>帳戶總覽、交易總覽、帳號設定</b><small>11 項測試</small></span>
-        <span class="d">透過易用性測試，找出用戶會遇到困難或認知障礙的地方，並進行修改</span>
-        <div class="scores"><span class="score"><small>易用性評分</small><b>70</b></span></div>
-      </div>
-      <div class="panel task">
-        <span class="t">測試 Task 二：<b>身份共享 A/B 版本</b><small>3 項測試</small></span>
-        <span class="d">透過 A/B 兩種版本決定之後共享身分的流程走向，並觀察用戶的反應。</span>
-        <div class="scores">
-          <span class="score win"><small>A 版本<br />易用性評分</small><b>77</b></span>
-          <span class="score"><small>B 版本<br />易用性評分</small><b>52</b></span>
+      {[
+        { n: '一', cnt: 11, t: '帳戶總覽、交易總覽、帳號設定', d: '透過易用性測試，找出用戶會遇到困難或認知障礙的地方，並進行修改', bars: [['評分', 70, true]] },
+        { n: '二', cnt: 3, t: '身份共享 A/B 版本', d: '透過 A/B 兩種版本決定之後共享身分的流程走向，並觀察用戶的反應。', bars: [['A 版本', 77, true], ['B 版本', 52, false]] },
+      ].map((k) => (
+        <div class="panel task">
+          <p class="tk">測試 Task {k.n}<span>{k.cnt} 項測試</span></p>
+          <p class="tt">{k.t}</p>
+          <div class="bars">
+            {k.bars.map(([lab, v, on]) => (
+              <div class:list={['bar', { on }]}>
+                <span class="bl">{lab}</span>
+                <span class="track"><i style={`width:${v}%`}></i><em class="pass" aria-hidden="true"></em></span>
+                <b>{v}</b>
+              </div>
+            ))}
+          </div>
+          <p class="td">{k.d}</p>
         </div>
-      </div>
+      ))}
     </div>
+    <p class="passnote"><em class="pass-key"></em>虛線是及格分數：易用性的平均分數為 68 分，因此可以將此分數作為產品及格分數</p>
   </Board>
 )}
 
@@ -139,20 +146,24 @@ const { kind } = Astro.props;
   .n-left::after, .n-right::before { content: ''; position: absolute; top: 50%; width: 14px; border-top: 2px solid var(--tone-ink); opacity: .5; }
   .n-left::after { left: 100%; } .n-right::before { right: 100%; }
 
-  /* 易用性測試 */
+  /* 易用性測試：兩個 Task 並排，分數用長條（滿分 100），虛線標出及格 68 分 */
   .ut { display: grid; gap: 14px; max-width: 860px; margin: 0 auto; }
-  .task { display: grid; gap: 8px; }
-  @media (min-width: 760px) { .task { grid-template-columns: 1fr auto; grid-template-rows: auto auto; column-gap: 24px; } .task .scores { grid-row: 1 / 3; grid-column: 2; align-self: center; } }
-  .task .t { font-weight: 900; font-size: 17px; line-height: 1.5; }
-  .task .t b { color: var(--tone-ink); }
-  .task .t small { margin-left: 8px; font: 500 12px/1 var(--f-mono); color: var(--muted); }
-  .task .d { font-size: 14.5px; color: var(--muted); line-height: 1.7; }
-  .scores { display: flex; gap: 10px; }
-  .score { display: grid; justify-items: center; gap: 2px; min-width: 112px; padding: 10px 14px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); }
-  .score small { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.4; }
-  .score b { font: 800 40px/1 var(--f-display); color: var(--ink); }
-  .score.win { border: 2px solid var(--tone-ink); }
-  .score.win b, .scores .score:only-child b { color: var(--tone-ink); }
+  @media (min-width: 600px) { .ut { grid-template-columns: 1fr 1fr; } }
+  .task { display: grid; gap: 8px; align-content: start; padding: 16px 18px; }
+  .tk { margin: 0; font: 700 13px/1 var(--f-mono); color: var(--muted); display: flex; justify-content: space-between; }
+  .tk span { font-weight: 500; }
+  .tt { margin: 0; font-weight: 900; font-size: 17px; line-height: 1.4; color: var(--tone-ink); }
+  .bars { display: grid; gap: 8px; margin: 4px 0; }
+  .bar { display: grid; grid-template-columns: 5em 1fr 2.2em; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .bar b { font: 800 22px/1 var(--f-display); color: var(--muted); text-align: right; }
+  .bar.on b { color: var(--tone-ink); }
+  .track { position: relative; height: 12px; border-radius: 99px; background: var(--paper); border: 1px solid var(--line); overflow: visible; }
+  .track i { display: block; height: 100%; border-radius: 99px; background: #cfc8bd; }
+  .bar.on .track i { background: var(--tone-ink); }
+  .pass { position: absolute; left: 68%; top: -4px; bottom: -4px; border-left: 2px dashed var(--ink); opacity: .5; }
+  .td { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--muted); }
+  .passnote { margin: 12px 0 0; text-align: center; font-size: 13px; color: var(--muted); }
+  .pass-key { display: inline-block; width: 0; height: 12px; border-left: 2px dashed var(--ink); opacity: .5; margin-right: 6px; vertical-align: -1px; }
 
   /* 競品分析：精簡對照表 */
   .mx-wrap { overflow-x: auto; max-width: 900px; margin: 0 auto; border-radius: 14px; background: var(--sheet); box-shadow: var(--shadow); border: 1px solid var(--line); }
