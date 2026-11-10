@@ -1,5 +1,6 @@
 ---
 import Avatar from './Avatar.astro';
+import BrandIcon from './BrandIcon.astro';
 ---
 <footer class="site-footer" id="contact">
   <div class="wrap inner">
@@ -11,10 +12,10 @@ import Avatar from './Avatar.astro';
       </div>
     </div>
     <ul class="links">
-      <li><a href="mailto:jessylee2208@gmail.com">jessylee2208@gmail.com</a></li>
-      <li><a href="https://www.linkedin.com/in/jessy-lee-2208/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
-      <li><a href="https://medium.com/@jessylee2208" target="_blank" rel="noopener">Medium ↗</a></li>
-      <li><a href="https://github.com/JessyLee2208" target="_blank" rel="noopener">GitHub ↗</a></li>
+      <li><a href="mailto:jessylee2208@gmail.com"><BrandIcon name="mail" />jessylee2208@gmail.com</a></li>
+      <li><a href="https://www.linkedin.com/in/jessy-lee-2208/" target="_blank" rel="noopener"><BrandIcon name="linkedin" />LinkedIn</a></li>
+      <li><a href="https://medium.com/@jessylee2208" target="_blank" rel="noopener"><BrandIcon name="medium" />Medium</a></li>
+      <li><a href="https://github.com/JessyLee2208" target="_blank" rel="noopener"><BrandIcon name="github" />GitHub</a></li>
     </ul>
   </div>
   <p class="wrap copy label">© 2026 Jessy Lee · 網站由我設計、用 Astro 寫成</p>
@@ -27,6 +28,6 @@ import Avatar from './Avatar.astro';
   .muted { color: var(--muted); margin: 0; }
   .links { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0 8px; }
   /* 手指好點：每個連結至少 44px 高 */
-  .links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; }
+  .links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 6px; }
   .copy { margin-top: 32px; text-transform: none; letter-spacing: .04em; }
 </style>
