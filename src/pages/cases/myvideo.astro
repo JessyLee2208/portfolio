@@ -1,16 +1,10 @@
 ---
 // myVideo 會員中心改版（舊作，2020）：文字照 Notion 原文（_notion-raw/myvideo/content.md），只補中英文間空格、修明顯錯字
 import CaseLayout from '../../layouts/CaseLayout.astro';
-import Figure from '../../components/Figure.astro';
 import { url } from '../../lib/url.js';
 import MV from '../../components/diagrams/old/MyVideo.astro';
-import oldIssues from '../../assets/cases/myvideo/03.png';
-import competitors from '../../assets/cases/myvideo/05.png';
-import plans from '../../assets/cases/myvideo/09.png';
-import account from '../../assets/cases/myvideo/10.png';
-import family from '../../assets/cases/myvideo/11.png';
+import MS from '../../components/diagrams/old/MyVideoScreens.astro';
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const toc = [
   { id: 'about', label: 'About myVideo' },
   { id: 'goals', label: '聚焦目的' },
@@ -32,11 +26,7 @@ const toc = [
   toc={toc}
   next={{ href: url('/cases/podcast/'), title: 'MyMusic Podcast' }}
 >
-  <Fragment slot="hero">
-    <figure class="hero-vid">
-      <video src={`${base}/media/myvideo-hero.mp4`} poster={`${base}/media/myvideo-hero.jpg`} autoplay muted loop playsinline aria-label="myVideo 會員中心改版畫面"></video>
-    </figure>
-  </Fragment>
+  <Fragment slot="hero"><MS kind="hero" /></Fragment>
 
   <h2 id="about">About myVideo</h2>
   <p>myVideo 是台灣大哥大提供的數位媒體內容服務，支援多種跨平台裝置上觀看隨選影片（Video-On-Demand）與直播內容（Live Channel）。</p>
@@ -59,7 +49,7 @@ const toc = [
 
   <h3>Why? and How?</h3>
   <p>我們通過 GA、支付轉化漏斗分析以及綜合事前的用戶問卷調查發現，改版前的會員中心信息架構較鬆散和單一，缺乏關鍵信息的強化與提示。現行方案的提示不明顯，且無法線上進行作業，導致用戶無法在使用的過程中順利完成任務進而放棄。</p>
-  <Figure src={oldIssues} alt="改版前的會員中心：資訊架構鬆散、方案明細不夠詳細、優惠區域不夠明顯" />
+  <MS kind="old" />
   <p>此外，目前的家人共享功能、序號兌換與會員中心的入口分別散落在不同地方，容易產生用戶在修改個人資訊與其他身份資訊的入口資訊混淆。</p>
 
   <hr />
@@ -69,7 +59,16 @@ const toc = [
 
   <h3>資料收集</h3>
   <p>透過競品分析，參考與 myVideo 的營收模式、重點功能相似的產品來研究其資訊架構，幫助團隊更快的將框架重新定義，並作為事前問卷調查的主要依據。</p>
-  <Figure src={competitors} alt="競品分析：Netflix、Apple TV+、愛奇藝、Spotify、Melon、KKBOX 的共享帳號、資訊架構類型與營收方式" />
+  <div class="tw"><table class="comp">
+    <caption>競品分析（底色標出的是本次主要參考的產品）</caption>
+    <thead><tr><th></th><th class="ref">Netflix</th><th>Apple TV+</th><th>愛奇藝</th><th class="ref">Spotify</th><th class="ref">Melon</th><th>KKBOX</th></tr></thead>
+    <tbody>
+      <tr><th>共享帳號</th><td class="ref">有（4+1）<br /><small>共用相同帳密</small></td><td>有（5+1）<br /><small>獨立帳密</small></td><td>無</td><td class="ref">有（6）<br /><small>獨立帳密</small></td><td class="ref">無</td><td>無</td></tr>
+      <tr><th>資訊架構類型</th><td class="ref">資訊全頁展開</td><td>資訊全頁展開</td><td>側邊分頁型</td><td class="ref">側邊分頁型</td><td class="ref">綜合型<br /><small>資訊分類＆內容展開</small></td><td>側邊分頁型</td></tr>
+      <tr><th>營收方式</th><td class="ref">等級月租制</td><td>月租＆產品點數</td><td>方案月租制</td><td class="ref">方案月租制</td><td class="ref">月租＋單曲＋點數等綜合制度</td><td>方案月租制</td></tr>
+      <tr><th>身分別內容變化</th><td class="ref">無</td><td>無</td><td>無</td><td class="ref">有<br /><small>主帳號與子帳號顯示內容不同</small></td><td class="ref">無</td><td>無</td></tr>
+    </tbody>
+  </table></div>
 
   <h3>問卷調查</h3>
   <p>在做問卷調查前，首先需要了解我們想透過這份問卷得到什麼樣的答案。而本次問卷的發放目的主要著重於 <span class="hl">了解用戶對會員中心的需求及期待</span>＆<span class="hl">現有用戶的使用行為與狀況掌握</span>。</p>
@@ -90,21 +89,28 @@ const toc = [
 
   <h3>方案與交易紀錄</h3>
   <p><span class="tag-b">Before</span>將方案與帳號資訊顯示在同一區域，交易紀錄為獨立選單<br /><span class="tag-a">After</span>獨立出交易紀錄的獨立單元，方便用戶針對交易進行查找</p>
-  <Figure src={plans} alt="方案與交易紀錄改版前後" wide />
+  <MS kind="plans" />
 
   <h3>帳戶資訊</h3>
   <p><span class="tag-b">Before</span>將個人資訊與方案放在同個分類，付款設定與密碼保護則為不同選單。<br /><span class="tag-a">After</span>將帳號設定獨立出來，方便使用者做帳號的相關設定</p>
-  <Figure src={account} alt="帳戶資訊改版前後" wide />
+  <MS kind="account" />
 
   <h3>家人共享</h3>
   <p><span class="tag-b">Before</span>會員中心沒有身份修改與編輯，入口獨立。<br /><span class="tag-a">After</span>將身份編輯與新增功能合併至會員中心，且獨立出一個單元。並將所有身分同時攤開，選擇編輯身份時不必切頁</p>
-  <Figure src={family} alt="家人共享改版前後" wide />
+  <MS kind="family" />
 </CaseLayout>
 
 <style>
-  .hero-vid { margin: 40px 0 0; }
-  .hero-vid video { display: block; width: 100%; border-radius: var(--radius); border: 1px solid var(--line); background: #111; }
   .muted { color: var(--muted); font-size: 14px; }
+  /* 競品表：手機可左右滑；本次參考的三個產品欄位加底色 */
+  .tw { overflow-x: auto; margin: 20px 0 24px; }
+  .tw :global(table.comp) { min-width: 680px; margin: 0; font-size: 14px; text-align: center; table-layout: fixed; }
+  .tw :global(table.comp th:first-child) { width: 8.5em; min-width: 0; }
+  .comp th, .comp td { text-align: center; vertical-align: middle; }
+  .comp tbody th { text-align: left; white-space: nowrap; }
+  .comp .ref { background: color-mix(in srgb, var(--tone-soft) 70%, transparent); font-weight: 600; }
+  .comp small { color: var(--muted); font-weight: 400; }
+  .comp caption { caption-side: bottom; padding-top: 10px; font-size: 13px; color: var(--muted); }
   .center { text-align: center; }
   .tag-b, .tag-a { display: inline-block; font: 700 12px/1 var(--f-mono); padding: 5px 8px; border-radius: 6px; margin-right: 8px; vertical-align: 1px; }
   .tag-b { background: var(--line); color: var(--muted); }
