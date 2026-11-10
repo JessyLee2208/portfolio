@@ -1,5 +1,6 @@
 ---
-// 首頁案例卡片：封面（slot）已有編號、類別、標題、大數字，下面只放封面沒有的：一句說明、標籤、看案例
+// 首頁案例卡片：封面（slot）已有編號、類別、標題、大數字，下面只放封面沒有的：一句說明、標籤
+// 整張卡片可點，不另外放「看案例」；要密碼的案例在封面右上角放鎖頭（11/10 Jessy）
 interface Props { href: string; title: string; summary: string; tags: string[]; wide?: boolean; locked?: boolean; }
 const { href, title, summary, tags, wide = false, locked = false } = Astro.props;
 import { langOf } from '../lib/i18n.js';
@@ -7,30 +8,27 @@ import BrandIcon from './BrandIcon.astro';
 const en = langOf(Astro.url) === 'en';
 ---
 <a class:list={['case-card', 'reveal', { wide }]} href={href}>
-  <div class="media"><slot /></div>
+  <div class="media">
+    <slot />
+    {locked && <span class="lock-badge" title={en ? 'Password required' : '需要密碼'}><BrandIcon name="lock" /><span class="sr">{en ? 'Password required' : '需要密碼'}</span></span>}
+  </div>
   <div class="body">
     <h3 class="sr">{title}</h3>
     <p class="summary">{summary}</p>
-    <div class="foot">
-      <ul class="tags">{tags.map((t) => <li class="chip">{t}</li>)}</ul>
-      <span class:list={['more', { lock: locked }]}>{locked && <BrandIcon name="lock" />}{locked ? (en ? 'Password required' : '需要密碼') : (en ? 'Read case study' : '看案例')}<svg class="chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6" /></svg></span>
-    </div>
+    <ul class="tags">{tags.map((t) => <li class="chip">{t}</li>)}</ul>
   </div>
 </a>
 <style>
   .case-card { display: grid; grid-template-columns: 1fr; background: var(--sheet); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; color: var(--ink); text-decoration: none; box-shadow: var(--shadow); transition: transform .25s ease; }
   .case-card:hover { transform: translateY(-4px); }
   .case-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-  .media { line-height: 0; }
+  .media { line-height: 0; position: relative; }
+  /* 要密碼的案例：封面右上角的鎖頭 */
+  .lock-badge { position: absolute; top: 14px; right: 14px; z-index: 3; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--paper); box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+  .lock-badge :global(.bi) { width: 18px; height: 18px; }
   .body { padding: 18px 22px 20px; display: flex; flex-direction: column; gap: 14px; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .summary { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
-  .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
   .tags { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-  .more { color: var(--accent); font-weight: 700; font-size: 15px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
-  .chev { width: 14px; height: 14px; margin-left: -2px; }
-  /* 中文字的視覺中心比字框中心低一點，icon 往下移 1.5px 才會看起來對齊 */
-  .more :global(svg) { transform: translateY(1.5px); }
-  .more :global(.bi) { width: 17px; height: 17px; }
   @media (prefers-reduced-motion: reduce) { .case-card { transition: none; } }
 </style>
