@@ -1,0 +1,12 @@
+---
+// 圖解上的游標：Jessy 用小頭像，AI 黃色，工程師綠色
+import Avatar from '../Avatar.astro';
+interface Props { who: 'jessy' | 'ai' | 'eng'; label?: string; uid?: string; class?: string; }
+const { who, label, uid = 'cur', class: cls = '' } = Astro.props;
+const text = label ?? (who === 'jessy' ? 'Jessy' : who === 'ai' ? 'AI' : '工程師');
+---
+<span class:list={['cursor', `who-${who}`, cls]} aria-hidden="true">
+  {who === 'jessy'
+    ? <><Avatar uid={uid} size={44} expr={2} /><span class="tag">{text}</span></>
+    : <><svg viewBox="0 0 24 24"><path d="M3 2 L21 10 L12 12 L9 21 Z" /></svg><span class="tag">{text}</span></>}
+</span>

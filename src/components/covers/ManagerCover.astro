@@ -1,0 +1,20 @@
+---
+import CoverB from './CoverB.astro';
+import SlotCard from '../diagrams/manager/SlotCard.astro';
+---
+<CoverB tone="green" pattern="grid" shape="square" accent="clock" under="dots" no="02" kick="B2B · 店家後台" title="FunNow Manager<br />販售時段改版"
+  sub="讓店家一眼看懂<br />每個時段還能賣幾份" big="3" unit="種時段" bigLabel="循環設定、特殊設定、限時促銷，一眼分辨"
+  label="FunNow Manager 販售時段改版封面：用顏色區分三種時段、顯示已售份數的時段卡片">
+  <div class="sheet">
+    <SlotCard type="loop" time="10:00-11:00" stock="12/40" name="循環設定" price="TWD 880" />
+    <SlotCard type="promo" time="10:00-11:00" soldOut name="限時促銷" price="TWD 680" />
+    <SlotCard type="special" time="10:00-11:00" stock="3/20" name="特殊設定" price="TWD 980" />
+  </div>
+</CoverB>
+<style>
+  .sheet { width: 25cqw; background: var(--sheet); border-radius: 2cqw; padding: 1.8cqw; display: grid; gap: 1.1cqw; transform: rotate(-4deg); box-shadow: 0 3cqw 5cqw -3cqw rgba(0,0,0,.35); }
+  .sheet :global(.head) { padding: .8cqw 1.1cqw; }
+  .sheet :global(.head b) { font-size: 1.7cqw; }
+  .sheet :global(.head span), .sheet :global(.head em) { font-size: 1.2cqw; padding: .2cqw .6cqw; }
+  .sheet :global(.bd) { padding: .6cqw 1.1cqw .9cqw; font-size: 1.5cqw; }
+</style>

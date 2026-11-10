@@ -1,0 +1,78 @@
+---
+// Manager 案例頂部：取代 Notion 的灰底橘字主視覺。
+// 新版時段設定的週曆（用 SlotCard 元件重畫，照產品原色），卡片依序淡入。
+import '../../../styles/diagram.css';
+import SlotCard from './SlotCard.astro';
+type T = 'loop' | 'promo' | 'special' | 'pause';
+interface Slot { type: T; time: string; name: string; price?: string; stock?: string; sold?: boolean; }
+const L = (time: string, stock: string, sold = false): Slot => ({ type: 'loop', time, name: '循環設定', price: 'TWD 880', stock, sold });
+const P = (time: string, stock: string, sold = false): Slot => ({ type: 'promo', time, name: '限時促銷', price: 'TWD 880', stock, sold });
+const S = (time: string, stock: string, sold = false): Slot => ({ type: 'special', time, name: '特殊設定', price: 'TWD 880', stock, sold });
+const X = (time: string): Slot => ({ type: 'pause', time, name: '時段暫停' });
+const days = [
+  { d: '週一', n: 8, slots: [L('11:00-13:00', '12/40'), L('17:00-19:00', '20/40')] },
+  { d: '週二', n: 9, slots: [L('11:00-13:00', '8/40'), P('14:00-16:00', '3/10')] },
+  { d: '週三', n: 10, slots: [L('11:00-13:00', '15/40'), X('17:00-19:00')] },
+  { d: '週四', n: 11, slots: [P('14:00-16:00', '', true), L('17:00-19:00', '26/40')] },
+  { d: '週五', n: 12, slots: [L('11:00-13:00', '31/40'), L('17:00-19:00', '', true)] },
+  { d: '週六', n: 13, slots: [S('11:00-14:00', '18/30'), S('17:00-20:00', '', true)] },
+  { d: '週日', n: 14, slots: [S('11:00-14:00', '22/30'), P('15:00-16:00', '6/10')] },
+];
+---
+<figure class="dg case-manager reveal hero-week" aria-label="新版 FunNow Manager 時段設定週曆：每張時段卡片最上面是時間與已售／上限，類型用顏色區分，售完的卡片變淡">
+  <div class="dg-pat" aria-hidden="true"></div>
+  <div class="win">
+    <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>FunNow Manager · 販售時段</span></div>
+    <div class="week">
+      {days.map((day, i) => (
+        <div class="day">
+          <p class="dh"><span>{day.d}</span><b>{day.n}</b></p>
+          {day.slots.map((s, j) => (
+            <div class="cell" style={`--k:${i * 2 + j}`}>
+              <SlotCard type={s.type} time={s.time} name={s.name} price={s.price} stock={s.stock || undefined} soldOut={s.sold} />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+    <p class="legend" aria-hidden="true">
+      <span><i style="background:#5a9db3"></i>循環設定</span>
+      <span><i style="background:#5b67e8"></i>限時促銷</span>
+      <span><i style="background:#f5ae0b"></i>特殊設定</span>
+      <span><i style="background:#c43c42"></i>時段暫停</span>
+    </p>
+  </div>
+</figure>
+
+<style>
+  .hero-week { margin: 40px 0 0; }
+  .win { position: relative; max-width: 1000px; margin: 0 auto; background: #fff; border-radius: 12px; border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
+  .bar { height: 26px; background: #f1ede6; display: flex; align-items: center; gap: 6px; padding: 0 12px; }
+  .bar i { width: 8px; height: 8px; border-radius: 50%; background: #d8cfc2; }
+  .bar span { margin-left: 10px; font: 700 11px/1 var(--f-mono); color: #8a8378; }
+  .week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; padding: 14px 14px 6px; }
+  .day { display: grid; gap: 8px; align-content: start; min-width: 0; }
+  .dh { margin: 0 0 2px; display: flex; align-items: baseline; gap: 6px; font-size: 12px; color: #8a8378; border-bottom: 1px solid #eee7dc; padding-bottom: 6px; }
+  .dh b { font-size: 18px; color: #333; font-family: 'Roboto', var(--f-zh); }
+  /* 週曆裡的卡片縮小（選擇器多一層 .week，蓋過 SlotCard 自己的字級） */
+  .week .cell :global(.slot) { font-size: 11px; min-width: 0; overflow: hidden; }
+  .week .cell :global(.slot .head) { padding: 4px 6px; gap: 4px; min-width: 0; }
+  .week .cell :global(.slot .head b) { font-size: 11.5px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .week .cell :global(.slot .head span) { font-size: 10px; flex: none; }
+  .week .cell :global(.slot .head em) { font-size: 10px; padding: 1px 4px; flex: none; white-space: nowrap; }
+  .week .cell :global(.slot .bd) { padding: 4px 6px 6px; font-size: 11.5px; line-height: 1.5; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: flex-end; margin: 0; padding: 6px 14px 12px; font-size: 12px; color: var(--muted); }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+
+  /* 卡片依序淡入 */
+  .cell { opacity: 0; transform: translateY(6px); }
+  .is-in .cell { animation: slot-in .45s ease-out both; animation-delay: calc(var(--k) * 70ms + .2s); }
+  @keyframes slot-in { to { opacity: 1; transform: none; } }
+
+  /* 窄螢幕：週曆改成可以左右滑 */
+  @media (max-width: 760px) {
+    .week { grid-template-columns: repeat(7, 120px); overflow-x: auto; scrollbar-width: none; }
+    .week::-webkit-scrollbar { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .cell { opacity: 1; transform: none; } .is-in .cell { animation: none; } }
+</style>

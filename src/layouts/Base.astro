@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props { title?: string; description?: string; lang?: 'zh-Hant' | 'en'; }
+const {
+  title = 'Jessy Lee · 產品設計師',
+  description = '產品設計師 Jessy Lee 的作品集：把複雜的規則，變成用戶一眼看得懂的設計。',
+  lang = 'zh-Hant',
+} = Astro.props;
+// 分享預覽圖：public/og.png（1200×630），社群平台要完整網址
+const ogImage = new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/og.png`, Astro.site).href;
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+---
+<!doctype html>
+<html lang={lang} data-theme="light"><!-- 先固定淺色：系統深色模式下背景太黑、頭像黑線看不到（11/10 Jessy） -->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={pageUrl} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`} type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" />
+</head>
+<body>
+  <!-- 手繪線條濾鏡：圖解的外框共用 -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="sketch" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" />
+      <feDisplacementMap in="SourceGraphic" scale="2.4" />
+    </filter>
+  </svg>
+  <a class="skip" href="#main">跳到內容</a>
+  <Header />
+  <main id="main"><slot /></main>
+  <Footer />
+  <style>
+    .skip { position: absolute; left: -999px; top: 8px; background: var(--ink); color: var(--paper); padding: 8px 12px; border-radius: 6px; z-index: 10; }
+    .skip:focus { left: 8px; }
+  </style>
+  <script>
+    // 捲動淡入
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>

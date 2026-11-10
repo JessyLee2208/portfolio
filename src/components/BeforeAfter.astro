@@ -1,0 +1,44 @@
+---
+// 改版前後對照滑桿：兩張圖以同一比例、從頂端裁切（只比首屏）
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  before: ImageMetadata; after: ImageMetadata; alt: string;
+  beforeLabel?: string; afterLabel?: string;
+  ratio?: string;          // 例如 '375 / 640'
+  maxWidth?: string;       // 例如 '360px'
+  caption?: string;
+}
+const { before, after, alt, beforeLabel = '改版前', afterLabel = '改版後', ratio = '16 / 10', maxWidth = '100%', caption } = Astro.props;
+---
+<figure class="ba reveal" style={`--ratio:${ratio}; --mw:${maxWidth}`}>
+  <div class="stage" style="--pos:50%">
+    <Image src={after} alt={`${alt}（${afterLabel}）`} widths={[480, 900, 1440]} sizes="(max-width: 760px) 100vw, 720px" class="img" />
+    <div class="before-wrap" aria-hidden="true">
+      <Image src={before} alt="" widths={[480, 900, 1440]} sizes="(max-width: 760px) 100vw, 720px" class="img" />
+    </div>
+    <span class="tag l">{beforeLabel}</span><span class="tag r">{afterLabel}</span>
+    <div class="handle" aria-hidden="true"><span>⟷</span></div>
+    <input type="range" min="0" max="100" value="50" aria-label={`拖曳比較${beforeLabel}和${afterLabel}`} />
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+<style>
+  .ba { margin: 32px auto; max-width: var(--mw); }
+  .stage { position: relative; aspect-ratio: var(--ratio); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--sheet); box-shadow: var(--shadow); }
+  .stage :global(.img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+  .before-wrap { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+  .handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; background: var(--ink); transform: translateX(-1px); pointer-events: none; }
+  .handle span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--paper); display: grid; place-items: center; font-size: 16px; }
+  .tag { position: absolute; bottom: 12px; font: 700 12px/1 var(--f-zh); background: var(--ink); color: var(--paper); padding: 6px 10px; border-radius: 999px; pointer-events: none; }
+  .tag.l { left: 12px; } .tag.r { right: 12px; background: var(--rust); color: #fff; }
+  input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+  input:focus-visible ~ .handle span { outline: 2px solid var(--accent); outline-offset: 3px; }
+  figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); text-align: center; }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>('.ba .stage').forEach((stage) => {
+    const input = stage.querySelector('input')!;
+    input.addEventListener('input', () => stage.style.setProperty('--pos', input.value + '%'));
+  });
+</script>

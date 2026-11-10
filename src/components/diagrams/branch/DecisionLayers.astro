@@ -1,0 +1,34 @@
+---
+import Board from '../Board.astro';
+import Avatar from '../../Avatar.astro';
+const layers = [
+  { t: '看重點：是不是我要的', d: ['用戶點進分店頁的第一件事，是確認這家店值不值得繼續看下去。', '所以首屏只放能一眼判斷的資訊：照片和氣氛標籤看調性、評分和均消看值不值得、區域與距離看去不去得了、營業時間看想去的時間有沒有開。這一層要讓不適合的人早點離開，適合的人放心往下看。'], e: 0 },
+  { t: '看評價：別人覺得怎樣？', d: ['覺得「好像不錯」之後，用戶會想看看別人的經驗，確認自己沒有判斷錯。研究中幾乎每位受訪者都會先跳去 Google 看評論，佐證自己的判斷。'], e: 3 },
+  { t: '看細節：最終決定依據', d: ['決定要去之後，用戶在意的變成「實際去會不會有問題」：怎麼去、有沒有包廂或停車位、能不能刷卡、有沒有用餐規定。這些資訊不會讓人想去，但缺了會讓人不敢訂，或是到店後才發現不符期待。所以放在最後一次完整攤開，讓決定要訂的人做最後確認。'], e: 1 },
+];
+---
+<Board kicker="Information Architecture" title="照著用戶的決策流程排" c="branch" label="分店頁資訊架構：看重點、看評價、看細節三層">
+  <ol class="layers">
+    {layers.map((l, i) => (
+      <li class="layer">
+        <span class="num">{i + 1}</span>
+        <div class="panel body">
+          <p class="t">{l.t}</p>
+          {l.d.map((p) => <p class="d">{p}</p>)}
+          <Avatar uid={`dl${i}`} size={56} expr={l.e} head class="peek" />
+        </div>
+      </li>
+    ))}
+  </ol>
+</Board>
+<style>
+  .layers { list-style: none; padding: 0; margin: 0 auto; max-width: 860px; display: grid; gap: 28px; position: relative; }
+  .layers::before { content: ''; position: absolute; left: 13px; top: 30px; bottom: 30px; border-left: 1.5px dashed color-mix(in srgb, var(--tone-ink) 60%, transparent); }
+  .layer { display: grid; grid-template-columns: 28px 1fr; gap: 14px; align-items: start; position: relative; }
+  .num { width: 28px; height: 28px; border-radius: 50%; background: var(--sheet); border: 1.5px solid var(--tone-ink); color: var(--tone-ink); display: grid; place-items: center; font: 700 13px/1 var(--f-mono); position: relative; z-index: 1; margin-top: 20px; }
+  .body { padding: 18px 20px 20px; padding-right: 72px; }
+  .body :global(.peek) { position: absolute; right: 16px; top: 14px; }
+  .t { margin: 0 0 6px; font-size: 20px; font-weight: 900; }
+  .d { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.75; }
+  .d + .d { margin-top: 6px; }
+</style>

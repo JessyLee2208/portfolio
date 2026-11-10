@@ -1,0 +1,139 @@
+---
+// 封面版型（B 幾何色塊＋一點手繪）：左文字＋大數字，右邊色塊上放主視覺
+// 每張依內容換形狀（shape）、手繪點綴（accent）、大數字底線（under）
+import '../../styles/cover.css';
+interface Props {
+  tone: 'rust' | 'green' | 'mustard';
+  no: string; kick: string; title: string; sub: string;
+  big: string; unit?: string; bigLabel: string;
+  label: string;
+  shape?: 'circle' | 'square' | 'arch';
+  accent?: 'star-pin' | 'clock' | 'sparkle-loop';
+  under?: 'line' | 'dots' | 'wave';
+  pattern?: 'dots' | 'grid' | 'lines';
+}
+const { tone, no, kick, title, sub, big, unit, bigLabel, label, shape = 'circle', accent = 'star-pin', under = 'line', pattern = 'dots' } = Astro.props;
+const ringPath = {
+  circle: 'M100 8 C 152 6, 194 46, 192 100 C 190 156, 150 194, 98 192 C 44 190, 6 150, 9 98 C 12 46, 50 10, 106 9',
+  square: 'M30 12 C 80 8, 140 10, 172 12 C 188 14, 190 30, 189 60 C 188 110, 190 150, 188 172 C 186 188, 170 190, 140 189 C 90 188, 50 190, 28 188 C 12 186, 10 170, 11 140 C 12 90, 10 50, 12 28 C 13 16, 22 12, 36 11',
+  arch: 'M12 190 C 10 140, 10 110, 14 92 C 24 40, 60 10, 100 9 C 142 8, 178 40, 187 92 C 191 112, 190 150, 188 191 C 140 189, 60 190, 16 190',
+}[shape];
+---
+<div class:list={['cover', 'cover-b', `tone-${tone}`, `shape-${shape}`]} role="img" aria-label={label}>
+  <div class:list={['bgpat', `pat-${pattern}`]} aria-hidden="true"></div>
+  <div class="cv-text">
+    <p class="cv-no">{no}</p>
+    <p class="cv-kick">{kick}</p>
+    <p class="cv-title" set:html={title} />
+    <p class="cv-sub" set:html={sub} />
+    <div class="bignum">
+      <p class="num"><b>{big}</b>{unit && <span>{unit}</span>}</p>
+      {under === 'line' && <svg class="uline" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C 50 4, 120 18, 196 8" /></svg>}
+      {under === 'wave' && <svg class="uline" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 10 q 12 -8 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0" /></svg>}
+      {under === 'dots' && <p class="udots" aria-hidden="true"><i style="background:#5a9db3"></i><i style="background:#5b67e8"></i><i style="background:#f5ae0b"></i></p>}
+      <small>{bigLabel}</small>
+      <svg class="hand-arrow" viewBox="0 0 120 80" aria-hidden="true"><path d="M6 64 C 30 70, 70 60, 92 26 M80 28 L93 24 L96 38" /></svg>
+    </div>
+  </div>
+  <div class="cv-visual">
+    <div class="stage">
+      <div class="blob" aria-hidden="true">{shape === 'square' && <span class="grid"></span>}</div>
+      <svg class="ring" viewBox="0 0 200 200" preserveAspectRatio="none" aria-hidden="true"><path d={ringPath} /></svg>
+      <div class="obj"><slot /></div>
+      {accent === 'star-pin' && (
+        <>
+          <svg class="acc a1" viewBox="0 0 40 40" aria-hidden="true"><path class="fill" d="M20 3 l4.6 10.6 11.4 1 -8.7 7.5 2.7 11.2 -10 -6 -10 6 2.7 -11.2 -8.7 -7.5 11.4 -1 Z" /></svg>
+          <svg class="acc a2" viewBox="0 0 40 48" aria-hidden="true"><path class="fill2" d="M20 46 C 12 34, 4 26, 4 17 a16 16 0 0 1 32 0 c0 9 -8 17 -16 29 Z" /><circle class="hole" cx="20" cy="17" r="6" /></svg>
+        </>
+      )}
+      {accent === 'clock' && (
+        <svg class="acc a1 clock" viewBox="0 0 48 48" aria-hidden="true"><path class="fill" d="M24 4 C 36 3, 45 13, 44 25 C 43 37, 34 45, 23 44 C 11 43, 3 34, 4 23 C 5 12, 13 4, 26 4" /><path class="hand" d="M24 13 L24 25 L32 30" /></svg>
+      )}
+      {accent === 'sparkle-loop' && (
+        <>
+          <svg class="acc a1" viewBox="0 0 40 40" aria-hidden="true"><path class="fill" d="M20 2 Q 22 18 38 20 Q 22 22 20 38 Q 18 22 2 20 Q 18 18 20 2 Z" /></svg>
+          <svg class="acc a3" viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M12 1 Q 13 11 23 12 Q 13 13 12 23 Q 11 13 1 12 Q 11 11 12 1 Z" /></svg>
+          <svg class="acc loop" viewBox="0 0 100 60" aria-hidden="true"><path class="line" d="M8 40 C 10 10, 50 6, 56 28 C 60 44, 40 50, 36 36 C 32 20, 60 10, 88 22 M78 14 L90 22 L80 32" /></svg>
+        </>
+      )}
+    </div>
+  </div>
+</div>
+<style>
+  .cover-b { --tone: var(--rust); }
+  .cover-b.tone-green { --tone: var(--accent); }
+  .cover-b.tone-mustard { --tone: var(--mustard); }
+  .bgpat { position: absolute; inset: 0; --pc: color-mix(in srgb, var(--tone) 38%, transparent); mask-image: linear-gradient(90deg, transparent 30%, #000 72%); }
+  .pat-dots { background-image: radial-gradient(var(--pc) 1.2px, transparent 1.4px); background-size: 2.4cqw 2.4cqw; }
+  .pat-grid { background-image: linear-gradient(var(--pc) 1px, transparent 1px), linear-gradient(90deg, var(--pc) 1px, transparent 1px); background-size: 3.2cqw 3.2cqw; opacity: .6; }
+  .pat-lines { background-image: repeating-linear-gradient(-35deg, var(--pc) 0 1.5px, transparent 1.5px 1.8cqw); opacity: .7; }
+  .cv-text { position: relative; z-index: 2; }
+  .bignum { position: relative; display: inline-block; margin-top: 2.6cqw; }
+  .num { margin: 0; display: flex; align-items: baseline; gap: .5cqw; }
+  .num b { font: 800 9cqw/0.9 var(--f-display); color: var(--tone); letter-spacing: -.02em; }
+  .num span { font: 800 3cqw/1 var(--f-display); color: var(--tone); }
+  .tone-mustard .num b, .tone-mustard .num span { color: #b88422; }
+  .uline { display: block; width: 100%; height: 1.4cqw; margin-top: .2cqw; overflow: visible; }
+  .uline path, .hand-arrow path { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .udots { display: flex; gap: 1cqw; margin: .8cqw 0 0; }
+  .udots i { width: 1.6cqw; height: 1.6cqw; border-radius: 50%; border: 2px solid var(--ink); }
+  small { display: block; font: 700 1.6cqw/1.4 var(--f-zh); color: var(--muted); margin-top: .8cqw; }
+  .hand-arrow { position: absolute; left: 100%; top: 0; width: 9cqw; margin-left: .8cqw; overflow: visible; }
+
+  .stage { position: relative; width: 44cqw; aspect-ratio: 1; display: grid; place-items: center; }
+  .blob { position: absolute; inset: 2cqw; border-radius: 50%; background: var(--tone); opacity: .92; overflow: hidden; }
+  .shape-square .blob { border-radius: 4cqw; inset: 3cqw; }
+  .shape-arch .blob { border-radius: 50% 50% 3cqw 3cqw / 42% 42% 3cqw 3cqw; inset: 2cqw 3cqw 3cqw; }
+  .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px); background-size: 5.4cqw 5.4cqw; }
+  .ring { position: absolute; inset: 0.6cqw; width: calc(100% - 1.2cqw); height: calc(100% - 1.2cqw); transform: translate(-1.2cqw, 1cqw) rotate(-6deg); overflow: visible; }
+  .shape-square .ring { transform: translate(-1.4cqw, 1.2cqw) rotate(-3deg); inset: 1.6cqw; width: calc(100% - 3.2cqw); height: calc(100% - 3.2cqw); }
+  .shape-arch .ring { transform: translate(-1.2cqw, 1cqw) rotate(-3deg); }
+  .ring path { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .obj { position: relative; z-index: 2; display: grid; place-items: center; }
+
+  .acc { position: absolute; z-index: 3; overflow: visible; }
+  .acc .fill { fill: var(--mustard); stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+  .acc .fill2 { fill: var(--rust); stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+  .acc .hole { fill: var(--sheet); stroke: var(--ink); stroke-width: 2; }
+  .acc .line, .acc .hand { fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .tone-mustard .acc .fill { fill: var(--sheet); }
+  .a1 { right: 1cqw; top: 2cqw; width: 5.4cqw; }
+  .a2 { left: 1cqw; bottom: 6cqw; width: 4.4cqw; transform: rotate(-12deg); }
+  .clock { width: 6.4cqw; right: 0; top: 1cqw; }
+  .clock .fill { fill: var(--sheet); }
+  .a3 { left: 3cqw; top: 9cqw; width: 3cqw; }
+  .loop { left: -2cqw; bottom: 1cqw; width: 12cqw; }
+
+  /* ── hover／捲進畫面時的小動畫 ── */
+  .obj, .ring, .blob, .hand-arrow, .a1, .a2 { transition: transform .5s cubic-bezier(.3, 1.5, .5, 1); }
+  .clock .hand { transform-box: view-box; transform-origin: 24px 25px; transition: transform .9s cubic-bezier(.4, 0, .2, 1); }
+  .loop .line { stroke-dasharray: 260; stroke-dashoffset: 0; }
+
+  .cover-b:is(:hover, .play) .obj { transform: rotate(4deg) translateY(-1.6cqw); }
+  .cover-b:is(:hover, .play) .ring { transform: translate(-1.2cqw, 1cqw) rotate(4deg); }
+  .cover-b.shape-square:is(:hover, .play) .ring { transform: translate(-1.4cqw, 1.2cqw) rotate(2deg); }
+  .cover-b:is(:hover, .play) .blob { transform: scale(1.03); }
+  .cover-b:is(:hover, .play) .hand-arrow { animation: poke .6s ease; }
+  .cover-b:is(:hover, .play) .a1:not(.clock) { transform: rotate(72deg) scale(1.15); }
+  .cover-b:is(:hover, .play) .a2 { animation: bounce .7s ease; }
+  .cover-b:is(:hover, .play) .clock .hand { transform: rotate(360deg); }
+  .cover-b:is(:hover, .play) .a3 { animation: twinkle .8s ease; }
+  .cover-b:is(:hover, .play) .loop .line { animation: draw .9s ease; }
+  @keyframes poke { 50% { transform: translateX(1cqw); } }
+  @keyframes bounce { 0%, 100% { transform: rotate(-12deg) translateY(0); } 35% { transform: rotate(-12deg) translateY(-2cqw); } 60% { transform: rotate(-12deg) translateY(0); } 80% { transform: rotate(-12deg) translateY(-.6cqw); } }
+  @keyframes twinkle { 30% { transform: scale(1.5) rotate(20deg); opacity: .6; } }
+  @keyframes draw { from { stroke-dashoffset: 260; } to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .cover-b *, .cover-b *::before { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<script>
+  // 沒有 hover 的裝置（手機）：封面捲進畫面時播一次
+  if (!window.matchMedia('(hover: hover)').matches) {
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('play'); io.unobserve(e.target); }
+    }), { threshold: 0.6 });
+    document.querySelectorAll('.cover-b').forEach((el) => io.observe(el));
+  }
+</script>

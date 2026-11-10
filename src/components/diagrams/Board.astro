@@ -1,0 +1,21 @@
+---
+// 圖解外框：跟封面同一套語言（案例主色淺底＋該案例的紋路＋白卡），手繪只當點綴
+import '../../styles/diagram.css';
+interface Props { kicker?: string; title?: string; c: 'branch' | 'manager' | 'ai'; label: string; }
+const { kicker, title, c, label } = Astro.props;
+---
+<figure class:list={['dg', 'reveal', `case-${c}`]} aria-label={label}>
+  <div class="dg-pat" aria-hidden="true"></div>
+  {kicker && <p class="dg-kicker">{kicker}</p>}
+  {title && (
+    <div class="dg-head">
+      <p class="dg-title">{title}</p>
+      <svg class="dg-uline" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true">
+        {c === 'ai'
+          ? <path d="M4 10 q 12 -8 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0 t 24 0" />
+          : <path d="M4 12 C 50 4, 120 18, 196 8" />}
+      </svg>
+    </div>
+  )}
+  <div class="dg-body"><slot /></div>
+</figure>

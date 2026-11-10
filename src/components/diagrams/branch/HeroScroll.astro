@@ -1,0 +1,100 @@
+---
+// 分店頁案例頂部：取代 Notion 的舊 GIF（灰底橘字）。
+// 新版 Web 視窗＋iOS 手機，畫面一段一段往下捲，停在「看重點 → 看評價 → 看細節」三個地方（對應資訊架構那三層）。
+// 滑鼠移上去暫停；捲到這裡才開始播；減少動態時停在首屏不動。
+import { Image } from 'astro:assets';
+import '../../../styles/diagram.css';
+import newIos from '../../../assets/cases/branch/fig_new_ios.png';
+import newWeb from '../../../assets/cases/branch/fig_new_web.png';
+// 三個停點：截圖高度的 %（看重點＝頂端、看評價＝「評論」標題、看細節＝「地址」）
+const STOPS = { ios: [0, 39.5, 51], web: [0, 30.5, 38.5] };
+// 旁邊的說明：用資訊架構那三層的標題（Notion 原文）
+const STEPS = ['看重點：是不是我要的', '看評價：別人覺得怎樣？', '看細節：最終決定依據'];
+---
+<figure class="dg case-branch reveal hero-scroll" aria-label="新版分店頁：Web 與 App 畫面依序停在首屏重點、評價、店家細節三段">
+  <div class="dg-pat" aria-hidden="true"></div>
+  <div class="wrapx">
+  <div class="cap" aria-hidden="true">
+    {STEPS.map((t, i) => {
+      const [h, sub] = t.split('：');
+      return <p class={`c c${i + 1}`}><b>{h}</b><span>{sub}</span></p>;
+    })}
+  </div>
+  <div class="stage" style={`--w1:-${STOPS.web[1]}%; --w2:-${STOPS.web[2]}%; --i1:-${STOPS.ios[1]}%; --i2:-${STOPS.ios[2]}%`}>
+    <div class="win">
+      <div class="bar" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="scr"><Image class="web" src={newWeb} alt="" widths={[720, 1440]} sizes="(min-width: 1000px) 700px, 80vw" /></div>
+    </div>
+    <div class="phone">
+      <div class="scr"><Image class="ios" src={newIos} alt="" widths={[375, 750]} sizes="180px" /></div>
+    </div>
+  </div>
+  </div>
+</figure>
+
+<style>
+  .hero-scroll { margin: 40px 0 0; --dur: 18s; }
+  .wrapx { position: relative; display: grid; grid-template-columns: max-content 1fr; gap: 36px; align-items: center; max-width: 1000px; margin: 0 auto; }
+  .stage { position: relative; padding: 4px 9% 6% 0; }
+
+  /* 旁邊的說明：固定一個位置，捲到哪段就淡入那段的字（跟捲動同一個節奏） */
+  .cap { display: grid; text-align: right; }
+  .c { grid-area: 1 / 1; margin: 0; opacity: 0; }
+  .c1 { opacity: 1; }
+  .c b { display: block; font-size: clamp(22px, 2.4vw, 28px); font-weight: 900; line-height: 1.3; color: var(--ink); }
+  .c span { display: block; margin-top: 6px; font-size: 15px; line-height: 1.6; color: var(--muted); }
+  .is-in .c1 { animation: cap1 var(--dur) linear .6s infinite; }
+  .is-in .c2 { animation: cap2 var(--dur) linear .6s infinite; }
+  .is-in .c3 { animation: cap3 var(--dur) linear .6s infinite; }
+  @keyframes cap1 { 0%, 20% { opacity: 1; } 24%, 84% { opacity: 0; } 88%, 100% { opacity: 1; } }
+  @keyframes cap2 { 0%, 24% { opacity: 0; } 28%, 48% { opacity: 1; } 51%, 100% { opacity: 0; } }
+  @keyframes cap3 { 0%, 51% { opacity: 0; } 55%, 78% { opacity: 1; } 82%, 100% { opacity: 0; } }
+  .wrapx:hover .c { animation-play-state: paused !important; }
+
+  /* Web 視窗 */
+  .win { background: #fff; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--line); overflow: hidden; }
+  .bar { height: 22px; background: #f1ede6; display: flex; align-items: center; gap: 6px; padding: 0 12px; }
+  .bar i { width: 8px; height: 8px; border-radius: 50%; background: #d8cfc2; }
+  .win .scr { aspect-ratio: 16 / 9.4; overflow: hidden; }
+
+  /* 手機：疊在視窗右下，微微歪 */
+  .phone {
+    position: absolute; right: 0; bottom: 0; width: 23%; aspect-ratio: 375 / 760;
+    /* 淺色細框（黑框太搶戲，11/10 Jessy）：跟 Web 視窗上方工具列同色（#f1ede6）＋細線 */
+    background: #f1ede6; border: 1px solid var(--line); border-radius: 20px; padding: 5px; transform: rotate(-4deg);
+    box-shadow: var(--shadow);
+  }
+  .phone .scr { height: 100%; overflow: hidden; border-radius: 16px; background: #fff; border: 1px solid #eee7dc; }
+
+  .scr :global(img) { width: 100%; height: auto; display: block; will-change: transform; }
+
+  /* 一段一段捲：停首屏 → 捲到評價停 → 捲到細節停 → 回頂端（18 秒一輪；手機比視窗晚一點點，比較有層次） */
+  .is-in .scr :global(img.web) { animation: scroll-web var(--dur) cubic-bezier(.65, 0, .35, 1) .6s infinite; }
+  .is-in .scr :global(img.ios) { animation: scroll-ios var(--dur) cubic-bezier(.65, 0, .35, 1) .9s infinite; }
+  @keyframes scroll-web {
+    0%, 20% { transform: translateY(0); }
+    28%, 48% { transform: translateY(var(--w1)); }
+    55%, 78% { transform: translateY(var(--w2)); }
+    88%, 100% { transform: translateY(0); }
+  }
+  @keyframes scroll-ios {
+    0%, 20% { transform: translateY(0); }
+    28%, 48% { transform: translateY(var(--i1)); }
+    55%, 78% { transform: translateY(var(--i2)); }
+    88%, 100% { transform: translateY(0); }
+  }
+  .wrapx:hover :global(img) { animation-play-state: paused !important; }
+
+  /* 窄螢幕：說明改成動畫上方一排 */
+  @media (max-width: 899px) {
+    .wrapx { grid-template-columns: 1fr; gap: 16px; }
+    .cap { text-align: center; }
+  }
+  @media (max-width: 640px) {
+    .stage { padding-right: 12%; padding-bottom: 10%; }
+    .phone { width: 30%; border-radius: 14px; padding: 3px; }
+    .phone .scr { border-radius: 12px; }
+    .bar { height: 16px; } .bar i { width: 6px; height: 6px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .scr :global(img), .c { animation: none !important; } }
+</style>

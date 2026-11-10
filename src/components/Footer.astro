@@ -1,0 +1,30 @@
+---
+import Avatar from './Avatar.astro';
+---
+<footer class="site-footer" id="contact">
+  <div class="wrap inner">
+    <div class="say">
+      <Avatar uid="ftr" size={72} expr={2} />
+      <div>
+        <p class="big">謝謝你看到這裡！</p>
+        <p class="muted">有任何問題，歡迎寫信給我。</p>
+      </div>
+    </div>
+    <ul class="links">
+      <li><a href="mailto:jessylee2208@gmail.com">jessylee2208@gmail.com</a></li>
+      <li><a href="https://www.linkedin.com/in/jessy-lee-2208/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+      <li><a href="https://medium.com/@jessylee2208" target="_blank" rel="noopener">Medium ↗</a></li>
+      <li><a href="https://github.com/JessyLee2208" target="_blank" rel="noopener">GitHub ↗</a></li>
+    </ul>
+  </div>
+  <p class="wrap copy label">© 2026 Jessy Lee · 網站由我設計、用 Astro 寫成</p>
+</footer>
+<style>
+  .site-footer { margin-top: 96px; border-top: 1px solid var(--line); padding: 48px 0 32px; }
+  .inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px; align-items: center; }
+  .say { display: flex; align-items: center; gap: 16px; }
+  .big { font-size: 20px; font-weight: 900; margin: 0; }
+  .muted { color: var(--muted); margin: 0; }
+  .links { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .copy { margin-top: 32px; text-transform: none; letter-spacing: .04em; }
+</style>

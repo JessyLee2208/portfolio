@@ -1,0 +1,94 @@
+---
+// 時段卡片拆解：照 Notion 原圖的排法，說明放在對應位置旁邊，用細虛線連過去；不用 1、2、3 編號（11/10 Jessy）
+// 電腦版和手機版排法不同，虛線用 JS 依實際位置畫（量得到元素在哪就連到哪）
+import Board from '../Board.astro';
+import SlotCard from './SlotCard.astro';
+const notes = {
+  color: '透過顏色強調店家最重視的內容，方便辨識目前販售的時段類型',
+  stock: '新增庫存狀態，且區分狀態，讓店家可以一眼知道用戶是否可以繼續購買',
+  name: '優化顯示畫面，當店家沒有設定時段名稱時，直接隱藏，可以更直覺的找到對的內容',
+};
+---
+<Board kicker="Card anatomy" title="可售與已售一眼看到" c="manager" label="時段卡片拆解：顏色區分類型、新增庫存狀態、沒設定名稱時直接隱藏">
+  <div class="anat">
+    <p class="note n-stock">{notes.stock}</p>
+    <p class="note n-color">{notes.color}</p>
+    <div class="c1"><SlotCard type="loop" time="10:00-11:00" stock="0/40" price="TWD 880" /></div>
+    <div class="c2"><SlotCard type="loop" time="10:00-11:00" soldOut name="循環設定" price="TWD 880" /></div>
+    <p class="note n-name">{notes.name}</p>
+    <svg class="lines" aria-hidden="true"><path class="ln" /><g class="dots"></g></svg>
+  </div>
+</Board>
+<style>
+  /* 電腦版：固定 760×340 的畫面，說明放在對應位置旁邊 */
+  .anat { position: relative; width: 760px; height: 340px; margin: 0 auto; }
+  .c1, .c2 { position: absolute; top: 116px; width: 220px; }
+  .c1 { left: 252px; } .c2 { left: 494px; }
+  .anat .note { position: absolute; margin: 0; padding: 12px 16px; font-size: 14.5px; line-height: 1.7; color: var(--ink); }
+  .n-color { left: 0; top: 89px; width: 200px; text-align: right; }
+  .n-stock { left: 396px; top: 0; width: 340px; text-align: center; }
+  .n-name { left: 260px; top: 252px; width: 300px; text-align: center; }
+  .lines { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+  .lines :global(path) { fill: none; stroke: var(--tone-ink); stroke-width: 1.6; stroke-dasharray: 4 4; stroke-linecap: round; stroke-linejoin: round; }
+  .lines :global(circle) { fill: var(--tone-ink); }
+
+  /* 窄螢幕：庫存說明在上 → 兩張卡片 → 隱藏名稱 → 顏色（左側一條線從色塊拉下來） */
+  @media (max-width: 879px) {
+    .anat { width: auto; height: auto; max-width: 480px; padding-left: 18px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 12px; }
+    .c1, .c2, .anat .note { position: static; width: auto; }
+    .n-stock { grid-row: 1; grid-column: 1 / -1; text-align: center; }
+    .c1 { grid-row: 2; grid-column: 1; margin-top: 34px; } .c2 { grid-row: 2; grid-column: 2; margin-top: 34px; }
+    .anat .n-name { grid-row: 3; grid-column: 1 / -1; margin-top: 34px; text-align: center; }
+    .anat .n-color { grid-row: 4; grid-column: 1 / -1; margin-top: 16px; text-align: left; }
+    .anat :global(.slot .head) { padding: 6px 8px; gap: 4px; }
+    .anat :global(.slot .head b) { font-size: 14px; white-space: nowrap; }
+    .anat :global(.slot .head span) { font-size: 11px; }
+    .anat :global(.slot .head em) { white-space: nowrap; font-size: 11px; padding: 2px 6px; }
+  }
+</style>
+
+<script>
+  // 依元素實際位置畫虛線：說明 → 卡片上對應的地方
+  const draw = (root: HTMLElement) => {
+    const svg = root.querySelector<SVGSVGElement>('.lines')!;
+    const o = root.getBoundingClientRect();
+    const r = (sel: string) => { const b = root.querySelector(sel)!.getBoundingClientRect(); return { l: b.left - o.left, t: b.top - o.top, r: b.right - o.left, b: b.bottom - o.top, w: b.width, h: b.height }; };
+    const mobile = window.matchMedia('(max-width: 879px)').matches;
+    const stock = r('.n-stock'), color = r('.n-color'), name = r('.n-name');
+    const head = r('.c1 .head'), body = r('.c1 .bd');
+    const qty = r('.c1 .head span'), sold = r('.c2 .head em');
+    const d: string[] = [], dots: [number, number][] = [];
+
+    // 庫存狀態：說明下緣 → 括號 → 0/40、售完
+    const x1 = qty.l + qty.w / 2, x2 = sold.l + sold.w / 2, by = head.t - 16;
+    const mid = mobile ? (x1 + x2) / 2 : stock.l + stock.w / 2;
+    d.push(`M${mid} ${stock.b + 6} V${by} M${x1} ${by} H${x2} M${x1} ${by} V${head.t + 2} M${x2} ${by} V${head.t + 2}`);
+    dots.push([x1, head.t + 6], [x2, head.t + 6]);
+
+    // 隱藏名稱：卡片內容區 → 說明上緣
+    const nx = body.l + body.w * 0.72, ny = body.t + body.h / 2;
+    d.push(`M${nx} ${ny + 5} V${name.t - 6}`);
+    dots.push([nx, ny]);
+
+    // 顏色：卡片色塊左緣 → 說明
+    const hy = head.t + head.h / 2;
+    if (mobile) {
+      const gx = head.l - 12, cy = color.t + 12;
+      d.push(`M${head.l - 2} ${hy} H${gx} V${cy} H${color.l - 4}`);
+    } else {
+      d.push(`M${color.r + 10} ${hy} H${head.l - 2}`);
+    }
+    dots.push([head.l + 4, hy]);
+
+    svg.setAttribute('width', String(o.width));
+    svg.setAttribute('height', String(o.height));
+    svg.querySelector('.ln')!.setAttribute('d', d.join(' '));
+    svg.querySelector('.dots')!.innerHTML = dots.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.5"/>`).join('');
+  };
+  const roots = [...document.querySelectorAll<HTMLElement>('.anat')];
+  const all = () => roots.forEach(draw);
+  all();
+  window.addEventListener('load', all);
+  window.addEventListener('resize', all);
+  if ('fonts' in document) document.fonts.ready.then(all);
+</script>

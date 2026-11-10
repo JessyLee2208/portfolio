@@ -1,0 +1,28 @@
+---
+// FunNow Manager 時段卡片（照產品原色：類型用顏色區分）
+interface Props { type: 'loop' | 'promo' | 'special' | 'pause'; time: string; name?: string; price?: string; stock?: string; soldOut?: boolean; old?: boolean; mark?: string; }
+const { type, time, name, price, stock, soldOut = false, old = false, mark } = Astro.props;
+---
+{old ? (
+  <div class:list={['slot', 'old', `t-${type}`]}>
+    <span>{name}</span><span>{time}</span>{price && <span>{price}</span>}
+  </div>
+) : (
+  <div class:list={['slot', `t-${type}`, { sold: soldOut }]}>
+    <div class="head"><b>{time}</b>{soldOut ? <em>售完</em> : stock && <span>{stock}</span>}{mark && <i class="mark">{mark}</i>}</div>
+    <div class="bd">{name && <span>{name}</span>}{price && <span>{price}</span>}</div>
+  </div>
+)}
+<style>
+  .slot { --c: #5a9db3; font-family: 'Roboto', var(--f-zh); color: #222; border-radius: 4px; background: #fff; box-shadow: 0 0 0 1.5px #ddd; position: relative; }
+  .t-promo { --c: #5b67e8; } .t-special { --c: #f5ae0b; } .t-pause { --c: #c43c42; }
+  .old { display: grid; padding: 6px 12px; border-left: 6px solid var(--c); font-size: 15px; line-height: 1.6; }
+  .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--c); color: #fff; padding: 6px 10px; border-radius: 4px 4px 0 0; }
+  .head b { font-size: 17px; font-variant-numeric: tabular-nums; }
+  .head span { font-size: 13px; opacity: .9; }
+  .head em { font-style: normal; font-size: 12px; background: rgba(255,255,255,.85); color: #333; padding: 2px 8px; border-radius: 6px; }
+  .bd { display: grid; padding: 6px 10px 8px; font-size: 15px; line-height: 1.6; }
+  .sold .head { background: color-mix(in srgb, var(--c) 50%, #fff); }
+  .sold .bd { background: #f3f3f3; }
+  .mark { position: absolute; font-style: normal; width: 24px; height: 24px; border-radius: 50%; background: var(--rust); color: #fff; font: 700 13px/24px var(--f-mono); text-align: center; box-shadow: 0 0 0 3px var(--sheet); }
+</style>

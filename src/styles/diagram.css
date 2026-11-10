@@ -1,0 +1,74 @@
+/* 圖解共用樣式：跟封面同一套（案例主色淺底＋紋路＋白卡＋大數字），手繪只當點綴 */
+.dg {
+  --tone: var(--rust); --tone-soft: var(--rust-soft); --tone-ink: var(--rust);
+  margin: 40px 0; padding: 32px 20px 36px; border-radius: 24px; position: relative; overflow: hidden;
+  background: var(--tone-soft);
+}
+.dg.case-manager { --tone: var(--accent); --tone-soft: var(--accent-soft); --tone-ink: var(--accent); }
+.dg.case-ai { --tone: var(--mustard); --tone-soft: var(--mustard-soft); --tone-ink: #b88422; }
+@media (min-width: 720px) { .dg { padding: 44px 40px 48px; } }
+
+/* 背景紋路：分店頁點點、Manager 格線、AI 斜線 */
+.dg-pat { position: absolute; inset: 0; pointer-events: none; --pc: color-mix(in srgb, var(--tone) 30%, transparent);
+  mask-image: radial-gradient(ellipse at 50% 40%, transparent 35%, #000 100%); }
+.case-branch .dg-pat { background-image: radial-gradient(var(--pc) 1.2px, transparent 1.4px); background-size: 18px 18px; }
+.case-manager .dg-pat { background-image: linear-gradient(var(--pc) 1px, transparent 1px), linear-gradient(90deg, var(--pc) 1px, transparent 1px); background-size: 24px 24px; opacity: .6; }
+.case-ai .dg-pat { background-image: repeating-linear-gradient(-35deg, var(--pc) 0 1.5px, transparent 1.5px 14px); opacity: .7; }
+.dg-body, .dg-head, .dg-kicker { position: relative; }
+
+/* 角落一個小點綴 */
+.dg-acc { position: absolute; right: 20px; top: 18px; width: 30px; height: 30px; overflow: visible; }
+.dg-acc .f { fill: var(--mustard); stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+.dg-acc .w { fill: var(--sheet); stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+.dg-acc .l { fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+
+.dg-kicker { font: 500 12px/1 var(--f-mono); letter-spacing: .1em; color: var(--muted); text-align: center; margin: 0; text-transform: uppercase; }
+.dg-head { display: grid; justify-items: center; margin: 10px 0 28px; }
+.dg-title { font-size: clamp(22px, 3.6vw, 32px); font-weight: 900; line-height: 1.3; text-align: center; text-wrap: balance; margin: 0; }
+.dg-uline { width: 120px; height: 12px; margin-top: 6px; overflow: visible; }
+.dg-uline path { fill: none; stroke: var(--tone-ink); stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+
+/* 白卡（取代原本的粗手繪框） */
+.panel {
+  position: relative; background: var(--sheet); border-radius: 16px; padding: 18px 18px 20px;
+  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); box-shadow: var(--shadow);
+}
+.panel-title { font: 700 20px/1.2 var(--f-display); text-align: center; margin: 0; letter-spacing: -.01em; }
+.panel-title.zh { font-family: var(--f-zh); font-weight: 900; }
+.panel-title small { display: block; font: 400 12px/1.4 var(--f-mono); color: var(--muted); margin-top: 4px; letter-spacing: 0; }
+
+/* 便條：細框、無錯位陰影 */
+.note {
+  position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: 10px;
+  padding: 10px 12px; font-weight: 700; font-size: 15px; line-height: 1.5;
+}
+.note + .note { margin-top: 8px; }
+.note .sub { display: block; font: 400 12px/1.5 var(--f-mono); color: var(--muted); margin-top: 2px; }
+.pill {
+  display: inline-block; background: var(--ink); color: var(--paper); font: 700 11px/1 var(--f-mono);
+  padding: 4px 8px; border-radius: 99px; letter-spacing: .04em; margin-bottom: 6px; vertical-align: middle;
+}
+.pill.ai { background: var(--mustard); color: #2a211c; }
+.pill.ok { background: var(--accent); color: #fff; }
+
+/* 手寫字：只留給結論句 */
+.hand { font-family: var(--f-zh); font-weight: 700; }
+/* 要比案例內文的段落樣式（.prose p）優先，不然上方間距會被歸零 */
+.dg p.hand.hand-line { text-align: center; font-size: clamp(20px, 3vw, 28px); margin: 28px 0 0; line-height: 1.4; }
+.underline-hand { background: linear-gradient(transparent 68%, color-mix(in srgb, var(--tone) 70%, transparent) 68%, color-mix(in srgb, var(--tone) 70%, transparent) 92%, transparent 92%); padding: 0 2px; }
+
+/* 大數字（跟封面同字體） */
+.dg .bignum-inline { font: 800 1em/1 var(--f-display); color: var(--tone-ink); }
+
+/* 游標標籤 */
+.cursor { display: inline-flex; align-items: flex-start; gap: 0; pointer-events: none; }
+.cursor > svg { width: 22px; height: 22px; flex: none; }
+.cursor .tag { margin: 16px 0 0 -4px; padding: 4px 10px; border-radius: 999px; font: 700 13px/1 var(--f-zh); color: #fff; white-space: nowrap; }
+.cursor.who-ai .tag { background: #b88422; } .cursor.who-ai path { fill: #b88422; }
+.cursor.who-eng .tag { background: #2e6b57; } .cursor.who-eng path { fill: #2e6b57; }
+.cursor.who-jessy { align-items: center; gap: 4px; }
+.cursor.who-jessy .tag { margin: 0; background: var(--rust); }
+
+/* 手繪箭頭（點綴） */
+.arrow-svg { display: block; overflow: visible; }
+.arrow-svg path { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }

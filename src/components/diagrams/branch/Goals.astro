@@ -1,0 +1,29 @@
+---
+// 聚焦目的：重點是字。大字，並標出對應的決策（Notion 原文的對應）
+import Board from '../Board.astro';
+const goals = [
+  { kick: '提升用戶', name: '決策效率', link: '決策 1｜看概況' },
+  { kick: '提升產品', name: '資訊完整度', link: '決策 3｜看細節' },
+  { kick: '提升用戶', name: '決策信心', link: '決策 2｜看評價' },
+];
+---
+<Board kicker="Focus" title="聚焦目的" c="branch" label="三個聚焦目的：提升用戶的決策效率、提升產品的資訊完整度、提升用戶的決策信心，各自對應一個設計決策">
+  <ol class="goals">
+    {goals.map((g) => (
+      <li class="panel">
+        <p class="kick">{g.kick}</p>
+        <p class="name">{g.name}</p>
+        <p class="link">對應　<b>{g.link}</b></p>
+      </li>
+    ))}
+  </ol>
+</Board>
+<style>
+  .goals { list-style: none; padding: 0; margin: 0 auto; max-width: 900px; display: grid; gap: 20px; }
+  @media (min-width: 680px) { .goals { grid-template-columns: repeat(3, 1fr); } }
+  .goals .panel { display: grid; justify-items: center; text-align: center; padding: 30px 18px 22px; }
+  .kick { margin: 0; color: var(--tone-ink); font-weight: 700; font-size: 14px; letter-spacing: .04em; }
+  .name { margin: 4px 0 0; font-size: clamp(28px, 3.4vw, 36px); font-weight: 900; line-height: 1.2; }
+  .link { margin: 14px 0 0; font-size: 13px; color: var(--muted); }
+  .link b { color: var(--muted); font-weight: 700; }
+</style>

@@ -1,0 +1,13 @@
+---
+interface Item { label: string; value: string; }
+interface Props { items: Item[]; }
+const { items } = Astro.props;
+---
+<dl class="meta reveal">
+  {items.map((it) => (<div><dt class="label">{it.label}</dt><dd>{it.value}</dd></div>))}
+</dl>
+<style>
+  .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px 24px; margin: 32px 0; padding: 20px 0; border-block: 1px solid var(--line); }
+  dt { margin-bottom: 6px; }
+  dd { margin: 0; font-size: 15px; line-height: 1.6; }
+</style>

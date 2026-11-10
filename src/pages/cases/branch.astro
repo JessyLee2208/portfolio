@@ -1,0 +1,162 @@
+---
+// FunNow 分店頁改版：文字照 Notion 原文；順序依 2026-11-10 定案（聚焦目的移到決策前）
+import CaseLayout from '../../layouts/CaseLayout.astro';
+import Figure from '../../components/Figure.astro';
+import Guide from '../../components/Guide.astro';
+import Stat from '../../components/Stat.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import PhoneCompare from '../../components/PhoneCompare.astro';
+import Goals from '../../components/diagrams/branch/Goals.astro';
+import OldIssues from '../../components/diagrams/branch/OldIssues.astro';
+import DecisionLayers from '../../components/diagrams/branch/DecisionLayers.astro';
+import { url } from '../../lib/url.js';
+import HeroScroll from '../../components/diagrams/branch/HeroScroll.astro';
+import aiCards from '../../assets/cases/branch/07.png';
+import oldIos from '../../assets/cases/branch/fig_old_ios.png';
+import newIos from '../../assets/cases/branch/fig_new_ios.png';
+import oldWeb from '../../assets/cases/branch/fig_old_web.png';
+import newWeb from '../../assets/cases/branch/fig_new_web.png';
+
+const toc = [
+  { id: 'about', label: 'About FunNow' },
+  { id: 'why', label: 'Why? and How?' },
+  { id: 'ia', label: '資訊架構' },
+  { id: 'goals', label: '聚焦目的' },
+  { id: 'execution', label: '設計執行與落地' },
+  { id: 'results', label: '成果' },
+  { id: 'closing', label: '結語' },
+];
+---
+<CaseLayout
+  title="FunNow 分店頁改版"
+  kicker="01 · B2C · App & Web"
+  tone="rust"
+  description="用戶訂位前都會跳去 Google 查店家。我把分店頁重新設計成「選店」的地方，讓八個產業共用同一個版面。"
+  lead="用戶訂位前都會跳去 Google 查店家。我把分店頁重新設計成「選店」的地方，讓八個產業共用同一個版面，用戶都能在頁面內完成判斷。"
+  meta={[
+    { label: '專案時間', value: '2026 年 3 月 - 2026 年 8 月' },
+    { label: '合作', value: 'PM、AI 團隊、三端工程 （共 7 人）' },
+    { label: '規劃設備', value: 'App（iOS & Android）、Web（RWD）' },
+  ]}
+  toc={toc}
+  next={{ href: url('/cases/manager/'), title: 'FunNow Manager 販售時段改版' }}
+>
+  <Fragment slot="hero"><HeroScroll /></Fragment>
+
+  <h2 id="about">About FunNow</h2>
+  <p>FunNow 是都會即時預訂平台，主打「附近享樂、秒出發」，提供餐廳酒吧、住宿、按摩 SPA 等服務的即時預訂服務。</p>
+
+  <h3>背景：以方案為主的產品結構</h3>
+  <p>FunNow 的產品結構以「方案」為主：用戶看到、比較、購買的都是方案，餐廳資訊附屬在方案底下，排在比較後面。這對「先選方案」的人很順，但對「先選餐廳」的人來說，要多走好幾步才拿得到店家資訊，而且店家的描述也比方案少很多。</p>
+  <table>
+    <thead><tr><th>用戶</th><th>路徑</th></tr></thead>
+    <tbody>
+      <tr><td>先選方案的人</td><td>方案列表 → 方案頁（價格、內容、時段）→ 結帳</td></tr>
+      <tr><td>先選商家的人</td><td>方案列表 → 方案頁（店家資訊在後段）→ 分店頁（描述比方案少）→ 跳去 Google 補評論、照片、菜單</td></tr>
+    </tbody>
+  </table>
+  <p>分店頁是用戶決定「要不要訂這家店」的地方，也是 Web 從 SEO 和 AI Blog 文章導進來的新用戶落地的第一頁。2026 年 9 月，看過方案頁的人裡，<strong>有 38% 至少有一次是從分店頁點進去的</strong>。</p>
+
+  <h3>專案目的</h3>
+  <p>專案的起點是一個觀察：<strong>餐酒的搜尋模式跟其他產業不一樣</strong>。用戶找餐廳時，比起先看方案，更常先查「這家店好不好」，這跟 FunNow 以方案為主的結構剛好相反。加上舊版分店頁的資訊排版單一，用戶要滑很久才找得到需要的資訊，最後只好跳去 Google 查。</p>
+  <p>這次改版要<strong>把</strong><span class="hl">「選店」這個決策往前拉到分店頁完成。用戶在分店頁就確定了店家，進到方案頁之後只需要挑方案，就能更快完成訂單</span>。</p>
+
+  <h3>挑戰</h3>
+  <p>洞察來自餐酒，但<strong>分店頁是餐廳、住宿、按摩等八個產業共用的同一個版面</strong>，任何改動都會一次影響全部產業。頁面還要同時服務從 Google 搜進來的新用戶和 App 裡的老用戶，而各產業店家的資料完整度落差很大。</p>
+
+  <h3>我的角色</h3>
+  <ul>
+    <li><strong>研究與定義</strong>：用戶研究、整理研究洞察，盤點並整合既有的店家資料</li>
+    <li><strong>設計</strong>：規劃整頁資訊架構，撰寫規格</li>
+    <li><strong>落地</strong>：盤點跨頁面的影響範圍，與內部營運人員確認資料的更新方式，上線前執行 Design QA</li>
+  </ul>
+  <p>本次改版於 2026 年 4 月起分批上線，8 月全部完成</p>
+
+  <hr />
+
+  <h2 id="why">Why? and How?</h2>
+  <OldIssues />
+  <table>
+    <thead><tr><th>舊版的問題</th><th>用戶因此要做的事</th></tr></thead>
+    <tbody>
+      <tr><td>只有一張封面圖，店名壓在圖上</td><td>看不到店內環境，只好去 Google 看照片</td></tr>
+      <tr><td>首屏只有地址、營業時間、一段介紹</td><td>判斷不出氣氛和適合什麼場合</td></tr>
+      <tr><td>沒有評論摘要</td><td>跳去 Google 查別人的評價</td></tr>
+      <tr><td>店家特色是一大段打點文字，被截斷</td><td>讀不完，也抓不到重點</td></tr>
+      <tr><td>店名不能複製，地址只有一行</td><td>手動打字去地圖搜尋</td></tr>
+      <tr><td>客戶須知在方案頁</td><td>到決策後期可能才發現不符自己的期待，花費大量時間查資料</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="ia">資訊架構：照著用戶的決策流程排</h2>
+  <p>研究的 5 位深度訪談和 40 多份問卷顯示，用戶去 Google 查的不是營業時間或地址這類 FunNow 已經有的資料，而是<span class="hl">「這家店是不是我要的」</span>。我把用戶選擇店家的決策過程拆成三個問題，分店頁的區塊也照著這個順序排列：</p>
+  <DecisionLayers />
+
+  <h2 id="goals">聚焦目的</h2>
+  <Goals />
+
+  <hr />
+
+  <h2 id="execution">設計執行與落地</h2>
+  <p>三個決策照著決策流程的三層展開，各自對應一個聚焦目的。</p>
+
+  <h3>決策 1｜看概況：首屏只放能一眼判斷的資訊</h3>
+  <p class="for">對應目的：決策效率</p>
+  <BeforeAfter before={oldIos} after={newIos} alt="分店頁 App 首屏" ratio="375 / 680" maxWidth="340px" caption="App 首屏：拖曳中間的把手比較改版前後" />
+  <BeforeAfter before={oldWeb} after={newWeb} alt="分店頁 Web 首屏" ratio="1440 / 860" caption="Web 首屏" />
+  <p>首屏的店家摘要只有一個目標：讓用戶快速判斷這家店是不是自己要的。</p>
+  <p>照片和氣氛標籤看調性，評分和均消看值不值得，<strong>區域、捷運站和距離</strong>看去不去得了，營業時間看現在有沒有開。位置放在首屏，是為了避免用戶看上一家喜歡的店，滑到最後才發現動線不順或太遠去不了。</p>
+
+  <h3>決策 2｜看評價：整合 Google 與站內評論，透過 AI 彙整重點</h3>
+  <p class="for">對應目的：決策信心</p>
+  <PhoneCompare before={oldIos} after={newIos} alt="分店頁 App 評價區" afterStart={0.061} caption="App 評價區" />
+  <Figure src={aiCards} alt="Google 口碑精選與 FunNow 玩家偷偷說兩張 AI 摘要卡" />
+  <p>覺得「好像不錯」之後，用戶會想看別人的經驗佐證自己的判斷，研究中幾乎每位受訪者都會跳去 Google 看評論。所以我們把 Google 和 站內評論都帶進分店頁，用 AI 各自彙整成一張卡。</p>
+  <p><span class="tag-q">為什麼要用 AI 彙整？</span><br />評論不缺，缺的是讀評論的時間。AI 把大量評論歸納成重點，用戶不用一則則讀。</p>
+  <p><strong>如何加強決策信心</strong></p>
+  <ul>
+    <li><strong>看多數人怎麼說</strong>：<span class="hl">歸納多數評論的共同點，比單則評論更有說服力</span></li>
+    <li><strong>直接給重點</strong>：特色標籤＋評分，加上「絕對要試」「行前筆記」</li>
+    <li><strong>來源分開</strong>：大眾評價和實際訂過的人分開呈現</li>
+    <li><strong>評論不夠不產生</strong>：避免以偏概全</li>
+  </ul>
+
+  <h3>決策 3｜看細節：資訊一次攤開，一套規則適用八個產業</h3>
+  <p class="for">對應目的：資訊完整度</p>
+  <PhoneCompare before={oldIos} after={newIos} alt="分店頁 App 細節區" afterStart={0.51} caption="App 細節區" />
+  <p>決定要去之後，用戶需要的是完整的店家資訊。後段把完整地址與地圖、交通、店家特色與適合場合標籤、設施、付款方式、服務語言一次攤開。原本要到方案頁才看得到的客戶須知，也改成平台規範直接放在分店頁上，讓用戶在選店階段就知道規則。</p>
+  <Guide uid="g-branch-3" expr={0} tone="rust">
+    <p>八個產業的資料長得都不一樣，所以我沒有幫每個產業各寫一套規則，而是定了四條共用規則：沒有值的區塊連標題一起隱藏、收合看行數不看產業、文字不截斷、設施取分店和方案的聯集。不管是資料齊全的餐廳，還是只填了地址的按摩店，頁面都能正常顯示，不會出現空白標題或空區塊。</p>
+  </Guide>
+
+  <hr />
+
+  <h2 id="results">成果：對照三個聚焦目的</h2>
+  <div class="stats">
+    <Stat value="+2.9pp" label="從分店頁進入方案頁的人，最後完成結帳的比例" note="41.5% → 44.4%" />
+    <Stat value="−5.5pp" label="分店頁 → 方案頁" note="80.7% → 75.2%" />
+    <Stat value="1.8×" label="複製店名" note="上線後成長" />
+  </div>
+  <p><strong>從分店頁進入方案頁的人，最後完成結帳的比例提高 2.9 個百分點（41.5% → 44.4%）</strong></p>
+  <p>改版前一年多，這個比例一直停在 40～42% 之間；改版後 6–8 月、7–9 月兩個區間都在 44% 以上。</p>
+  <table>
+    <thead><tr><th>聚焦目的</th><th>改版後看到的變化</th></tr></thead>
+    <tbody>
+      <tr><td>決策效率</td><td>「分店頁 → 方案頁」從 80.7% 降到 75.2%（<strong>− 5.5 個百分點</strong>）。<span class="hl">用戶在分店頁就篩掉不適合的店，不用點進方案頁才發現不對</span></td></tr>
+      <tr><td>決策信心</td><td>從分店頁進入方案頁的人，最後完成結帳的比例從 41.5% 提高到 44.4%（<strong>＋ 2.9 個百分點</strong>）。<span class="hl">在分店頁就確定了店家的人，進到方案頁後更敢下訂</span></td></tr>
+      <tr><td>資訊完整度</td><td>分店頁 94.5% 的資訊點擊用在判斷店家（地圖 40%、營業時間 31%、評論 18%）；複製店名上線後成長 1.8 倍</td></tr>
+    </tbody>
+  </table>
+  <p>改版前一年多，兩段比例都穩定在 ±1 個百分點內。改版後同時出現兩個方向相反的位移：點進方案頁的比例少了 5.5 個百分點，進了方案頁之後最後完成結帳的比例多了 2.9 個百分點，整體轉換持平。比較可能的解讀是<span class="hl">篩選提早發生了</span>：資訊變完整後，用戶在分店頁就判斷出「這家不適合我」，繼續往下走的人意圖更明確。</p>
+
+  <hr />
+
+  <h2 id="closing">結語</h2>
+  <p>這次改版讓我重新理解分店頁的角色：它不只是放店家資訊的地方，而是用戶決定「要不要去」的地方。所以我設計的起點不是欄位，而是用戶的決策順序，每個區塊都要說得出它在回答哪個問題。</p>
+  <p>數據也提醒我，設計的成果不一定反映在單一轉換率上。整體轉換持平，但用戶做決定的時間點往前移了，這正是我們想達成的改變。</p>
+  <p>面對八個產業共用的版面，我學到好的設計不是為每種情況各做一套，而是找出能套用在所有情況的規則；同時也要隨時意識到，一個改動會影響到每個共用它的品牌和頁面。</p>
+</CaseLayout>
+
+<style>
+  .stats { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin: 20px 0 24px; }
+</style>

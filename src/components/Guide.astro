@@ -1,0 +1,23 @@
+---
+// 小頭像講解框：取代 Notion 的 💡 callout
+import Avatar from './Avatar.astro';
+interface Props { uid: string; expr?: number; title?: string; tone?: 'green' | 'rust' | 'mustard'; }
+const { uid, expr = 0, title, tone = 'green' } = Astro.props;
+---
+<aside class:list={['guide', 'reveal', `tone-${tone}`]}>
+  <Avatar uid={uid} expr={expr} size={64} class="who" />
+  <div class="bubble">
+    {title && <p class="title">{title}</p>}
+    <div class="text"><slot /></div>
+  </div>
+</aside>
+<style>
+  .guide { display: flex; gap: 12px; align-items: flex-start; margin: 32px 0; }
+  .bubble { position: relative; flex: 1; min-width: 0; background: var(--accent-soft); border-radius: var(--radius); padding: 16px 20px; }
+  .bubble::before { content: ''; position: absolute; left: -6px; top: 26px; width: 14px; height: 14px; background: inherit; transform: rotate(45deg); border-radius: 2px; }
+  .tone-rust .bubble { background: var(--rust-soft); }
+  .tone-mustard .bubble { background: var(--mustard-soft); }
+  .title { margin: 0 0 4px; font-weight: 900; }
+  .text :global(p) { margin: 0 0 8px; }
+  .text :global(p:last-child) { margin: 0; }
+</style>

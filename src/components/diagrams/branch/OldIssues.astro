@@ -1,0 +1,42 @@
+---
+// 舊版分店頁的問題標註（Figma A4-2 重做）：截圖照用，問題區域用手繪框圈出，說明小卡＋手繪箭頭（文字照原圖）
+import Board from '../Board.astro';
+import AnnotatedShot from '../AnnotatedShot.astro';
+import oldIos from '../../../assets/cases/branch/fig_old_ios.png';
+import oldWeb from '../../../assets/cases/branch/fig_old_web.png';
+---
+<Board kicker="Before" title="舊版的分店頁" c="branch" label="舊版分店頁 App 與 Web 截圖，用手繪框圈出四個問題">
+  <div class="old">
+    <div class="sync">
+      <p><b>4</b>App 與 Web 呈現的資訊不同步</p>
+      <svg class="brace" viewBox="0 0 400 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 22 C 4 10, 10 12, 190 12 C 196 12, 200 6, 200 2 C 200 6, 204 12, 210 12 C 390 12, 396 10, 396 22" /></svg>
+    </div>
+    <div class="shots">
+      <div>
+        <p class="cap">App</p>
+        <AnnotatedShot src={oldIos} alt="舊版分店頁 App 截圖" widths={[375, 750]} sizes="240px" regions={[
+          { n: 1, x: 2, y: 1, w: 96, h: 29, side: 'left', text: '資訊首屏，決策資訊不足，用戶無法決策是否他想要的店' },
+          { n: 2, x: 2, y: 41, w: 96, h: 56, side: 'left', text: '分店頁大半是方案卡，店家資訊被壓縮在首屏一小塊' },
+        ]} />
+      </div>
+      <div>
+        <p class="cap">Web</p>
+        <AnnotatedShot src={oldWeb} alt="舊版分店頁 Web 截圖" widths={[480, 900]} sizes="420px" regions={[
+          { n: 3, x: 4, y: 47, w: 53, h: 25, side: 'right', text: '評論只有單則，看不出整體評價，且後半段缺少完整資訊，導致用戶需要透過 google 或是其他平台查找資料' },
+        ]} />
+      </div>
+    </div>
+  </div>
+</Board>
+<style>
+  .old { max-width: 700px; margin: 0 auto; }
+  @media (min-width: 1000px) { .old { padding-inline: 190px; max-width: 1080px; } }
+  .sync { display: grid; justify-items: center; margin-bottom: 4px; }
+  .sync p { margin: 0; background: var(--sheet); border: 2px solid var(--tone-ink); border-radius: 12px; padding: 10px 14px; font-size: 14px; font-weight: 600; box-shadow: 3px 3px 0 color-mix(in srgb, var(--tone-ink) 25%, transparent); }
+  .sync b { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 6px; border-radius: 50%; background: var(--tone-ink); color: #fff; font: 700 11px/1 var(--f-mono); vertical-align: 1px; }
+  .brace { width: 100%; height: 22px; margin-top: 8px; overflow: visible; }
+  .brace path { fill: none; stroke: var(--tone-ink); stroke-width: 2.4; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .shots { display: grid; grid-template-columns: 0.62fr 1fr; gap: 18px; align-items: start; }
+  .cap { margin: 0 0 6px; font: 700 12px/1 var(--f-mono); color: var(--muted); text-align: center; }
+  @media (max-width: 999px) { .shots { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } .brace { display: none; } }
+</style>

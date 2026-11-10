@@ -1,0 +1,19 @@
+/* 案例封面：左文字、右一個主視覺，置中不裁切；用容器寬度縮放 */
+.cover {
+  container-type: inline-size; position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden;
+  background: var(--accent-soft); color: var(--ink);
+  display: grid; grid-template-columns: 48% 52%; align-items: center;
+}
+.cover.tone-rust { background: var(--rust-soft); }
+.cover.tone-mustard { background: var(--mustard-soft); }
+.cover .cv-text { padding-left: 7cqw; padding-right: 2cqw; }
+.cover .cv-no {
+  display: inline-block; font: 700 1.7cqw/1 var(--f-mono); letter-spacing: .08em;
+  background: var(--ink); color: var(--paper); padding: .8cqw 1.3cqw; border-radius: 99px; margin: 0;
+}
+.cover .cv-kick { font: 500 1.7cqw/1.2 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 2.2cqw 0 0; }
+.cover .cv-title { font: 900 5cqw/1.22 var(--f-zh); margin: 1.2cqw 0 0; letter-spacing: .01em; }
+.cover .cv-sub { font: 500 1.9cqw/1.6 var(--f-zh); color: var(--muted); margin: 1.6cqw 0 0; }
+.cover .cv-chip { display: inline-flex; align-items: baseline; gap: .8cqw; margin: 2.4cqw 0 0; background: var(--sheet); border-radius: 99px; padding: 1cqw 2cqw; font: 700 1.7cqw/1 var(--f-zh); box-shadow: var(--shadow); }
+.cover .cv-chip b { font: 800 2.4cqw/1 var(--f-display); color: var(--accent); }
+.cover .cv-visual { height: 100%; display: grid; place-items: center; padding: 6cqw 6cqw 6cqw 0; }

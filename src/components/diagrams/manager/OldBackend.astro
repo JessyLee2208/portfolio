@@ -1,0 +1,18 @@
+---
+// 舊版 Manager 時段設定頁（Figma Package-old）：問題區域用手繪框圈出，說明小卡＋手繪箭頭（文字照原圖）
+import Board from '../Board.astro';
+import AnnotatedShot from '../AnnotatedShot.astro';
+import oldShot from '../../../assets/cases/manager/fig_old.png';
+---
+<Board kicker="Before" title="舊版的時段設定" c="manager" label="舊版 FunNow Manager 時段設定頁截圖，用手繪框圈出兩個問題">
+  <div class="old">
+    <AnnotatedShot browser src={oldShot} alt="舊版 FunNow Manager 時段設定頁" widths={[720, 1440]} sizes="(max-width: 1120px) 100vw, 900px" regions={[
+      { n: 1, x: 7.4, y: 39.8, w: 10, h: 7.6, side: 'bottom', text: '無法第一時間得知是否還可販售' },
+      { n: 2, x: 35.6, y: 39.5, w: 28, h: 16.5, side: 'bottom', text: '時段類型多樣，但較不顯眼' },
+    ]} />
+  </div>
+</Board>
+<style>
+  .old { max-width: 900px; margin: 0 auto; }
+  @media (min-width: 1000px) { .old { padding-bottom: 120px; } }
+</style>

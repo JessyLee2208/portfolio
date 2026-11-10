@@ -1,0 +1,15 @@
+---
+import { Image } from 'astro:assets';
+import CoverB from './CoverB.astro';
+import newIos from '../../assets/cases/branch/fig_new_ios.png';
+---
+<CoverB tone="rust" no="01" kick="B2C · App & Web" title="FunNow<br />分店頁改版"
+  sub="把「選店」這個決策<br />往前拉到分店頁完成" big="+2.9" unit="pp" bigLabel="方案頁 → 完成結帳"
+  label="FunNow 分店頁改版封面：新版分店頁 App 畫面，從分店頁進入方案頁的人，最後完成結帳的比例提高 2.9 個百分點">
+  <div class="phone"><div class="scr"><Image src={newIos} alt="" widths={[375, 750]} sizes="30vw" /></div></div>
+</CoverB>
+<style>
+  .phone { height: 40cqw; aspect-ratio: 375 / 760; background: #111; border-radius: 3.2cqw; padding: .8cqw; transform: rotate(-4deg); box-shadow: 0 3cqw 5cqw -3cqw rgba(0,0,0,.45); }
+  .scr { height: 100%; overflow: hidden; border-radius: 2.5cqw; background: #fff; }
+  .scr :global(img) { width: 100%; height: auto; display: block; }
+</style>

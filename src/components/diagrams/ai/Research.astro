@@ -1,0 +1,34 @@
+---
+import Board from '../Board.astro';
+import Cursor from '../Cursor.astro';
+---
+<Board kicker="Research · Backend × Frontend (Web / App)" title="工程師都說：AI 查的要標出來" c="ai"
+  label="研究發現：後端與前端工程師都希望 AI 查證的內容被標出來">
+  <div class="grid">
+    <div class="panel">
+      <p class="panel-title">Backend<small>後端工程師</small></p>
+      <div class="notes">
+        <div class="note"><span class="pill">先看哪裡</span><br />先看票上的驗收條件</div>
+        <div class="note"><span class="pill">refinement</span><br />會當場比對票和 Figma 一不一致</div>
+        <div class="note"><span class="pill ai">AI 查證</span><br />希望標出來，每個人的解讀會不同</div>
+      </div>
+      <Cursor who="eng" label="後端" class="cur-a" />
+    </div>
+    <div class="panel shift">
+      <p class="panel-title">Frontend<small>Web／App 前端工程師</small></p>
+      <div class="notes">
+        <div class="note"><span class="pill">先看哪裡</span><br />先看票確認邏輯，再看 Figma 細節</div>
+        <div class="note"><span class="pill ai">AI 查證</span><br />可以寫，但要註明是 AI 查證的</div>
+        <div class="note"><span class="pill">NEW</span><br />開發時會把 spec 直接丟給 AI 讀</div>
+      </div>
+      <Cursor who="eng" label="前端" class="cur-b" />
+    </div>
+  </div>
+  <p class="hand hand-line">spec 也要<span class="underline-hand">讓 AI 讀得懂</span></p>
+</Board>
+<style>
+  .grid { display: grid; gap: 28px; max-width: 860px; margin: 0 auto; }
+  @media (min-width: 720px) { .grid { grid-template-columns: 1fr 1fr; } .shift { margin-top: 32px; } }
+  .notes { margin-top: 16px; }
+  .panel :global(.cursor) { position: absolute; right: -10px; top: -16px; }
+</style>

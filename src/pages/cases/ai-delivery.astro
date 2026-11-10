@@ -1,0 +1,116 @@
+---
+// 用 AI 改造設計交付流程：文字照 Notion 原文（_notion-raw/ai-delivery/content.md）；圖改成網站圖解
+import CaseLayout from '../../layouts/CaseLayout.astro';
+import Guide from '../../components/Guide.astro';
+import Stat from '../../components/Stat.astro';
+import HeroFlow from '../../components/diagrams/ai/HeroFlow.astro';
+import Research from '../../components/diagrams/ai/Research.astro';
+import Review from '../../components/diagrams/ai/Review.astro';
+import Values from '../../components/diagrams/ai/Values.astro';
+import Annotate from '../../components/diagrams/ai/Annotate.astro';
+import { url } from '../../lib/url.js';
+
+const toc = [
+  { id: 'background', label: '背景' },
+  { id: 'research', label: '研究發現' },
+  { id: 'execution', label: '設計執行與落地' },
+  { id: 'results', label: '成果' },
+  { id: 'closing', label: '結語' },
+];
+---
+<CaseLayout
+  title="用 AI 改造設計交付流程"
+  kicker="03 · Design Ops"
+  tone="mustard"
+  description="refinement 時工程師常要來回確認很多細節。我把 AI review 放進交稿前，先找出沒定義完整、互相衝突的地方，並標出 AI 查證的內容請工程師複查。"
+  lead="refinement 時，工程師常要跟我來回確認很多細節；而 spec 上寫錯的值，工程師只會照做。我訪談工程師後，把 AI review 放進交稿前，並把 AI 查證過的內容標出來請工程師複查。"
+  meta={[
+    { label: '專案時間', value: '2026 年 6 月 - 至今' },
+    { label: '專案類型', value: 'Design Ops' },
+    { label: '工具', value: 'Figma、Claude AI' },
+  ]}
+  toc={toc}
+  next={{ href: url('/cases/branch/'), title: 'FunNow 分店頁改版' }}
+>
+  <Fragment slot="hero"><HeroFlow /></Fragment>
+
+  <h2 id="background">背景</h2>
+  <p>FunNow 的一份 spec，常常要同時顧到 FunNow、Eatigo、Niceday 三個品牌，以及 iOS、Android、Web 三端。一個欄位怎麼顯示，背後可能牽涉後台設定、API 回傳和各端的判斷。規則一多，光靠人工檢查很容易漏掉。</p>
+  <p>漏掉的東西，最後都會堆到 refinement。工程師要跟我來回確認：少見的情況怎麼處理、這個狀態沒定義到、票上和稿上寫的不一樣該聽哪個。每來回一次，開發就晚一點開始。</p>
+
+  <h3>專案目的</h3>
+  <p>讓問題在<span class="hl">交稿前就被找出來</span>，減少 refinement 的來回：少見的情況先定義好、沒寫完整或互相衝突的地方先補齊，並確保票上和 spec 寫的是同一件事。</p>
+
+  <h3>挑戰</h3>
+  <p>AI 能很快把一份 spec 從頭掃到尾，但 AI 本身也會出錯。如果只是把檢查丟給 AI，等於把一個不確定的來源，再交給工程師去相信。所以要解決的不只是「怎麼查得更快」，還有「<strong>怎麼讓大家知道哪些內容要再確認</strong>」。</p>
+
+  <h3>我的角色</h3>
+  <p>這是我自己發起的專案：從發現問題、訪談工程師，到調整交付流程，都由我負責。</p>
+
+  <hr />
+
+  <h2 id="research">研究發現</h2>
+  <p>我找了後端、Web 前端和 App 工程師聊，問他們拿到 spec 之後怎麼讀、哪裡最花時間。App 工程師的說法和 Web 前端類似，下表的「前端」包含兩者：</p>
+  <Research />
+  <table>
+    <thead><tr><th>發現</th><th>後端</th><th>前端</th></tr></thead>
+    <tbody>
+      <tr><td>先看哪裡</td><td>先看票上的驗收條件</td><td>先看票確認邏輯，再看 Figma 細節</td></tr>
+      <tr><td>refine</td><td>會當場比對票和 Figma 一不一致</td><td>refine 很花時間，因為要自己確認內容</td></tr>
+      <tr><td>AI 查證的內容</td><td>希望標出來，因為每個人的知識背景不同，對 AI 解析出來的內容，理解也會不一樣</td><td>可以寫，但要註明是 AI 查證的</td></tr>
+      <tr><td>怎麼讀 spec</td><td>開發時會把 Figma 上的 spec 丟給 AI 讀</td><td>開發時會把 Figma 上的 spec 丟給 AI 讀</td></tr>
+    </tbody>
+  </table>
+  <p>大家都提到同一件事：<span class="hl">AI 查證的內容可以給，但要讓他們知道哪些要自己再確認。</span>另外，後端和前端開發時都會把 spec 丟給 AI 讀，代表 spec 不只寫給人看，也要讓 AI 讀得懂。</p>
+
+  <hr />
+
+  <h2 id="execution">設計執行與落地</h2>
+
+  <h3>決策 1｜交稿前，先讓 AI 從工程師的角度 review 一輪</h3>
+  <Review />
+  <p>工程師在 refine 時會逐條比對票和 Figma，那我就在交稿前先做一次同樣的事。我把 review 拆成固定的檢查項，每份 spec 都照同一套跑：</p>
+  <ul>
+    <li><strong>票和 spec 逐條對照</strong>：驗收條件每一條都標出「對得上／對不上／稿上沒有」，確保兩邊寫的一致</li>
+    <li><strong>沒定義完整、互相衝突的內容</strong>：同一件事在兩個地方寫法不同、某個分支只寫了一半</li>
+    <li><strong>狀態、邊界與少見的情況</strong>：載入中、沒資料、失敗，還有極端值和特殊組合時各顯示什麼，先在前期定義出來</li>
+    <li><strong>跨品牌、跨頁面的影響</strong>：改一個元件，會不會連帶影響到其他品牌或頁面</li>
+  </ul>
+  <p>AI 列出來的每一條，<span class="hl">我都會再逐條看過</span>，判斷它是真的問題、要去問人，還是 AI 誤判，確認後才決定要不要改。AI 負責「找得全」，判斷還是由我來做。</p>
+  <p>改版之後再跑一次複查，逐條比對哪些已經修好、哪些還沒動、哪些是這次新帶進來的。</p>
+
+  <h3>決策 2｜技術數值回產品查證，不靠記憶寫</h3>
+  <Values />
+  <p>這個決策來自一次真實的失誤：我在 spec 上把 Eatigo 的斷點寫成 600px，但實際上是 768px，是前端工程師自己發現的。</p>
+  <p><span class="hl">漏寫的東西，工程師會來問；寫錯的值，工程師只會照做。</span>所以斷點、欄位名稱、狀態代碼、後台設定項這類客觀數值，一律回產品本身查過才寫進 spec。</p>
+
+  <h3>決策 3｜AI 查證過的內容，一律標出來</h3>
+  <Annotate />
+  <p>這是訪談裡工程師的共同需求，但背後還有一個更根本的原因：我們不是工程領域的人。程式碼裡很多定義和意義，是工程師自己的脈絡。AI 能讀到的是「寫完之後的結果」，卻讀不到「為什麼這樣寫」。</p>
+  <p>所以只要是透過 AI 翻程式碼、查資料庫得到的技術結論，我都會標註來源，<span class="hl">這些資訊代表什麼意思，交由工程師判斷，而不是由我們用 AI 自行解讀</span>。我自己做的設計決定則不標，讓兩者分得開。</p>
+  <Guide uid="g-ai-1" tone="mustard" title="標出來的意思是「請複查」，不是「可以相信」。">
+    <p>工程師一看就知道哪幾段要自己再確認，不用整份 spec 都重新查一遍。</p>
+  </Guide>
+
+  <hr />
+
+  <h2 id="results">成果</h2>
+  <div class="stats">
+    <Stat value="~36" label="5 份規格，第一輪平均每份找出約 36 個待確認的地方" />
+  </div>
+  <ul>
+    <li>5 份自己的規格，第一輪共找出 182 個待確認的地方，在交給工程師前先處理</li>
+    <li><strong>攔下一條會誤濾近 5 萬張優惠券的驗收條件</strong>：票上寫「刷卡限制不影響顯示」，但稿上沒有畫這個情況。查資料庫後發現，如果照現有的 API 實作，近 5 萬張有刷卡限制的優惠券會被直接過濾掉</li>
+    <li>同一套方法也用來幫團隊其他設計師的稿做 review，共 5 份</li>
+    <li><strong>refinement 變順了</strong>：就我的觀察，工程師在 refinement 回頭確認的問題變少，spec 上的留言也明顯減少，整體開發走得比較順</li>
+  </ul>
+
+  <hr />
+
+  <h2 id="closing">結語</h2>
+  <p>AI 讓我能在交稿前，用工程師的角度把 spec 從頭查一遍，但它查出來的東西也不能全信。有一次 AI 讀 Figma 時，把被斷成好幾行的文字誤讀成字串裡有空格，差點讓我在報告裡回報一個不存在的問題。從那之後，<span class="hl">只要要引用原文，我一律回原始檔案核對</span>。我在這個專案學到的，不是怎麼讓 AI 做更多，而是怎麼劃清楚哪些可以交給 AI、哪些一定要人來確認。</p>
+</CaseLayout>
+
+<style>
+  .stats { display: grid; gap: 12px; grid-template-columns: minmax(0, 420px); margin: 20px 0 24px; }
+</style>

@@ -1,0 +1,30 @@
+---
+// 首頁案例卡片：封面（slot）已有編號、類別、標題、大數字，下面只放封面沒有的：一句說明、標籤、看案例
+interface Props { href: string; title: string; summary: string; tags: string[]; wide?: boolean; }
+const { href, title, summary, tags, wide = false } = Astro.props;
+---
+<a class:list={['case-card', 'reveal', { wide }]} href={href}>
+  <div class="media"><slot /></div>
+  <div class="body">
+    <h3 class="sr">{title}</h3>
+    <p class="summary">{summary}</p>
+    <div class="foot">
+      <ul class="tags">{tags.map((t) => <li class="chip">{t}</li>)}</ul>
+      <span class="more">看案例 →</span>
+    </div>
+  </div>
+</a>
+<style>
+  .case-card { display: grid; grid-template-columns: 1fr; background: var(--sheet); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; color: var(--ink); text-decoration: none; box-shadow: var(--shadow); transition: transform .25s ease; }
+  .case-card:hover { transform: translateY(-4px); }
+  .case-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .media { line-height: 0; }
+  .body { padding: 18px 22px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .summary { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
+  .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+  .tags { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .more { color: var(--accent); font-weight: 700; font-size: 15px; white-space: nowrap; }
+  .case-card:hover .more { text-decoration: underline; text-underline-offset: 4px; }
+  @media (prefers-reduced-motion: reduce) { .case-card { transition: none; } }
+</style>

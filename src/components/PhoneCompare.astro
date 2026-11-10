@@ -1,0 +1,36 @@
+---
+// 改版前 vs 改版後：兩張 App 畫面並排（外框跟決策 1 的 BeforeAfter 一樣：白底細框、底部標籤；不能滑，11/10 Jessy）
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  before: ImageMetadata; after: ImageMetadata; alt: string;
+  beforeStart?: number;    // 從圖片高度的幾 %（0–1）開始顯示
+  afterStart?: number;
+  caption?: string;
+}
+const { before, after, alt, beforeStart = 0, afterStart = 0, caption } = Astro.props;
+const shots = [
+  { img: before, label: '改版前', start: beforeStart, cls: 'l' },
+  { img: after, label: '改版後', start: afterStart, cls: 'r' },
+];
+---
+<figure class="pc reveal">
+  <div class="pair">
+    {shots.map((p) => (
+      <div class="shot">
+        <Image src={p.img} alt={`${alt}（${p.label}）`} widths={[375, 750]} sizes="340px" style={`transform: translateY(-${(p.start * 100).toFixed(1)}%)`} />
+        <span class:list={['tag', p.cls]}>{p.label}</span>
+      </div>
+    ))}
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+<style>
+  .pc { margin: 32px 0; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 3vw, 28px); max-width: 600px; margin: 0 auto; }
+  .shot { position: relative; aspect-ratio: 375 / 680; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--sheet); box-shadow: var(--shadow); }
+  .shot :global(img) { width: 100%; height: auto; display: block; }
+  .tag { position: absolute; bottom: 12px; left: 12px; font: 700 12px/1 var(--f-zh); background: var(--ink); color: var(--paper); padding: 6px 10px; border-radius: 999px; }
+  .tag.r { left: auto; right: 12px; background: var(--rust); color: #fff; }
+  figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); text-align: center; }
+</style>

@@ -1,0 +1,109 @@
+---
+// FunNow Manager 販售時段改版：文字照 Notion 原文（_notion-raw/manager/content.md）；圖改成網站圖解
+import CaseLayout from '../../layouts/CaseLayout.astro';
+import Figure from '../../components/Figure.astro';
+import Guide from '../../components/Guide.astro';
+import HeroWeek from '../../components/diagrams/manager/HeroWeek.astro';
+import OldBackend from '../../components/diagrams/manager/OldBackend.astro';
+import SlotCards from '../../components/diagrams/manager/SlotCards.astro';
+import CardAnatomy from '../../components/diagrams/manager/CardAnatomy.astro';
+import { url } from '../../lib/url.js';
+import stockRules from '../../assets/cases/manager/05.png';
+
+const toc = [
+  { id: 'about', label: 'About FunNow Manager' },
+  { id: 'research', label: '研究發現' },
+  { id: 'execution', label: '設計執行與落地' },
+  { id: 'results', label: '成果' },
+  { id: 'closing', label: '結語' },
+];
+---
+<CaseLayout
+  title="FunNow Manager 販售時段改版"
+  kicker="02 · B2B · Web & App"
+  tone="green"
+  description="店家看不出哪個時段需要設優惠、設好的優惠客人還買不買得到。我重新設計時段設定的介面，也重新規劃背後的庫存規則。"
+  lead="店家看不出哪個時段需要設優惠、設好的優惠客人還買不買得到。我重新設計時段設定的介面，讓店家一眼看懂每個時段還能賣幾份；也重新規劃背後的庫存規則，讓限時促銷賣完後，時段不會跟著額滿。"
+  meta={[
+    { label: '專案時間', value: '2023 年 6 月 - 2024 年 2 月' },
+    { label: '團隊', value: '5 人' },
+    { label: '規劃平台', value: 'Web＋App' },
+  ]}
+  toc={toc}
+  next={{ href: url('/cases/ai-delivery/'), title: '用 AI 改造設計交付流程' }}
+>
+  <Fragment slot="hero"><HeroWeek /></Fragment>
+
+  <h2 id="about">About FunNow Manager</h2>
+  <p>FunNow Manager 是 FunNow 合作店家使用的後台。店家在這裡設定可以賣的時段、處理訂單、核銷兌換、接收訂單通知，以及設定 FunNow Booking。</p>
+
+  <h3>專案目的</h3>
+  <p>店家管理販售時段時，最常要判斷兩件事：這個時段要不要設優惠？已經設好的優惠，客人現在還買不買得到？但舊版介面看不出來，店家得自己去訂單裡算。這次改版的目的，就是讓店家打開時段設定，<span class="hl">一眼就知道哪個時段需要設優惠、設好的優惠還能不能賣</span>。</p>
+
+  <h3>挑戰</h3>
+  <p>店家可以用三種方式開放時段：<strong>循環設定</strong>（每週固定的時段）、<strong>特殊設定</strong>（節日或臨時調整）、<strong>限時促銷</strong>（拿部分空位做特價）。三種用途不同，但在舊版畫面上長得差不多，庫存也綁在一起。要讓店家分得出每個時段是哪一種、還能賣幾份，<span class="hl">得先把背後的計算規則理清楚</span>，才能決定畫面要顯示什麼。</p>
+
+  <h3>我的角色</h3>
+  <ul>
+    <li><strong>研究與定義</strong>：整理店家的設定問題與需求、提出庫存共用的問題、<span class="hl">寫出三種時段的庫存計算邏輯</span></li>
+    <li><strong>設計</strong>：時段設定頁的資訊架構、wireframe、UI</li>
+    <li><strong>落地</strong>：與工程團隊對齊計算規則，確認規則與畫面一致</li>
+  </ul>
+  <p class="muted">本次改版於 2024 年 4 月 10 號正式上線</p>
+
+  <hr />
+
+  <h2 id="research">研究發現</h2>
+  <p>我訪談了餐廳、美業等不同產業的合作店家，也和 AM、營運、客服確認店家最常問的設定問題，發現店家最在意兩件事：<strong>還能賣幾份</strong>、<strong>現在有沒有優惠在賣</strong>。但舊版要花很多時間才找得到。</p>
+  <OldBackend />
+  <table>
+    <thead><tr><th>舊版的問題</th><th>店家因此要做的事</th></tr></thead>
+    <tbody>
+      <tr><td>看不到已販售份數</td><td>自己去訂單列表算還剩幾份，判斷不出時段是不是已經賣完</td></tr>
+      <tr><td>三種時段共用同一份庫存，限時促銷一賣完，整個時段就顯示額滿</td><td>還有空位卻賣不出去，有些店家乾脆把整天都設成限時促銷</td></tr>
+    </tbody>
+  </table>
+
+  <hr />
+
+  <h2 id="execution">設計執行與落地</h2>
+
+  <h3>決策 1｜可售與已售一眼看到</h3>
+  <SlotCards />
+  <CardAnatomy />
+  <p>店家打開時段設定最想知道的是「還能不能賣」。所以時段卡片直接顯示已販售份數和預訂上限，店家不用再自己算；看到哪個時段賣得慢，就知道要不要加開限時促銷。</p>
+  <p><strong>時間放最上面，類型用顏色區分</strong>：舊版卡片最上面是時段名稱，還固定寫出時段類型，店家要讀完文字才知道是哪一種。新版改成最上面固定顯示時間，時段類型改用大面積的色塊區分，<span class="hl">不用讀字，掃一眼顏色就分得出是哪一種時段</span>。</p>
+
+  <h3>決策 2｜重新規劃庫存規則，讓限時促銷回到原本的用途</h3>
+  <div class="small-fig"><Figure src={stockRules} alt="時段類別定義與四種情境的庫存計算示意（細節已模糊處理）" /></div>
+  <p><strong>原本的問題</strong>：讓店家自己管理每個時段的定價，是 FunNow 的核心。限時促銷的用意是：賣不完的空位拿出一部分用特價賣，特價賣完，就回到原價繼續賣。但舊版三種時段共用同一份庫存，<span class="hl">限時促銷一賣完，整個時段就顯示額滿，消費者連原價都買不到</span>。例如餐廳有 20 個座位、拿 5 個做促銷，這 5 個訂滿後，剩下的 15 個空位就賣不出去了。有些店家乾脆整天都設成限時促銷，前台的「限時促銷」標示也就失去意義。</p>
+  <p><strong>新規則</strong>：我提出這個問題後，PM 定下每種時段的目的：特殊設定不能超賣、限時促銷要讓貨量最大化。我再把它寫成實際的計算邏輯，交由工程團隊實作：</p>
+  <ul>
+    <li><strong>限時促銷：庫存獨立計算</strong>，賣完自動回到原本的特殊設定或循環設定繼續賣</li>
+    <li><strong>特殊設定與循環設定：共用銷售量</strong>，刪除或修改特殊設定時，已賣出的份數會轉回循環設定</li>
+  </ul>
+  <Guide uid="g-mgr-1" tone="green" title="取捨：庫存算得準，比設定有彈性更重要">
+    <p>共用銷售量的代價是，店家刪掉特殊設定後，已經用掉的額度不會還回來。例如循環設定可以賣 99 份，特殊設定期間賣出 30 份，刪掉後循環只剩 69 份，不會變回 99 份。我們選擇讓同一個時段永遠不會超賣；店家想在額度之外多賣，就用庫存獨立的限時促銷。</p>
+  </Guide>
+
+  <hr />
+
+  <h2 id="results">成果</h2>
+  <ul>
+    <li>店家在時段卡片上就看得到已販售份數，不用再去訂單列表自己算</li>
+    <li>限時促銷賣完後，時段會回到原本的設定繼續賣，剩下的空位不會白白浪費</li>
+    <li>時段類型用顏色區分，店家不用讀字就分得出是一般時段還是促銷</li>
+  </ul>
+
+  <hr />
+
+  <h2 id="closing">結語</h2>
+  <p>後台工具的使用者是每天要快速處理事情的店家，設計的重點不是把功能全部放進來，而是讓他們一眼看懂「現在狀況如何」。這次最大的挑戰，是把一套複雜的計算邏輯轉成店家看得懂的介面：<span class="hl">邏輯留在系統裡，店家只需要看到結果。</span></p>
+  <p>回頭看，有一件事我會做得不一樣：上線時沒有同步規劃埋點。週曆、月曆切換的使用紀錄，到上線三個月後才開始有資料，所以現在沒辦法用數字證明這次改版的成效。之後的專案，我會<span class="hl">在開工時就先想好要用哪些數據，來證明設計有沒有用</span>。</p>
+</CaseLayout>
+
+<style>
+  .muted { color: var(--muted); font-size: 14px; }
+  /* 原圖只有 507px 寬，不要放大到糊掉 */
+  .small-fig { max-width: 520px; margin: 0 auto; }
+</style>
