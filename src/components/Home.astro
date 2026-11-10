@@ -25,6 +25,10 @@ const L = langOf(Astro.url), en = L === 'en';
         <!-- 文字照 Notion 作品集首頁 -->
         <p class="hero-sub">產品設計師，8 年以上經驗，C 端與 B 端產品都做過。在 FunNow 設計過用戶訂位的 App 與網站，也設計過店家管理時段與庫存的後台，橫跨 FunNow、Eatigo、Niceday 三個品牌與 iOS／Android／Web 三個平台。我擅長從用戶研究和數據出發，把複雜的業務規則和系統邏輯，整理成清楚的資訊架構。</p>
       )}
+      <!-- 經歷一行：參考 wallofportfolios 多數作品集在 hero 寫現職與前公司（11/10 Jessy 選） -->
+      <p class="exp">{en
+        ? <>Now at <b>FunNow</b><i aria-hidden="true">·</i>Previously <b>BookFast</b>, <b>Taiwan Mobile</b></>
+        : <>現在在 <b>FunNow</b><i aria-hidden="true">·</i>之前在 <b>BookFast</b>、<b>台灣大哥大</b></>}</p>
       <ul class="links">
         <li><a class="btn primary" href="https://jessylee2208.github.io/resume/" target="_blank" rel="noopener"><BrandIcon name="resume" />Resume</a></li>
         <li><a class="btn" href="https://www.linkedin.com/in/jessy-lee-2208/" target="_blank" rel="noopener"><BrandIcon name="linkedin" />LinkedIn</a></li>
@@ -62,27 +66,36 @@ const L = langOf(Astro.url), en = L === 'en';
       <p class="label">More Works</p>
       <h2>{en ? 'Earlier work' : '更多作品'}</h2>
     </div>
-    <div class="grid-more">
+    <!-- 舊作照公司分組，看起來像經歷時間軸（11/10 Jessy 選） -->
+    <div class="group">
+      <p class="g-head"><b>BookFast</b><span>2021 – 2022</span></p>
+      <div class="grid-more">
       <CaseCard href={lurl(L, '/cases/timecard/')} title={en ? 'BookFast Pay-per-minute Pass (in Chinese)' : 'BookFast 分鐘計費卡'}
-        summary={en ? '2022 · BookFast. Designed a pay-per-minute gym pass end to end, from the back office to the member app, including the deduction, refund and settlement rules.' : '2022・BookFast。從零做出按分鐘扣點的通行卡：後台、會員 App 和官網都由我設計，也定了扣點順序、退款與核銷規則。'}
+        summary={en ? 'Designed a pay-per-minute gym pass end to end, from the back office to the member app, including the deduction, refund and settlement rules.' : '從零做出按分鐘扣點的通行卡：後台、會員 App 和官網都由我設計，也定了扣點順序、退款與核銷規則。'}
         tags={en ? ['B2B + B2C', 'Billing rules', 'Web & App'] : ['B2B＋B2C', '計費規則', 'Web & App']}>
         <TimeCardCover />
       </CaseCard>
       <CaseCard href={lurl(L, '/cases/bookfast/')} title={en ? 'BookFast Checkout Flow' : 'BookFast 付款流程簡化設計'}
-        summary={en ? '2021 · BookFast. Lead designer for simplifying the back-office checkout, so merchants can check customers out faster. Iterated through three versions with cognitive walkthroughs.' : '2021・BookFast。後台結帳流程優化的主責設計師，用認知走查迭代三個版本，從分步式改成一頁式，讓店家更快完成結帳。'}
+        summary={en ? 'Lead designer for simplifying the back-office checkout, so merchants can check customers out faster. Iterated through three versions with cognitive walkthroughs.' : '後台結帳流程優化的主責設計師，用認知走查迭代三個版本，從分步式改成一頁式，讓店家更快完成結帳。'}
         tags={en ? ['B2B', 'Cognitive walkthrough', 'Web'] : ['B2B', '認知走查', 'Web']}>
         <BookFastCover />
       </CaseCard>
+      </div>
+    </div>
+    <div class="group">
+      <p class="g-head"><b>{en ? 'Taiwan Mobile' : '台灣大哥大'}</b><span>2020</span></p>
+      <div class="grid-more">
       <CaseCard href={lurl(L, '/cases/myvideo/')} title={en ? 'myVideo Member Center Redesign' : 'myVideo 會員中心改版'}
-        summary={en ? '2020 · Taiwan Mobile. Restructured the member center of a video streaming service, from research and prototyping to usability testing.' : '2020・台灣大哥大。會員中心是用戶在眾多方案與優惠中做決定的地方，我負責規劃 Research、製作 prototype、主持訪談，重整會員中心的資訊架構。'}
+        summary={en ? 'Restructured the member center of a video streaming service, from research and prototyping to usability testing.' : '會員中心是用戶在眾多方案與優惠中做決定的地方，我負責規劃 Research、製作 prototype、主持訪談，重整會員中心的資訊架構。'}
         tags={en ? ['User research', 'Usability testing', 'Web (RWD)'] : ['用戶研究', '易用性測試', 'Web（RWD）']}>
         <MyVideoCover />
       </CaseCard>
       <CaseCard href={lurl(L, '/cases/podcast/')} title="MyMusic Podcast"
-        summary={en ? '2020 · Taiwan Mobile. Lead UI/UX designer for a new podcast service: flows, usability tests, design system and handoff specs.' : '2020・台灣大哥大。MyMusic Podcast 新服務的 UI/UX 主責設計師：規劃流程、設計測試任務、建置設計元件，以及交互文件。'}
+        summary={en ? 'Lead UI/UX designer for a new podcast service: flows, usability tests, design system and handoff specs.' : 'MyMusic Podcast 新服務的 UI/UX 主責設計師：規劃流程、設計測試任務、建置設計元件，以及交互文件。'}
         tags={en ? ['UI/UX lead', 'Usability testing', 'Design system'] : ['UI/UX 主責', '易用性測試', 'Design System']}>
         <PodcastCover />
       </CaseCard>
+      </div>
     </div>
   </section>
 </Base>
@@ -95,6 +108,9 @@ const L = langOf(Astro.url), en = L === 'en';
   /* 英文標題：一般排版，最多約 3 行 */
   .hero-title.en { font-size: clamp(30px, 6.4cqw, 52px); line-height: 1.12; max-width: 15em; }
   .hero-sub { color: var(--muted); margin: 0; max-width: 62ch; }
+  .exp { margin: 16px 0 0; font-size: 15px; color: var(--muted); }
+  .exp b { color: var(--ink); font-weight: 700; }
+  .exp i { font-style: normal; margin: 0 .55em; opacity: .6; }
   .links { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
   .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 15px; transition: background .2s ease; }
   .btn:hover { background: var(--accent-soft); }
@@ -112,5 +128,9 @@ const L = langOf(Astro.url), en = L === 'en';
   @media (min-width: 1100px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } }
   /* 更多作品：4 篇舊作排成兩欄兩列（11/10 加了分鐘計費卡） */
   .grid-more { display: grid; gap: 24px; }
+  .group + .group { margin-top: 48px; }
+  .g-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+  .g-head b { font-size: 20px; font-weight: 900; }
+  .g-head span { font: 500 13px/1 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
   @media (min-width: 820px) { .grid-more { grid-template-columns: 1fr 1fr; } }
 </style>

@@ -11,8 +11,10 @@ interface Props {
   tone: 'rust' | 'green' | 'mustard' | 'stone';
   next?: { href: string; title: string };
   locked?: boolean;   // 要密碼才看得到（見 LockGate）
+  // 1 分鐘摘要：問題 → 我負責 → 怎麼解 → 結果，有數字再放 stats（11/10 Jessy 選，參考 wallofportfolios 多數作品集）
+  summary?: { problem: string; role: string; how: string; result: string; stats?: { value: string; label: string }[] };
 }
-const { title, description, kicker, lead, meta, toc, tone, next, locked = false } = Astro.props;
+const { title, description, kicker, lead, meta, toc, tone, next, locked = false, summary } = Astro.props;
 const L = langOf(Astro.url), en = L === 'en';
 ---
 <Base title={`${title} · Jessy Lee`} description={description} noindex={locked}>
@@ -26,6 +28,21 @@ const L = langOf(Astro.url), en = L === 'en';
       <dl class="meta">
         {meta.map((m) => <div><dt class="label">{m.label}</dt><dd>{m.value}</dd></div>)}
       </dl>
+      {summary && (
+        <section class="sum" aria-label={en ? 'One-minute summary' : '1 分鐘摘要'}>
+          <p class="label sum-k">{en ? 'One-minute summary' : '1 分鐘摘要'}</p>
+          <div class="sum-body">
+            <dl class="sum-rows">
+              {[[en ? 'Problem' : '問題', summary.problem], [en ? 'My role' : '我負責', summary.role], [en ? 'Approach' : '怎麼解', summary.how], [en ? 'Result' : '結果', summary.result]].map(([k, v]) => (
+                <div><dt>{k}</dt><dd set:html={v} /></div>
+              ))}
+            </dl>
+            {summary.stats && (
+              <ul class="sum-stats">{summary.stats.map((s) => <li><b>{s.value}</b><span>{s.label}</span></li>)}</ul>
+            )}
+          </div>
+        </section>
+      )}
       <div class="hero-media"><slot name="hero" /></div>
     </header>
 
@@ -62,6 +79,20 @@ const L = langOf(Astro.url), en = L === 'en';
   .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px 24px; margin: 32px 0 0; padding: 20px 0; border-block: 1px solid var(--line); }
   .meta dt { margin-bottom: 6px; }
   .meta dd { margin: 0; font-size: 15px; line-height: 1.6; }
+  /* 1 分鐘摘要：淺色底一塊，四列文字＋右邊數字；不加 icon、不加框線裝飾 */
+  .sum { margin: 28px 0 0; padding: 22px 24px; border-radius: 16px; background: var(--tone-soft); }
+  .sum-k { margin: 0 0 14px; color: var(--tone-ink); }
+  .sum-body { display: grid; gap: 20px; }
+  @media (min-width: 880px) { .sum-body:has(.sum-stats) { grid-template-columns: 1fr 230px; align-items: start; } }
+  .sum-rows { margin: 0; display: grid; gap: 12px; }
+  .sum-rows div { display: grid; gap: 2px; }
+  @media (min-width: 640px) { .sum-rows div { grid-template-columns: 4.5em 1fr; gap: 14px; } }
+  .sum-rows dt { font-weight: 900; font-size: 15px; color: var(--tone-ink); }
+  .sum-rows dd { margin: 0; font-size: 15.5px; line-height: 1.7; }
+  .sum-stats { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .sum-stats li { background: var(--sheet); border-radius: 12px; padding: 12px 14px; display: grid; gap: 4px; }
+  .sum-stats b { font: 900 28px/1.1 var(--f-display); color: var(--tone-ink); }
+  .sum-stats span { font-size: 13.5px; line-height: 1.5; color: var(--muted); }
 
   .case-body { display: grid; gap: 40px; margin-top: 56px; }
   @media (min-width: 1080px) { .case-body { grid-template-columns: 180px minmax(0, 1fr); gap: 56px; } }
