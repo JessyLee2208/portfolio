@@ -32,8 +32,8 @@ const toc = [
   title="FunNow Venue Page Redesign"
   kicker="01 · B2C · App & Web"
   tone="rust"
-  description="Before booking, users kept leaving to look venues up on Google. I redesigned the venue page into the place where people choose a venue, with one layout shared by eight business categories."
-  lead="Before booking, users kept leaving FunNow to look venues up on Google. I redesigned the venue page into the place where people choose a venue, with one layout shared by eight business categories, so users can make up their minds without leaving the page."
+  description="Before booking, users kept leaving to look up venues on Google. I redesigned the venue page into the place where people choose a venue, with one layout shared by eight business categories."
+  lead="Before booking, users kept leaving FunNow to look up venues on Google. I redesigned the venue page into the place where people choose a venue, with one layout shared by eight business categories, so users can make up their minds without leaving the page."
   meta={[
     { label: 'Timeline', value: 'Mar 2026 – Aug 2026' },
     { label: 'Team', value: 'PM, AI team, iOS / Android / Web engineers (7 people)' },
@@ -56,14 +56,14 @@ const toc = [
       <tr><td>Picks a venue first</td><td>Plan list → plan page (venue info near the bottom) → venue page (less detail than the plan) → off to Google for reviews, photos and menus</td></tr>
     </tbody>
   </table>
-  <p>The venue page is where users decide whether to book a place. On web, it’s also the first page new users land on from search and our AI-written blog posts. In September 2026, <strong>38% of people who viewed a plan page had reached it from a venue page at least once</strong>.</p>
+  <p>The venue page is where users decide whether to book a place. On web, it’s also the first page new users land on from search and our AI-written blog posts. In September 2026, <strong>38% of plan-page viewers had arrived from a venue page at least once</strong>.</p>
 
   <h3>Goal</h3>
   <p>The project started from one observation: <strong>people search for restaurants and bars differently from other categories</strong>. Rather than looking at plans first, they usually start by checking whether the place itself is any good, the opposite of how FunNow is structured. On top of that, the old venue page had a flat, one-size layout, so users had to scroll a long way to find what they needed, and often ended up on Google instead.</p>
   <p>The redesign set out to <span class="hl">move the “which venue?” decision onto the venue page. Once users have settled on a venue there, the plan page only has to help them pick a plan, so they can finish booking faster</span>.</p>
 
   <h3>Challenges</h3>
-  <p>The insight came from restaurants and bars, but <strong>the venue page is one layout shared by eight categories</strong>, including restaurants, stays and massage, so every change affects all of them at once. The page also has to serve both new visitors arriving from Google and existing users in the app, and how complete venue data is varies a lot from one category to another.</p>
+  <p>The insight came from restaurants and bars, but <strong>the venue page is one layout shared by eight categories</strong>, including restaurants, stays and massage, so every change affects all of them at once. The page also has to serve both new visitors arriving from Google and existing users in the app, and venue data completeness varies widely by category.</p>
 
   <h3>My role</h3>
   <ul>
@@ -85,7 +85,7 @@ const toc = [
       <tr><td>No review summary</td><td>Went to Google to see what others thought</td></tr>
       <tr><td>Venue highlights were one long bulleted block, cut off</td><td>Couldn’t read it all or pick out what mattered</td></tr>
       <tr><td>Venue name couldn’t be copied; address on a single line</td><td>Typed it into a map app by hand</td></tr>
-      <tr><td>Booking policies only on the plan page</td><td>Could find out late in the process that the place didn’t match their expectations, after spending a lot of time researching</td></tr>
+      <tr><td>Booking policies only on the plan page</td><td>Found out only after lots of research that the place wasn’t a fit</td></tr>
     </tbody>
   </table>
 
@@ -102,14 +102,14 @@ const toc = [
   <p>The three decisions follow the three layers of the decision process, and each one serves one of the goals.</p>
 
   <h3>Decision 1 · The gist: only what can be judged at a glance goes above the fold</h3>
-  <p class="for">Goal: faster decisions</p>
+  <p class="for">Goal: decision efficiency</p>
   <BeforeAfter before={oldIos} after={newIos} alt="Venue page above the fold, app" ratio="375 / 680" maxWidth="340px" caption="App, above the fold: drag the handle to compare before and after" />
   <BeforeAfter before={oldWeb} after={newWeb} alt="Venue page above the fold, web" ratio="1440 / 860" caption="Web, above the fold" />
-  <p>The venue summary at the top has one job: help users quickly decide whether this place is for them.</p>
+  <p>The venue summary at the top has one job: help users decide quickly whether this place is for them.</p>
   <p>Photos and vibe tags show the feel, rating and average spend show whether it’s worth it, <strong>area, nearest MRT station and distance</strong> show whether it’s within reach, and opening hours show whether it’s open now. Location sits above the fold so users don’t fall for a place, scroll to the end, and only then realize it’s too far or awkward to get to.</p>
 
   <h3>Decision 2 · Reviews: bring in Google and FunNow reviews, summarized by AI</h3>
-  <p class="for">Goal: more confident decisions</p>
+  <p class="for">Goal: decision confidence</p>
   <PhoneCompare before={oldIos} after={newIos} alt="Venue page reviews section, app" afterStart={0.061} caption="App, reviews section" />
   <Figure src={aiCards} alt="Two AI summary cards: highlights from Google reviews and from FunNow users (in Chinese)" />
   <p>Once a place looks promising, users want other people’s experiences to back up their choice. In our research, almost every participant went to Google for reviews. So we brought both Google reviews and FunNow reviews onto the venue page, and used AI to summarize each into its own card.</p>
@@ -123,11 +123,11 @@ const toc = [
   </ul>
 
   <h3>Decision 3 · The details: everything laid out, one set of rules for eight categories</h3>
-  <p class="for">Goal: complete information</p>
+  <p class="for">Goal: information completeness</p>
   <PhoneCompare before={oldIos} after={newIos} alt="Venue page details section, app" afterStart={0.51} caption="App, details section" />
   <p>Once users decide to go, they need the full picture. The lower part of the page lays it all out: full address and map, how to get there, venue highlights and occasion tags, facilities, payment methods and languages spoken. Booking policies, which used to appear only on the plan page, are now shown on the venue page as platform rules, so users know them while they’re still choosing.</p>
   <Guide uid="g-branch-3-en" expr={0} tone="rust">
-    <p>Venue data looks different in each of the eight categories. Instead of writing separate rules for each one, I set four shared rules: hide a section, title included, when it has no data; collapse based on line count, not category; never truncate text; and show facilities as the union of the venue’s and its plans’. Whether it’s a restaurant with complete data or a massage shop that only filled in an address, the page always displays properly, with no empty titles or blank sections.</p>
+    <p>Venue data looks different in each of the eight categories. Instead of writing separate rules for each one, I set four shared rules: hide a section, title included, when it has no data; collapse based on line count, not category; never truncate text; and combine the facilities listed on the venue and on its plans. Whether it’s a restaurant with complete data or a massage shop that only filled in an address, the page always displays properly, with no empty titles or blank sections.</p>
   </Guide>
 
   <hr />
@@ -139,13 +139,13 @@ const toc = [
     <Stat value="1.8×" label="Venue name copies" note="Growth after launch" />
   </div>
   <p><strong>Checkout completion among people who reached a plan page from a venue page rose by 2.9 percentage points (41.5% → 44.4%).</strong></p>
-  <p>For more than a year before the redesign, this rate held steady at 40–42%. After launch, it was above 44% in both the June–August and July–September windows.</p>
+  <p>For more than a year before the redesign, this rate held steady at 40–42%. Since the rollout, it has stayed above 44% in both the June–August and July–September windows.</p>
   <table>
     <thead><tr><th>Goal</th><th>What changed after the redesign</th></tr></thead>
     <tbody>
-      <tr><td>Faster decisions</td><td>Venue page → plan page dropped from 80.7% to 75.2% (<strong>−5.5 percentage points</strong>). <span class="hl">Users ruled out venues that didn’t fit on the venue page itself, instead of finding out only after opening a plan page</span></td></tr>
-      <tr><td>More confident decisions</td><td>Among people who reached a plan page from a venue page, checkout completion rose from 41.5% to 44.4% (<strong>+2.9 percentage points</strong>). <span class="hl">People who had already settled on a venue were more willing to book once they reached the plan page</span></td></tr>
-      <tr><td>Complete information</td><td>94.5% of info taps on the venue page went to judging the venue (map 40%, opening hours 31%, reviews 18%); venue name copies grew 1.8× after launch</td></tr>
+      <tr><td>Decision efficiency</td><td>Venue page → plan page dropped from 80.7% to 75.2% (<strong>−5.5 percentage points</strong>). <span class="hl">Users ruled out venues that didn’t fit on the venue page itself, instead of finding out only after opening a plan page</span></td></tr>
+      <tr><td>Decision confidence</td><td>Among people who reached a plan page from a venue page, checkout completion rose from 41.5% to 44.4% (<strong>+2.9 percentage points</strong>). <span class="hl">People who had already settled on a venue were more willing to book once they reached the plan page</span></td></tr>
+      <tr><td>Information completeness</td><td>94.5% of info taps on the venue page went to judging the venue (top three: map 40%, opening hours 31%, reviews 18%); venue name copies grew 1.8× after launch</td></tr>
     </tbody>
   </table>
   <p>For more than a year before the redesign, both rates stayed within ±1 percentage point. After launch, they moved in opposite directions at the same time: 5.5 points fewer people went on to a plan page, while 2.9 points more of those who did ended up completing checkout. Overall conversion stayed flat. The most likely reading is that <span class="hl">filtering happened earlier</span>: with fuller information, users could tell on the venue page that a place wasn’t for them, and the people who continued had clearer intent.</p>
@@ -154,7 +154,7 @@ const toc = [
 
   <h2 id="closing">Reflections</h2>
   <p>This project changed how I see the venue page. It isn’t just where venue information lives; it’s where users decide whether to go. So I didn’t start from fields. I started from the order in which users make decisions, and every section had to be able to say which question it answers.</p>
-  <p>The data was also a reminder that design impact doesn’t always show up in a single conversion rate. Overall conversion stayed flat, but users made their decisions earlier, which is exactly the change we were after.</p>
+  <p>The data was also a reminder that design impact doesn’t always show up in a single conversion rate. Overall conversion stayed flat, but users made their decisions earlier, which matched what we set out to change.</p>
   <p>Working on a layout shared by eight categories taught me that good design isn’t building a separate version for every case, but finding rules that hold for all of them, while staying aware that one change touches every brand and page that shares it.</p>
 </CaseLayout>
 

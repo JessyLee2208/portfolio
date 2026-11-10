@@ -36,7 +36,7 @@ const L = langOf(Astro.url), en = L === 'en';
     </div>
     <div class="grid">
       <CaseCard wide href={lurl(L, '/cases/branch/')} title={en ? 'FunNow Venue Page Redesign' : 'FunNow 分店頁改版'}
-        summary={en ? 'Before booking, users kept leaving to look venues up on Google. I redesigned the venue page into the place where people choose a venue, with one layout shared by eight business categories, so they can decide without leaving the page.' : '用戶訂位前都會跳去 Google 查店家。我把分店頁重新設計成「選店」的地方，讓八個產業共用同一個版面，用戶都能在頁面內完成判斷。'}
+        summary={en ? 'Before booking, users kept leaving to look up venues on Google. I redesigned the venue page into the place where people choose a venue, with one layout shared by eight business categories, so they can decide without leaving the page.' : '用戶訂位前都會跳去 Google 查店家。我把分店頁重新設計成「選店」的地方，讓八個產業共用同一個版面，用戶都能在頁面內完成判斷。'}
         tags={en ? ['User research', 'Information architecture', 'Data analysis', 'Design QA'] : ['用戶研究', '資訊架構', '數據分析', 'Design QA']}>
         <BranchCover />
       </CaseCard>
@@ -47,7 +47,7 @@ const L = langOf(Astro.url), en = L === 'en';
           <ManagerCover />
         </CaseCard>
         <CaseCard href={lurl(L, '/cases/ai-delivery/')} title={en ? 'Rethinking Design Handoff with AI' : '用 AI 改造設計交付流程'}
-          summary={en ? 'After interviewing engineers, I added an AI review step before handoff, and flagged every AI-verified detail so engineers know what to double-check.' : '我訪談工程師後，把 AI review 放進交稿前，並把 AI 查證過的內容標出來請工程師複查。'}
+          summary={en ? 'After interviewing engineers, I added an AI review step before handoff, and labeled every detail the AI verified, so engineers know which ones to double-check.' : '我訪談工程師後，把 AI review 放進交稿前，並把 AI 查證過的內容標出來請工程師複查。'}
           tags={en ? ['Engineer interviews', 'Working with AI', 'Process design'] : ['工程師訪談', 'AI 協作', '流程設計']}>
           <AiCover />
         </CaseCard>

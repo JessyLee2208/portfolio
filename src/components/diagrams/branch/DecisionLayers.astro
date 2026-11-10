@@ -4,8 +4,8 @@ import Avatar from '../../Avatar.astro';
 import { langOf } from '../../../lib/i18n.js';
 const en = langOf(Astro.url) === 'en';
 const layersEn = [
-  { t: 'The gist: Is this the place for me?', d: ['The first thing users do on a venue page is decide whether the place is worth a closer look.', 'So the top of the page only shows what can be judged at a glance: photos and vibe tags for the feel, rating and average spend for value, area and distance for whether it’s within reach, and opening hours for whether it’s open when they want to go. This layer helps the wrong people leave early and the right people keep scrolling with confidence.'], e: 0 },
-  { t: 'Reviews: What do others think?', d: ['Once a place looks promising, users want to hear from others to make sure they’re not wrong. In our research, almost every participant went to Google to read reviews to back up their choice.'], e: 3 },
+  { t: 'The gist: Is this the place for me?', d: ['The first thing users do on a venue page is decide whether the place is worth a closer look.', 'So the top of the page only shows what can be judged at a glance: photos and vibe tags for the feel, rating and average spend for value, area and distance for whether it’s within reach, and opening hours for whether it’s open when they want to go. This lets people who aren’t a fit leave early, and the right people keep scrolling with confidence.'], e: 0 },
+  { t: 'Reviews: What do others think?', d: ['Once a place looks promising, users want to hear from others to confirm their choice. In our research, almost every participant went to Google to read reviews to back up their choice.'], e: 3 },
   { t: 'The details: What seals the decision', d: ['After deciding to go, the question becomes “will anything go wrong when I get there?”: how to get there, private rooms or parking, card payment, dining rules. These details don’t make anyone want to go, but missing them makes people hesitate to book, or find out on arrival that the place isn’t what they expected. So they all sit at the end, laid out in full, for one final check before booking.'], e: 1 },
 ];
 const layersZh = [
