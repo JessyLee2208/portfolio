@@ -11,8 +11,8 @@ interface Props {
   shape?: 'circle' | 'square' | 'arch' | 'rect' | 'triangle';
   accent?: 'star-pin' | 'clock' | 'sparkle-loop';
   under?: 'line' | 'dots' | 'wave';
-  // 背景紋路每張封面都不一樣（11/10 Jessy）：dots 分店頁、grid Manager、lines AI、checker myVideo、rings Podcast、ruled BookFast
-  pattern?: 'dots' | 'grid' | 'lines' | 'checker' | 'rings' | 'ruled';
+  // 背景紋路每張封面都不一樣（11/10 Jessy）：dots 分店頁、grid Manager、lines AI、plus myVideo、rings Podcast、ruled BookFast
+  pattern?: 'dots' | 'grid' | 'lines' | 'plus' | 'rings' | 'ruled';
 }
 const { tone, no, kick, title, sub, big, unit, bigLabel, label, shape = 'circle', accent = 'star-pin', under = 'line', pattern = 'dots', locked = false } = Astro.props;
 const ringPath = {
@@ -73,7 +73,8 @@ const ringPath = {
   .pat-dots { background-image: radial-gradient(var(--pc) 1.2px, transparent 1.4px); background-size: 2.4cqw 2.4cqw; }
   .pat-grid { background-image: linear-gradient(var(--pc) 1px, transparent 1px), linear-gradient(90deg, var(--pc) 1px, transparent 1px); background-size: 3.2cqw 3.2cqw; opacity: .6; }
   .pat-lines { background-image: repeating-linear-gradient(-35deg, var(--pc) 0 1.5px, transparent 1.5px 1.8cqw); opacity: .7; }
-  .pat-checker { background-image: conic-gradient(var(--pc) 25%, transparent 0 50%, var(--pc) 0 75%, transparent 0); background-size: 4cqw 4cqw; opacity: .35; }
+  /* 小加號：用 SVG 畫，顏色用灰米（只有舊作 stone 用） */
+  .pat-plus { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 8v8M8 12h8' stroke='%239a9286' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E"); background-size: 3.2cqw 3.2cqw; opacity: .7; }
   .pat-rings { background-image: repeating-radial-gradient(circle at 78% 50%, var(--pc) 0 1.5px, transparent 1.5px 2.6cqw); opacity: .7; }
   .pat-ruled { background-image: repeating-linear-gradient(0deg, var(--pc) 0 1.5px, transparent 1.5px 2.2cqw); opacity: .7; }
   .cv-text { position: relative; z-index: 2; }
