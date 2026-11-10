@@ -39,13 +39,16 @@ const {
     --bc: #2a211c;
     position: absolute; right: calc(var(--av) * .98); top: 37%; margin: 0; white-space: nowrap; z-index: 2;
     background: #fffdf9; color: #2a211c; font-weight: 700; font-size: 15px; line-height: 1;
-    padding: 11px 16px; border: 2.4px solid var(--bc); border-radius: 20px; transform-origin: right center;
+    padding: 11px 16px; border: 2.4px solid var(--bc); border-radius: 14px; transform-origin: right center;
     animation: bubble-in .4s cubic-bezier(.3, 1.6, .5, 1) 1.1s both;
   }
-  .speech::after {
-    content: ''; position: absolute; right: -7.5px; top: 50%; width: 12px; height: 12px; background: inherit;
-    border-right: 2.4px solid var(--bc); border-bottom: 2.4px solid var(--bc); transform: translateY(-50%) rotate(-45deg); border-radius: 0 0 3px 0;
+  /* 尾巴：外層三角形畫框線顏色，內層三角形用泡泡底色蓋掉接縫，看起來跟泡泡是一體的 */
+  .speech::before, .speech::after {
+    content: ''; position: absolute; top: 50%; transform: translateY(-50%);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
   }
+  .speech::before { right: -14px; width: 14px; height: 20px; background: var(--bc); }
+  .speech::after { right: -9.9px; width: 12.3px; height: 17.5px; background: #fffdf9; }
   .speech.swap { animation: bubble-in .35s cubic-bezier(.3, 1.6, .5, 1) both; }
   .speech.angry { --bc: var(--rust); color: var(--rust); }
 
