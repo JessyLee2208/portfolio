@@ -1,0 +1,29 @@
+---
+// 找不到頁面：GitHub Pages 會用這頁。看不出讀者用哪個語言，所以中英文並列
+import Base from '../layouts/Base.astro';
+import Avatar from '../components/Avatar.astro';
+import { url } from '../lib/url.js';
+---
+<Base title="找不到這一頁 · Page not found · Jessy Lee" description="這個網址沒有內容。This page doesn’t exist.">
+  <section class="wrap nf">
+    <Avatar uid="nf" size={160} expr={3} full />
+    <p class="label">404</p>
+    <h1>找不到這一頁</h1>
+    <p class="en-h" lang="en">Page not found</p>
+    <p class="sub">網址可能打錯了，或是這一頁已經搬家。<br /><span lang="en">The link may be mistyped, or the page has moved.</span></p>
+    <div class="btns">
+      <a class="btn primary" href={url('/')}>回首頁</a>
+      <a class="btn" href={url('/en/')} lang="en">Back to home</a>
+    </div>
+  </section>
+</Base>
+<style>
+  .nf { min-height: 70vh; display: grid; justify-items: center; align-content: center; text-align: center; gap: 6px; padding-block: 48px; }
+  .nf h1 { font-size: clamp(28px, 5vw, 40px); margin-top: 4px; }
+  .en-h { margin: 0; font: 800 clamp(20px, 3vw, 26px)/1.2 var(--f-display); color: var(--muted); }
+  .sub { color: var(--muted); margin: 12px 0 0; line-height: 1.7; }
+  .btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
+  .btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); text-decoration: none; font-weight: 700; }
+  .btn:hover { background: var(--accent-soft); }
+  .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+</style>
