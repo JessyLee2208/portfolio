@@ -32,6 +32,8 @@ const { before, after, alt, beforeLabel = '改版前', afterLabel = '改版後',
   .handle span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--paper); display: grid; place-items: center; font-size: 16px; }
   .tag { position: absolute; bottom: 12px; font: 700 12px/1 var(--f-zh); background: var(--ink); color: var(--paper); padding: 6px 10px; border-radius: 999px; pointer-events: none; }
   .tag.l { left: 12px; } .tag.r { right: 12px; background: var(--rust-ink); color: #fff; }
+  /* 那一側的圖被拉到看不見（標籤放不下）時，標籤就淡出 */
+  .tag { transition: opacity .2s ease; } .tag.off { opacity: 0; }
   input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
   input:focus-visible ~ .handle span { outline: 2px solid var(--accent); outline-offset: 3px; }
   figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); text-align: center; }
@@ -39,6 +41,16 @@ const { before, after, alt, beforeLabel = '改版前', afterLabel = '改版後',
 <script>
   document.querySelectorAll<HTMLElement>('.ba .stage').forEach((stage) => {
     const input = stage.querySelector('input')!;
-    input.addEventListener('input', () => stage.style.setProperty('--pos', input.value + '%'));
+    const tagL = stage.querySelector<HTMLElement>('.tag.l')!, tagR = stage.querySelector<HTMLElement>('.tag.r')!;
+    const update = () => {
+      stage.style.setProperty('--pos', input.value + '%');
+      // 分隔線的位置（px）；改版前標籤要完整落在線的左邊、改版後標籤要完整落在線的右邊才顯示
+      const x = stage.clientWidth * Number(input.value) / 100;
+      tagL.classList.toggle('off', x < tagL.offsetLeft + tagL.offsetWidth + 8);
+      tagR.classList.toggle('off', x > tagR.offsetLeft - 8);
+    };
+    input.addEventListener('input', update);
+    window.addEventListener('resize', update);
+    update();
   });
 </script>
