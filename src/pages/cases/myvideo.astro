@@ -4,6 +4,19 @@ import CaseLayout from '../../layouts/CaseLayout.astro';
 import { url } from '../../lib/url.js';
 import MV from '../../components/diagrams/old/MyVideo.astro';
 import MS from '../../components/diagrams/old/MyVideoScreens.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import pb1 from '../../assets/cases/myvideo/plans-b1.png';
+import pb2 from '../../assets/cases/myvideo/plans-b2.png';
+import pb3 from '../../assets/cases/myvideo/plans-b3.png';
+import pa1 from '../../assets/cases/myvideo/plans-a1.png';
+import pa2 from '../../assets/cases/myvideo/plans-a2.png';
+import pa3 from '../../assets/cases/myvideo/plans-a3.png';
+import ab1 from '../../assets/cases/myvideo/acct-b1.png';
+import ab2 from '../../assets/cases/myvideo/acct-b2.png';
+import aa1 from '../../assets/cases/myvideo/acct-a1.png';
+import aa2 from '../../assets/cases/myvideo/acct-a2.png';
+import fb2 from '../../assets/cases/myvideo/fam-b2.png';
+import fa1 from '../../assets/cases/myvideo/fam-a1.png';
 
 const toc = [
   { id: 'about', label: 'About myVideo' },
@@ -136,15 +149,18 @@ const toc = [
 
   <h3>方案與交易紀錄</h3>
   <p><span class="tag-b">Before</span>將方案與帳號資訊顯示在同一區域，交易紀錄為獨立選單<br /><span class="tag-a">After</span>獨立出交易紀錄的獨立單元，方便用戶針對交易進行查找</p>
-  <MS kind="plans" />
+  <BeforeAfter before={pb1} after={pa1} alt="方案" ratio="1229 / 890" caption="我的帳戶 → 我的訂閱方案：拖曳中間的把手比較改版前後" />
+  <BeforeAfter before={pb3} after={pa2} alt="交易紀錄" ratio="1229 / 1141" caption="交易紀錄 → 租借購買紀錄" />
+  <BeforeAfter before={pb2} after={pa3} alt="點數" ratio="1229 / 1364" caption="點數查詢 → myVideo 錢錢" />
 
   <h3>帳戶資訊</h3>
   <p><span class="tag-b">Before</span>將個人資訊與方案放在同個分類，付款設定與密碼保護則為不同選單。<br /><span class="tag-a">After</span>將帳號設定獨立出來，方便使用者做帳號的相關設定</p>
-  <MS kind="account" />
+  <BeforeAfter before={ab1} after={aa1} alt="帳號資訊" ratio="1229 / 700" caption="個人資訊與方案 → 帳號資訊" />
+  <BeforeAfter before={ab2} after={aa2} alt="設定" ratio="1229 / 806" caption="付款設定 → 設定" />
 
   <h3>家人共享</h3>
   <p><span class="tag-b">Before</span>會員中心沒有身份修改與編輯，入口獨立。<br /><span class="tag-a">After</span>將身份編輯與新增功能合併至會員中心，且獨立出一個單元。並將所有身分同時攤開，選擇編輯身份時不必切頁</p>
-  <MS kind="family" />
+  <BeforeAfter before={fb2} after={fa1} alt="家人共享" ratio="1229 / 907" caption="編輯身份（獨立頁面）→ 家人共享：所有身份同時攤開" />
 </CaseLayout>
 
 <style>
