@@ -119,9 +119,9 @@ const JR = [
 )}
 
 {kind === 'features' && (
-  <Plate label="會員 App：主要功能（可以左右滑）" card={false} alt="會員 App 的七個功能：我的通行卡、方案明細、失效方案、館內計時器、預計扣點、出示 QR code、相機掃描">
+  <figure class="fc-fig reveal" aria-label="會員 App 的七個功能：我的通行卡、方案明細、失效方案、館內計時器、預計扣點、出示 QR code、相機掃描">
     <!-- 橫向滑的功能卡：參考 rebecca-yang.com（11/10 Jessy），一個功能一張卡；電腦版右上角有左右按鈕 -->
-    <div class="fc" data-fc>
+    <div class="fc fc-plain" data-fc>
       <div class="fc-nav">
         <button type="button" class="fc-btn" data-dir="-1" aria-label="上一張"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" /></svg></button>
         <button type="button" class="fc-btn" data-dir="1" aria-label="下一張"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg></button>
@@ -144,7 +144,7 @@ const JR = [
         ))}
       </ul>
     </div>
-  </Plate>
+  </figure>
 )}
 
 {kind === 'lanes' && (
@@ -485,6 +485,10 @@ const JR = [
   .ph-card .frame :global(img) { border-radius: 15px; }
   .cap { margin: 0; font-size: 13.5px; font-weight: 500; color: var(--ink); }
 
+  /* 功能卡不放在底色板裡（11/10 Jessy：綠底和小標拿掉），左右按鈕放在卡片上方靠右 */
+  .fc-fig { margin: 24px 0 32px; }
+  .fc-plain .fc-nav { position: static; justify-content: flex-end; margin-bottom: 10px; }
+  .fc-plain .fc-card { border: 1px solid var(--line); }
   /* 橫向滑的功能卡 */
   .fc { position: relative; }
   .fc-nav { position: absolute; top: -40px; right: 0; display: none; gap: 6px; }
