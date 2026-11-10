@@ -330,7 +330,8 @@ const JR = [
     .chain { gap: 14px; }
     .ch { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; padding: 10px 14px; }
     .ch b { font-size: 15px; }
-    .ch:not(:last-child)::after { bottom: -14px; font-size: 11px; }
+    .chain { gap: 18px; }
+    .ch:not(:last-child)::after { top: 100%; bottom: auto; height: 18px; line-height: 18px; font-size: 12px; }
   }
   @media (min-width: 720px) { .ch:not(:last-child)::after { content: '→'; left: auto; right: -21px; bottom: auto; top: 50%; transform: translateY(-50%); } }
 
