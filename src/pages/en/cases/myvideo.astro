@@ -1,0 +1,97 @@
+---
+// myVideo 會員中心改版（英文版）：內容對應 src/pages/cases/myvideo.astro，英文作品集口吻意譯（2026-11-10）
+import CaseLayout from '../../../layouts/CaseLayout.astro';
+import { lurl } from '../../../lib/i18n.js';
+import MV from '../../../components/diagrams/old/MyVideo.astro';
+import MS from '../../../components/diagrams/old/MyVideoScreens.astro';
+import BeforeAfter from '../../../components/BeforeAfter.astro';
+import heroBefore from '../../../assets/cases/myvideo/plans-b1.png';
+import heroAfter from '../../../assets/cases/myvideo/plans-a1.png';
+
+const toc = [
+  { id: 'about', label: 'About myVideo' },
+  { id: 'goals', label: 'Goals' },
+  { id: 'research', label: 'Research' },
+  { id: 'execution', label: 'Design decisions' },
+];
+---
+<CaseLayout
+  title="myVideo Member Center Redesign"
+  kicker="05 · B2C · Web (responsive) · 2020"
+  tone="rust"
+  description="The member center is where users weigh plans and offers. I led the research, built prototypes, moderated interviews, and restructured the member center’s information architecture."
+  lead="The member center brings together a member’s plans, benefits and information, and it’s where users weigh many offers to make a decision. It needs a clear, intuitive structure so users can find what they need, decide faster, and feel good about it."
+  meta={[
+    { label: 'Timeline', value: 'Oct 2020 – Nov 2020' },
+    { label: 'Team', value: '4 people' },
+    { label: 'Platform', value: 'Web (responsive)' },
+  ]}
+  toc={toc}
+  next={{ href: lurl('en', '/cases/podcast/'), title: 'MyMusic Podcast' }}
+>
+  <Fragment slot="hero"><div class="hero-ba"><BeforeAfter before={heroBefore} after={heroAfter} alt="myVideo member center" ratio="1229 / 890" caption="My account → the redesigned member center: drag the handle to compare (UI in Chinese)" /></div></Fragment>
+
+  <h2 id="about">About myVideo</h2>
+  <p>myVideo is Taiwan Mobile’s digital media service, offering video on demand and live channels across many devices.</p>
+
+  <h3>Goal</h3>
+  <p><span class="hl">The member center brings together a member’s plans, benefits and information, and users have to decide among many offers there.</span> A clear, intuitive structure is key to helping users find information, decide faster and feel satisfied.</p>
+
+  <h3>Challenges</h3>
+  <p>myVideo offers many kinds of membership (rentals, monthly plans, points), supports shared profiles, and has several ways to sign in. The biggest challenges were pulling all of a user’s information together in a clear way, and helping existing users move past their old habits.</p>
+
+  <h3>My role</h3>
+  <p>Planned the research, built prototypes, moderated interviews, created wireframes, wrote the research report, and supported the UI design.</p>
+  <p class="muted">The redesign launched on March 20, 2021.</p>
+
+  <hr />
+
+  <h2 id="goals">Goals</h2>
+  <p>Before kicking off, we worked with stakeholders and gathered background data, and narrowed the redesign down to three goals:</p>
+  <MV kind="goals" />
+
+  <h3>Why? and How?</h3>
+  <p>Event tracking, Google Analytics, payment funnel analysis and an early user survey all showed the same thing: the old member center had a loose, flat structure, with nothing highlighting the key information. Current plans weren’t clearly shown and couldn’t be managed online, so users couldn’t finish what they came to do and gave up.</p>
+  <MS kind="old" />
+  <p>On top of that, family sharing, code redemption and the member center each had their own entry point in different places, so users easily mixed up where to edit their own info versus other profiles.</p>
+
+  <hr />
+
+  <h2 id="research">Research</h2>
+  <MV kind="method" />
+
+  <h3>Desk research</h3>
+  <p>We studied the information architecture of products with similar revenue models and key features to myVideo. This helped the team redefine the structure faster, and shaped the survey that followed.</p>
+  <MV kind="competitors" />
+
+  <h3>Survey</h3>
+  <p>Before writing the survey, we first defined what we wanted to learn from it. The survey focused on <span class="hl">what users need and expect from the member center</span> and <span class="hl">how current users actually use it</span>.</p>
+  <p>So we narrowed the audience to:</p>
+  <MV kind="survey" />
+  <p>Combining the survey results, Google Analytics, the payment funnel and competitors’ structures, we <span class="hl">regrouped the information around how users think about their membership</span>, which gave us these units:</p>
+  <MV kind="ia" />
+
+  <h3>Usability test summary</h3>
+  <MV kind="usability" />
+
+  <hr />
+
+  <h2 id="execution">Design decisions</h2>
+  <p>Building on the usability tests, interviews and earlier research, we redesigned the member center to fix the existing problems: restructuring the member center, presenting member information clearly, refreshing the visual language, and consolidating components.</p>
+  <p>Below are before-and-after comparisons of the regrouped units (UI in Chinese).</p>
+
+  <h3>Plans and transactions</h3>
+  <MS kind="plans" />
+
+  <h3>Account info</h3>
+  <MS kind="account" />
+
+  <h3>Family sharing</h3>
+  <MS kind="family" />
+</CaseLayout>
+
+<style>
+  .muted { color: var(--muted); font-size: 14px; }
+  .hero-ba { margin-top: 40px; }
+  .hero-ba :global(.ba) { margin: 0 auto; max-width: 960px; }
+</style>

@@ -1,25 +1,27 @@
 ---
 // myVideo 會員中心改版的圖解：取代 Notion 簡報匯出的小圖（02/04/06/07/08.png），文字照原圖
 import Board from '../Board.astro';
+import { tr } from '../../../lib/en-dict.js';
+const x = tr(Astro.url);
 interface Props { kind: 'goals' | 'method' | 'survey' | 'ia' | 'usability' | 'competitors'; }
 const { kind } = Astro.props;
 ---
 {kind === 'competitors' && (() => {
   // 精簡對照表（11/10 Jessy 選）：產品橫向、面向直向，字縮短，有無用 ✓ ✕；★ 欄是本次主要參考（原圖框起來的三個）
   const P = [
-    { n: 'Netflix', ref: true, v: [['✓', '4+1'], ['全頁展開'], ['等級月租'], ['✕']] },
-    { n: 'Apple TV+', v: [['✓', '5+1'], ['全頁展開'], ['月租＋點數'], ['✕']] },
-    { n: '愛奇藝', v: [['✕'], ['側邊分頁'], ['方案月租'], ['✕']] },
-    { n: 'Spotify', ref: true, v: [['✓', '6'], ['側邊分頁'], ['方案月租'], ['✓']] },
-    { n: 'Melon', ref: true, v: [['✕'], ['綜合型'], ['月租＋單曲＋點數'], ['✕']] },
-    { n: 'KKBOX', v: [['✕'], ['側邊分頁'], ['方案月租'], ['✕']] },
+    { n: 'Netflix', ref: true, v: [['✓', '4+1'], [x('全頁展開')], [x('等級月租')], ['✕']] },
+    { n: 'Apple TV+', v: [['✓', '5+1'], [x('全頁展開')], [x('月租＋點數')], ['✕']] },
+    { n: x('愛奇藝'), v: [['✕'], [x('側邊分頁')], [x('方案月租')], ['✕']] },
+    { n: 'Spotify', ref: true, v: [['✓', '6'], [x('側邊分頁')], [x('方案月租')], ['✓']] },
+    { n: 'Melon', ref: true, v: [['✕'], [x('綜合型')], [x('月租＋單曲＋點數')], ['✕']] },
+    { n: 'KKBOX', v: [['✕'], [x('側邊分頁')], [x('方案月租')], ['✕']] },
   ];
-  const K = ['共享帳號', '資訊架構', '營收方式', '身分別內容'];
+  const K = [x('共享帳號'), x('資訊架構'), x('營收方式'), x('身分別內容')];
   return (
-    <Board kicker="Competitive Analysis" title="競品分析" c="myvideo" label="競品分析對照表：Netflix、Apple TV+、愛奇藝、Spotify、Melon、KKBOX 的共享帳號、資訊架構、營收方式、身分別內容變化">
+    <Board kicker="Competitive Analysis" title={x('競品分析')} c="myvideo" label={x('競品分析對照表：Netflix、Apple TV+、愛奇藝、Spotify、Melon、KKBOX 的共享帳號、資訊架構、營收方式、身分別內容變化')}>
       <div class="mx-wrap">
         <table class="mx">
-          <thead><tr><th></th>{P.map((p) => <th class:list={{ ref: p.ref }}>{p.ref && <span class="star" aria-label="主要參考">★</span>}{p.n}</th>)}</tr></thead>
+          <thead><tr><th></th>{P.map((p) => <th class:list={{ ref: p.ref }}>{p.ref && <span class="star" aria-label={x('主要參考')}>★</span>}{p.n}</th>)}</tr></thead>
           <tbody>
             {K.map((k, r) => (
               <tr><th>{k}</th>{P.map((p) => {
@@ -31,28 +33,28 @@ const { kind } = Astro.props;
           </tbody>
         </table>
       </div>
-      <p class="clegend"><span class="star">★</span> 本次主要參考的產品　·　共享帳號的數字是可同時使用的人數</p>
+      <p class="clegend"><span class="star">★</span> {x('本次主要參考的產品　·　共享帳號的數字是可同時使用的人數')}</p>
     </Board>
   );
 })()}
 
 {kind === 'goals' && (
-  <Board kicker="Focus" title="聚焦目的" c="myvideo" label="聚焦目的：提升用戶的決策效率、查找速度、使用感受">
+  <Board kicker="Focus" title={x('聚焦目的')} c="myvideo" label={x('聚焦目的：提升用戶的決策效率、查找速度、使用感受')}>
     <ol class="goals">
-      {['決策效率', '查找速度', '使用感受'].map((n) => (
-        <li class="panel"><span class="kick">提升用戶</span><span class="name">{n}</span></li>
+      {[x('決策效率'), x('查找速度'), x('使用感受')].map((n) => (
+        <li class="panel"><span class="kick">{x('提升用戶')}</span><span class="name">{n}</span></li>
       ))}
     </ol>
   </Board>
 )}
 
 {kind === 'method' && (
-  <Board kicker="Research Method" title="研究執行方法" c="myvideo" label="研究執行方法：資料收集、問卷調查、訪談與易用性測試">
+  <Board kicker="Research Method" title={x('研究執行方法')} c="myvideo" label={x('研究執行方法：資料收集、問卷調查、訪談與易用性測試')}>
     <ol class="steps">
       {[
-        ['資料收集', '了解他產品的資訊架構，相似的重點功能如何呈現？'],
-        ['問卷調查', '掌握現行用戶的使用行為、對於會員中心的需求以及期待。'],
-        ['訪談＆易用性測試', '使用改版後的 prototype 進行易用性測試，觀察用戶是否達成本次專案的目標，把握在不流失用戶的情形下新用戶也可以順利使用。'],
+        [x('資料收集'), x('了解他產品的資訊架構，相似的重點功能如何呈現？')],
+        [x('問卷調查'), x('掌握現行用戶的使用行為、對於會員中心的需求以及期待。')],
+        [x('訪談＆易用性測試'), x('使用改版後的 prototype 進行易用性測試，觀察用戶是否達成本次專案的目標，把握在不流失用戶的情形下新用戶也可以順利使用。')],
       ].map(([t, d], i) => (
         <li class="panel step"><span class="num">{i + 1}</span><span class="t">{t}</span><span class="d">{d}</span></li>
       ))}
@@ -61,12 +63,12 @@ const { kind } = Astro.props;
 )}
 
 {kind === 'survey' && (
-  <Board kicker="Survey" title="問卷發放對象" c="myvideo" label="問卷發放對象：有 myVideo 會員資格、近一個月內有使用、觀看超過 10 分鐘；30～49 歲；App、Web">
+  <Board kicker="Survey" title={x('問卷發放對象')} c="myvideo" label={x('問卷發放對象：有 myVideo 會員資格、近一個月內有使用、觀看超過 10 分鐘；30～49 歲；App、Web')}>
     <dl class="panel survey">
       {[
-        ['對象', '有 myVideo 會員資格、近一個月內有使用 myVideo 服務、觀看分鐘數超過 10 分鐘以上'],
-        ['年齡', '30～49 歲區間'],
-        ['設備', 'App、Web'],
+        [x('對象'), x('有 myVideo 會員資格、近一個月內有使用 myVideo 服務、觀看分鐘數超過 10 分鐘以上')],
+        [x('年齡'), x('30～49 歲區間')],
+        [x('設備'), 'App、Web'],
       ].map(([k, v]) => (
         <div class="crit"><dt class="pill-k">{k}</dt><dd>{v}</dd></div>
       ))}
@@ -75,26 +77,26 @@ const { kind } = Astro.props;
 )}
 
 {kind === 'ia' && (
-  <Board kicker="Information Architecture" title="資訊架構重整單元劃分" c="myvideo" label="會員中心框架重構：身份管理、資訊總覽、帳號設定、交易總覽四個單元">
+  <Board kicker="Information Architecture" title={x('資訊架構重整單元劃分')} c="myvideo" label={x('會員中心框架重構：身份管理、資訊總覽、帳號設定、交易總覽四個單元')}>
     <div class="ia">
-      <span class="node n-top">資訊總覽</span>
-      <span class="node n-left">身份管理</span>
-      <span class="hub">會員中心<br />框架重構</span>
-      <span class="node n-right">帳號設定</span>
-      <span class="node n-bottom">交易總覽</span>
+      <span class="node n-top">{x('資訊總覽')}</span>
+      <span class="node n-left">{x('身份管理')}</span>
+      <span class="hub">{x('會員中心')}<br />{x('框架重構')}</span>
+      <span class="node n-right">{x('帳號設定')}</span>
+      <span class="node n-bottom">{x('交易總覽')}</span>
     </div>
   </Board>
 )}
 
 {kind === 'usability' && (
-  <Board kicker="Usability Test" title="易用性測試摘要" c="myvideo" label="易用性測試：Task 一易用性評分 70；Task 二身份共享 A 版本 77、B 版本 52">
+  <Board kicker="Usability Test" title={x('易用性測試摘要')} c="myvideo" label={x('易用性測試：Task 一易用性評分 70；Task 二身份共享 A 版本 77、B 版本 52')}>
     <div class="ut">
       {[
-        { n: '一', cnt: 11, t: '帳戶總覽、交易總覽、帳號設定', d: '透過易用性測試，找出用戶會遇到困難或認知障礙的地方，並進行修改', bars: [['評分', 70, true]] },
-        { n: '二', cnt: 3, t: '身份共享 A/B 版本', d: '透過 A/B 兩種版本決定之後共享身分的流程走向，並觀察用戶的反應。', bars: [['A 版本', 77, true], ['B 版本', 52, false]] },
+        { n: x('一'), cnt: 11, t: x('帳戶總覽、交易總覽、帳號設定'), d: x('透過易用性測試，找出用戶會遇到困難或認知障礙的地方，並進行修改'), bars: [[x('評分'), 70, true]] },
+        { n: x('二'), cnt: 3, t: x('身份共享 A/B 版本'), d: x('透過 A/B 兩種版本決定之後共享身分的流程走向，並觀察用戶的反應。'), bars: [[x('A 版本'), 77, true], [x('B 版本'), 52, false]] },
       ].map((k) => (
         <div class="panel task">
-          <p class="tk">測試 Task {k.n}<span>{k.cnt} 項測試</span></p>
+          <p class="tk">{x('測試 Task')} {k.n}<span>{k.cnt} {x('項測試')}</span></p>
           <p class="tt">{k.t}</p>
           <div class="bars">
             {k.bars.map(([lab, v, on]) => (
@@ -109,7 +111,7 @@ const { kind } = Astro.props;
         </div>
       ))}
     </div>
-    <p class="passnote"><em class="pass-key"></em>虛線是及格分數：易用性的平均分數為 68 分，因此可以將此分數作為產品及格分數</p>
+    <p class="passnote"><em class="pass-key"></em>{x('虛線是及格分數：易用性的平均分數為 68 分，因此可以將此分數作為產品及格分數')}</p>
   </Board>
 )}
 
@@ -140,6 +142,7 @@ const { kind } = Astro.props;
   .ia { display: grid; grid-template-columns: 1fr auto 1fr; grid-template-rows: auto auto auto; gap: 18px 14px; align-items: center; justify-items: center; max-width: 620px; margin: 0 auto; position: relative; }
   .hub { grid-area: 2 / 2; background: var(--sheet); border: 2px solid var(--tone-ink); color: var(--tone-ink); font-weight: 900; font-size: clamp(16px, 2.4vw, 20px); padding: 14px 18px; border-radius: 14px; text-align: center; line-height: 1.4; box-shadow: var(--shadow); }
   .node { font-weight: 900; font-size: clamp(15px, 2vw, 18px); background: var(--paper); border: 1px solid var(--line); padding: 8px 14px; border-radius: 999px; position: relative; white-space: nowrap; }
+  @media (max-width: 560px) { .node { white-space: normal; text-align: center; padding: 6px 10px; font-size: 13.5px; } .hub { padding: 10px 12px; } }
   .n-top { grid-area: 1 / 2; } .n-bottom { grid-area: 3 / 2; } .n-left { grid-area: 2 / 1; justify-self: end; } .n-right { grid-area: 2 / 3; justify-self: start; }
   .n-top::after, .n-bottom::before { content: ''; position: absolute; left: 50%; width: 0; height: 18px; border-left: 2px solid var(--tone-ink); opacity: .5; }
   .n-top::after { top: 100%; } .n-bottom::before { bottom: 100%; }

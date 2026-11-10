@@ -1,5 +1,6 @@
 // 圖解裡的短句中英對照（AI 交付流程案例）。元件寫 x('中文')，英文頁就查這張表
 import { langOf } from './i18n.js';
+import { EN_OLD } from './en-dict-old.js';
 
 export const EN = {
   // HeroFlow
@@ -78,5 +79,5 @@ export const EN = {
 /** 在元件裡：const x = tr(Astro.url); x('中文') */
 export const tr = (u) => {
   const en = langOf(u) === 'en';
-  return (s) => (en ? EN[s] ?? s : s);
+  return (s) => (en ? EN[s] ?? EN_OLD[s] ?? s : s);
 };

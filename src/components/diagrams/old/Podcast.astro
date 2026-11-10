@@ -6,15 +6,17 @@ import '../../../styles/diagram.css';
 import sList from '../../../assets/cases/podcast/s-list.png';
 import sPlayer from '../../../assets/cases/podcast/s-player.png';
 import sMine from '../../../assets/cases/podcast/s-mine.png';
+import { tr } from '../../../lib/en-dict.js';
+const x = tr(Astro.url);
 interface Props { kind: 'process' | 'prep' | 'hero' | 'ia'; }
 const { kind } = Astro.props;
-const prep = ['訂定測試範圍與目標', '選定受測者族群', '設計用戶招募問卷', '用戶招募', '設計測試任務與流程', '規劃測試空間與設備', '準備測試內容', '測試流程'];
+const prep = [x('訂定測試範圍與目標'), x('選定受測者族群'), x('設計用戶招募問卷'), x('用戶招募'), x('設計測試任務與流程'), x('規劃測試空間與設備'), x('準備測試內容'), x('測試流程')];
 ---
 {kind === 'hero' && (
-  <figure class="dg case-podcast reveal pc-hero" aria-label="MyMusic Podcast 三個畫面：分類頁、播放器、我的 Podcast">
+  <figure class="dg case-podcast reveal pc-hero" aria-label={x('MyMusic Podcast 三個畫面：分類頁、播放器、我的 Podcast')}>
     <div class="dg-pat" aria-hidden="true"></div>
     <div class="dg-body phones">
-      {[[sList, '分類頁'], [sPlayer, '播放器'], [sMine, '我的 Podcast']].map(([img, cap], i) => (
+      {[[sList, x('分類頁')], [sPlayer, x('播放器')], [sMine, x('我的 Podcast')]].map(([img, cap], i) => (
         <figure class={`ph p${i}`}>
           <div class="frame"><Image src={img as ImageMetadata} alt="" widths={[300, 600]} sizes="(min-width: 760px) 220px, 30vw" /></div>
           <figcaption>{cap}</figcaption>
@@ -25,51 +27,51 @@ const prep = ['訂定測試範圍與目標', '選定受測者族群', '設計用
 )}
 
 {kind === 'ia' && (
-  <Board kicker="Information Architecture" title="MyMusic Podcast 資訊架構" c="podcast" label="資訊架構：Podcast Main 分成每日推薦與我的 Podcast；每日推薦下有 Podcast 頻道、作者、單集；我的 Podcast 下有觀看紀錄、收藏清單、下載清單、追蹤清單；播放器從頻道、作者、單集都能開啟">
+  <Board kicker="Information Architecture" title={x('MyMusic Podcast 資訊架構')} c="podcast" label={x('資訊架構：Podcast Main 分成每日推薦與我的 Podcast；每日推薦下有 Podcast 頻道、作者、單集；我的 Podcast 下有觀看紀錄、收藏清單、下載清單、追蹤清單；播放器從頻道、作者、單集都能開啟')}>
     <div class="ia">
       <span class="root">Podcast Main</span>
       <div class="branches">
         <div class="br">
-          <span class="lv1">每日推薦</span>
+          <span class="lv1">{x('每日推薦')}</span>
           <ul>
-            <li>Podcast 頻道</li>
-            <li class="sub">Podcast 作者</li>
-            <li class="sub">Podcast 單集</li>
+            <li>{x('Podcast 頻道')}</li>
+            <li class="sub">{x('Podcast 作者')}</li>
+            <li class="sub">{x('Podcast 單集')}</li>
           </ul>
         </div>
         <div class="br">
-          <span class="lv1">我的 Podcast</span>
+          <span class="lv1">{x('我的 Podcast')}</span>
           <ul>
-            <li>觀看紀錄<small>→ 單集</small></li>
-            <li>收藏清單<small>→ 單集</small></li>
-            <li>下載清單<small>→ 單集</small></li>
-            <li>追蹤清單<small>→ 頻道、作者</small></li>
+            <li>{x('觀看紀錄')}<small>{x('→ 單集')}</small></li>
+            <li>{x('收藏清單')}<small>{x('→ 單集')}</small></li>
+            <li>{x('下載清單')}<small>{x('→ 單集')}</small></li>
+            <li>{x('追蹤清單')}<small>{x('→ 頻道、作者')}</small></li>
           </ul>
         </div>
       </div>
-      <p class="player"><b>播放器</b>從頻道、作者、單集都能開啟</p>
+      <p class="player"><b>{x('播放器')}</b>{x('從頻道、作者、單集都能開啟')}</p>
     </div>
   </Board>
 )}
 
 {kind === 'process' && (
-  <Board kicker="Design Process" title="產品開發時的設計流程" c="podcast" label="設計流程：明確需求、分析問題，接著介面流程設計與原型製作與測試反覆迭代">
+  <Board kicker="Design Process" title={x('產品開發時的設計流程')} c="podcast" label={x('設計流程：明確需求、分析問題，接著介面流程設計與原型製作與測試反覆迭代')}>
     <div class="proc">
-      <span class="circ">明確需求</span>
+      <span class="circ">{x('明確需求')}</span>
       <span class="dash" aria-hidden="true"></span>
-      <span class="circ">分析問題</span>
+      <span class="circ">{x('分析問題')}</span>
       <span class="dash" aria-hidden="true"></span>
       <div class="loop">
-        <span class="circ fill">介面流程<br />設計</span>
-        <span class="loop-lab">設計 ⇄ 迭代</span>
-        <span class="circ fill">原型製作<br />與測試</span>
+        <span class="circ fill">{x('介面流程')}<br />{x('設計')}</span>
+        <span class="loop-lab">{x('設計 ⇄ 迭代')}</span>
+        <span class="circ fill">{x('原型製作')}<br />{x('與測試')}</span>
       </div>
     </div>
   </Board>
 )}
 
 {kind === 'prep' && (
-  <Board kicker="Test Preparation" title="測試準備流程" c="podcast" label={`測試準備流程：${prep.join('、')}`}>
+  <Board kicker="Test Preparation" title={x('測試準備流程')} c="podcast" label={`${x('測試準備流程')}：${prep.join(x('、'))}`}>
     <ol class="prep">
       {prep.map((t, i) => <li class="panel"><span class="n">{String(i + 1).padStart(2, '0')}</span><span class="t">{t}</span></li>)}
     </ol>

@@ -11,24 +11,26 @@ import ab1 from '../../../assets/cases/myvideo/acct-b1.png';
 import aa1 from '../../../assets/cases/myvideo/acct-a1.png';
 import fb1 from '../../../assets/cases/myvideo/fam-b1.png';
 import fa1 from '../../../assets/cases/myvideo/fam-a1.png';
+import { tr } from '../../../lib/en-dict.js';
+const x = tr(Astro.url);
 interface Props { kind: 'hero' | 'old' | 'plans' | 'account' | 'family'; }
 const { kind } = Astro.props;
 const sz = '(min-width: 1080px) 420px, (min-width: 760px) 44vw, 90vw';
 // 每段只放一組代表畫面，框出改了哪裡，旁邊一句話（照原文的 Before／After）；座標是圖片寬高的 %
 const pairs = {
-  plans: { title: '方案與交易紀錄',
-    before: { img: pb1, cap: '我的帳戶', box: [21, 43, 70, 30], text: '將方案與帳號資訊顯示在同一區域，交易紀錄為獨立選單' },
-    after: { img: pa1, cap: '交易紀錄', box: [14, 21, 13, 25], text: '獨立出交易紀錄的獨立單元，方便用戶針對交易進行查找' } },
-  account: { title: '帳戶資訊',
-    before: { img: ab1, cap: '我的帳戶', box: [19, 9, 41, 8], text: '將個人資訊與方案放在同個分類，付款設定與密碼保護則為不同選單' },
-    after: { img: aa1, cap: '帳號設定', box: [14, 21, 13, 21], text: '將帳號設定獨立出來，方便使用者做帳號的相關設定' } },
-  family: { title: '家人共享',
-    before: { img: fb1, cap: '選擇身份（獨立入口）', box: [37, 17, 26, 36], text: '會員中心沒有身份修改與編輯，入口獨立' },
-    after: { img: fa1, cap: '家人共享', box: [10, 21, 84, 59], text: '將身份編輯與新增功能合併至會員中心，所有身分同時攤開，選擇編輯身份時不必切頁' } },
+  plans: { title: x('方案與交易紀錄'),
+    before: { img: pb1, cap: x('我的帳戶'), box: [21, 43, 70, 30], text: x('將方案與帳號資訊顯示在同一區域，交易紀錄為獨立選單') },
+    after: { img: pa1, cap: x('交易紀錄'), box: [14, 21, 13, 25], text: x('獨立出交易紀錄的獨立單元，方便用戶針對交易進行查找') } },
+  account: { title: x('帳戶資訊'),
+    before: { img: ab1, cap: x('我的帳戶'), box: [19, 9, 41, 8], text: x('將個人資訊與方案放在同個分類，付款設定與密碼保護則為不同選單') },
+    after: { img: aa1, cap: x('帳號設定'), box: [14, 21, 13, 21], text: x('將帳號設定獨立出來，方便使用者做帳號的相關設定') } },
+  family: { title: x('家人共享'),
+    before: { img: fb1, cap: x('選擇身份（獨立入口）'), box: [37, 17, 26, 36], text: x('會員中心沒有身份修改與編輯，入口獨立') },
+    after: { img: fa1, cap: x('家人共享'), box: [10, 21, 84, 59], text: x('將身份編輯與新增功能合併至會員中心，所有身分同時攤開，選擇編輯身份時不必切頁') } },
 } as const;
 ---
 {kind === 'hero' && (
-  <figure class="dg case-myvideo reveal mv-hero" aria-label="myVideo 會員中心改版：舊版的帳戶頁，改成交易紀錄、帳號設定、家人共享三個單元">
+  <figure class="dg case-myvideo reveal mv-hero" aria-label={x('myVideo 會員中心改版：舊版的帳戶頁，改成交易紀錄、帳號設定、家人共享三個單元')}>
     <div class="dg-pat" aria-hidden="true"></div>
     <div class="dg-body hero-row">
       <div class="col">
@@ -44,40 +46,40 @@ const pairs = {
         </div>
       </div>
     </div>
-    <p class="hero-cap">會員中心框架重構：交易紀錄、帳號設定、家人共享</p>
+    <p class="hero-cap">{x('會員中心框架重構：交易紀錄、帳號設定、家人共享')}</p>
   </figure>
 )}
 
 {kind === 'old' && (
-  <Board kicker="Before" title="改版前的會員中心" c="myvideo" label="改版前的會員中心：資訊架構鬆散、方案明細不夠詳細、優惠區域不夠明顯">
+  <Board kicker="Before" title={x('改版前的會員中心')} c="myvideo" label={x('改版前的會員中心：資訊架構鬆散、方案明細不夠詳細、優惠區域不夠明顯')}>
     <div class="shot wide marked">
-      <Image src={oldAnnot} alt="改版前的會員中心帳戶頁" widths={[800, 1200]} sizes="(min-width: 1080px) 860px, 92vw" />
+      <Image src={oldAnnot} alt={x('改版前的會員中心帳戶頁')} widths={[800, 1200]} sizes="(min-width: 1080px) 860px, 92vw" />
       {[[1, 1, 11, 12, 13], [2, 14, 57, 85, 24], [3, 14, 85, 85, 14]].map(([n, x, y, w, h]) => (
         <span class="mk" style={`left:${x}%;top:${y}%;width:${w}%;height:${h}%`}><b>{n}</b></span>
       ))}
     </div>
     <ol class="issues">
-      <li><b>1</b>資訊架構鬆散，需要花時間找到相應的資訊位置</li>
-      <li><b>2</b>方案明細不夠詳細，缺少用戶想要知道的必要信息</li>
-      <li><b>3</b>優惠區域不夠明顯，用戶無法辨識相應的優惠資訊</li>
+      <li><b>1</b>{x('資訊架構鬆散，需要花時間找到相應的資訊位置')}</li>
+      <li><b>2</b>{x('方案明細不夠詳細，缺少用戶想要知道的必要信息')}</li>
+      <li><b>3</b>{x('優惠區域不夠明顯，用戶無法辨識相應的優惠資訊')}</li>
     </ol>
   </Board>
 )}
 
 {(kind === 'plans' || kind === 'account' || kind === 'family') && (() => {
   const p = pairs[kind];
-  const side = (x: typeof p.before, after: boolean) => (
+  const side = (it: typeof p.before, after: boolean) => (
     <div class="pside">
       <span class:list={['tag', { on: after }]}>{after ? 'After' : 'Before'}</span>
       <div class:list={['pshot', { dim: !after }]}>
-        <Image src={x.img} alt={`${after ? '改版後' : '改版前'}：${x.cap}`} widths={[600, 900]} sizes={sz} />
-        <span class="hl" style={`left:${x.box[0]}%;top:${x.box[1]}%;width:${x.box[2]}%;height:${x.box[3]}%`}></span>
+        <Image src={it.img} alt={`${after ? x('改版後') : x('改版前')}：${it.cap}`} widths={[600, 900]} sizes={sz} />
+        <span class="hl" style={`left:${it.box[0]}%;top:${it.box[1]}%;width:${it.box[2]}%;height:${it.box[3]}%`}></span>
       </div>
-      <p class:list={['pnote', { on: after }]}>{x.text}</p>
+      <p class:list={['pnote', { on: after }]}>{it.text}</p>
     </div>
   );
   return (
-    <Board kicker="Before → After" title={p.title} c="myvideo" label={`${p.title}：改版前${p.before.text}；改版後${p.after.text}`}>
+    <Board kicker="Before → After" title={p.title} c="myvideo" label={`${p.title}：${x('改版前')} ${p.before.text}；${x('改版後')} ${p.after.text}`}>
       <div class="pair">
         {side(p.before, false)}
         <svg class="arrow-svg parr" viewBox="0 0 80 60" aria-hidden="true"><path d="M6 40 C 24 6, 56 6, 70 36 M60 30 L71 38 L74 25" /></svg>

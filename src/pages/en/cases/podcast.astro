@@ -1,0 +1,142 @@
+---
+// MyMusic Podcast（英文版）：內容對應 src/pages/cases/podcast.astro，英文作品集口吻意譯（2026-11-10）
+import CaseLayout from '../../../layouts/CaseLayout.astro';
+import Figure from '../../../components/Figure.astro';
+import PC from '../../../components/diagrams/old/Podcast.astro';
+import { lurl } from '../../../lib/i18n.js';
+import flow from '../../../assets/cases/podcast/04.png';
+import participants from '../../../assets/cases/podcast/06.png';
+import styleGuide from '../../../assets/cases/podcast/08.png';
+import design from '../../../assets/cases/podcast/09.png';
+import spec from '../../../assets/cases/podcast/10.png';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const toc = [
+  { id: 'about', label: 'About MyMusic Podcast' },
+  { id: 'process', label: 'Design process' },
+  { id: 'research', label: 'Requirements & research' },
+  { id: 'testing', label: 'Usability testing' },
+  { id: 'design', label: 'Design' },
+  { id: 'handoff', label: 'Handoff' },
+];
+---
+<CaseLayout
+  title="MyMusic Podcast"
+  kicker="06 · B2C · App · 2020"
+  tone="mustard"
+  description="Lead UI/UX designer for MyMusic’s new podcast service: planned the flows, built the UI components, defined the style, designed the usability tests, and wrote the interaction specs."
+  lead="We set out to understand how MyMusic’s users would use a new podcast service, what habits they bring, and what they expect from it, then used usability testing to refine the design before development, lowering the learning curve and making the product easier to use."
+  meta={[
+    { label: 'Timeline', value: 'Aug 2020 – Oct 2020' },
+    { label: 'Team', value: '4 people' },
+    { label: 'Platforms', value: 'Web (responsive), App (iOS & Android)' },
+  ]}
+  toc={toc}
+  next={{ href: lurl('en', '/cases/branch/'), title: 'FunNow Venue Page Redesign' }}
+>
+  <Fragment slot="hero"><PC kind="hero" /></Fragment>
+
+  <h2 id="about">About MyMusic Podcast</h2>
+  <p>MyMusic is Taiwan Mobile’s music streaming service, with a catalog of nearly ten million Mandarin, Western and K-pop songs. The main goal of this project was to launch a free podcast service inside it.</p>
+
+  <h3>Goal</h3>
+  <p>Understand how MyMusic’s users would use a new service, what habits they bring, and what they expect from it.</p>
+  <p>Use usability testing to refine the design before development, lowering the learning curve and making the product easier to use.</p>
+
+  <h3>Challenges</h3>
+  <p>New podcast services were popping up everywhere. The challenge was to win new listeners quickly without losing existing users, so the design had to respect how both new and existing users already used the app.</p>
+
+  <h3>My role</h3>
+  <p>Planned and led the UX research, built prototypes, led the UI design, and wrote the interaction design spec and the research report.</p>
+  <p class="muted">The service launched in Taiwan on May 24, 2021.</p>
+
+  <hr />
+
+  <h2 id="process">Design process</h2>
+  <PC kind="process" />
+
+  <h3>Steps</h3>
+  <ol>
+    <li>Confirm requirements and gather research
+      <ul><li>Early IA, UI and flow design</li></ul>
+    </li>
+    <li>Design and run usability tests
+      <ul><li>Test report</li></ul>
+    </li>
+    <li>Design
+      <ul><li>Define the visual style</li><li>Design UI components and refine the flows</li></ul>
+    </li>
+    <li>Hand off interaction specs</li>
+  </ol>
+
+  <hr />
+
+  <h2 id="research">1. Requirements and research</h2>
+  <p><strong>Product research</strong></p>
+  <p>The PM wanted to build podcasts into the existing app, as a dedicated section of its own. But many details were tied to the existing product, such as search and sign-in.</p>
+  <p>So I started by getting to know the current product, then planned the flows and drew wireframes, checking feasibility with the PM and engineers along the way.</p>
+  <p><strong>Early IA, UI and flow design</strong></p>
+  <p>I mapped out the information architecture to make sure the screens and ideas covered what the PM had asked for.</p>
+  <PC kind="ia" />
+  <Figure src={flow} alt="MyMusic Podcast section flow (in Chinese)" caption="MyMusic Podcast section flow (in Chinese)" wide />
+  <p>With the flows and direction settled, the next step was to define what this round of testing should focus on.</p>
+
+  <hr />
+
+  <h2 id="testing">2. Designing and running the tests</h2>
+  <h3>Planning the test</h3>
+  <p>Once the requirements were set, I planned the test flow and goals, listing the questions and scenarios we wanted answered up front, which made it faster to uncover what users really needed during the sessions.</p>
+  <p>Here’s how we prepared:</p>
+  <PC kind="prep" />
+
+  <h3>Choosing participants</h3>
+  <p>We focused on MyMusic’s current users. To keep the sample consistent, we limited ages to 30–40 with an even gender split, and recruited half Android and half iOS users to avoid device bias.</p>
+  <Figure src={participants} alt="Final participant list (names blurred, in Chinese)" caption="Final participant list (names blurred, in Chinese)" />
+
+  <h3>Tasks and measures</h3>
+  <p>To reduce problems later on, we scored each task on <span class="hl">completion</span>, <span class="hl">error rate</span> and <span class="hl">time on task</span>, and used a final SUS questionnaire to decide which features to change, fix, keep or drop, and in what order.</p>
+  <table class="tasks">
+    <caption>Podcast test tasks (phase 1)</caption>
+    <thead><tr><th>Feature</th><th>Tasks</th></tr></thead>
+    <tbody>
+      <tr><td>Follow a channel / creator</td><td>Follow a channel<br />Find channels you follow<br />Unfollow</td></tr>
+      <tr><td>Save episodes</td><td>Save an episode<br />Find saved episodes<br />Remove a saved episode</td></tr>
+      <tr><td>Download episodes</td><td>Download an episode<br />Find downloaded episodes<br />Delete a download (observe: from the list, My Podcast, or Manage)</td></tr>
+      <tr><td>Play episodes</td><td>Play an episode (observe: from a list or an episode page)<br />Pause<br />After playing from an episode page, do users know the sound-wave icon (top right) opens the player?</td></tr>
+      <tr><td>Player</td><td>View the description<br />View the playlist</td></tr>
+    </tbody>
+  </table>
+
+  <div class="proto">
+    <video src={`${base}/media/podcast-prototype.mp4`} poster={`${base}/media/podcast-prototype.jpg`} controls muted playsinline preload="none" aria-label="Podcast prototype walkthrough"></video>
+    <ul>
+      <li>Prototype (built in Framer X)</li>
+      <li>Shared notes doc (faster note-taking during sessions, easier to find key points afterwards)</li>
+      <li>Meeting room booking (no interruptions during sessions)</li>
+      <li>SUS questionnaire, plus pre- and post-test questions</li>
+    </ul>
+  </div>
+
+  <hr />
+
+  <h2 id="design">3. Design</h2>
+  <h3>Style guide</h3>
+  <p>Once the colors and visual style were set, we started building the MyMusic Podcast design system.</p>
+  <Figure src={styleGuide} alt="MyMusic Podcast design system" wide />
+
+  <h3>Design</h3>
+  <Figure src={design} alt="MyMusic Podcast screens (in Chinese)" />
+
+  <hr />
+
+  <h2 id="handoff">4. Handing off interaction specs</h2>
+  <Figure src={spec} alt="Interaction spec document that helped engineers understand the content and flows faster (in Chinese)" caption="Interaction specs that helped engineers understand the content and flows faster (in Chinese)" wide />
+</CaseLayout>
+<style>
+  .muted { color: var(--muted); font-size: 14px; }
+  .tasks caption { caption-side: bottom; padding-top: 10px; font-size: 13px; color: var(--muted); }
+  .proto { display: grid; gap: 20px; align-items: center; margin: 28px 0; }
+  @media (min-width: 640px) { .proto { grid-template-columns: 220px 1fr; } }
+  .proto video { width: 100%; max-width: 240px; border-radius: 16px; border: 1px solid var(--line); background: #111; justify-self: center; }
+  .proto ul { margin: 0; }
+</style>

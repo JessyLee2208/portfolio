@@ -16,21 +16,23 @@ import v23 from '../../../assets/cases/bookfast/v2-3.png';
 import v31 from '../../../assets/cases/bookfast/v3-1.png';
 import v32 from '../../../assets/cases/bookfast/v3-2.png';
 import v33 from '../../../assets/cases/bookfast/v3-3.png';
+import { tr } from '../../../lib/en-dict.js';
+const x = tr(Astro.url);
 interface Props { kind: 'hero' | 'old' | 'v1' | 'v2' | 'v3'; }
 const { kind } = Astro.props;
 const sizes = '(min-width: 1080px) 300px, (min-width: 760px) 30vw, 90vw';
 const versions = {
-  v1: { title: '版本 v1.0', d: '在維持原本的分步驟結帳方式後，新增了可以返回上一步的功能，並增加了更多產品的資訊，提供店家可以更快結帳', shots: [[v11, '付款'], [v12, '發票開立'], [v13, '付款成功']] },
-  v2: { title: '版本 v2.0', d: '新增了步驟示意，以及收納了發票開立方式，透過 UI 重新整理顯示資訊', shots: [[v21, '付款'], [v22, '發票開立'], [v23, '完成付款']] },
-  v3: { title: '版本 v3.0（最終版）', d: '簡化步驟，讓所有資訊在同一個流程內可以確認完畢，在輸入資料的同時也可以確認資料的正確性。', shots: [[v31, '輸入前'], [v32, '填寫收款與發票'], [v33, '付款成功']] },
+  v1: { title: x('版本 v1.0'), d: x('在維持原本的分步驟結帳方式後，新增了可以返回上一步的功能，並增加了更多產品的資訊，提供店家可以更快結帳'), shots: [[v11, x('付款')], [v12, x('發票開立')], [v13, x('付款成功')]] },
+  v2: { title: x('版本 v2.0'), d: x('新增了步驟示意，以及收納了發票開立方式，透過 UI 重新整理顯示資訊'), shots: [[v21, x('付款')], [v22, x('發票開立')], [v23, x('完成付款')]] },
+  v3: { title: x('版本 v3.0（最終版）'), d: x('簡化步驟，讓所有資訊在同一個流程內可以確認完畢，在輸入資料的同時也可以確認資料的正確性。'), shots: [[v31, x('輸入前')], [v32, x('填寫收款與發票')], [v33, x('付款成功')]] },
 } as const;
 ---
 {kind === 'hero' && (
-  <figure class="dg case-bookfast reveal bf-hero" aria-label="BookFast 結帳流程：從分步式改成一頁式，最終版在同一個付款視窗內完成收款、發票與確認">
+  <figure class="dg case-bookfast reveal bf-hero" aria-label={x('BookFast 結帳流程：從分步式改成一頁式，最終版在同一個付款視窗內完成收款、發票與確認')}>
     <div class="dg-pat" aria-hidden="true"></div>
     <div class="dg-body hero-row">
       <div class="before">
-        <span class="tag">Before · 分步式</span>
+        <span class="tag">{x('Before · 分步式')}</span>
         <div class="stack">
           <div class="mini m1"><Image src={old1} alt="" widths={[400]} sizes="160px" /></div>
           <div class="mini m2"><Image src={old2} alt="" widths={[400]} sizes="160px" /></div>
@@ -39,25 +41,25 @@ const versions = {
       </div>
       <svg class="arrow-svg arr" viewBox="0 0 80 60" aria-hidden="true"><path d="M6 40 C 24 6, 56 6, 70 36 M60 30 L71 38 L74 25" /></svg>
       <div class="after">
-        <span class="tag on">After · 一頁式</span>
+        <span class="tag on">{x('After · 一頁式')}</span>
         <div class="big"><Image src={v32} alt="" widths={[640, 1000]} sizes="(min-width: 1080px) 460px, 70vw" /></div>
       </div>
     </div>
-    <p class="hero-cap">將分步驟的選擇方式改為一頁式呈現</p>
+    <p class="hero-cap">{x('將分步驟的選擇方式改為一頁式呈現')}</p>
   </figure>
 )}
 
 {kind === 'old' && (
-  <Board kicker="Before" title="舊版的結帳流程" c="bookfast" label="舊版後台結帳流程三個畫面與問題：無法確認會員資訊、無法返回上一步、資訊內容分布較散">
+  <Board kicker="Before" title={x('舊版的結帳流程')} c="bookfast" label={x('舊版後台結帳流程三個畫面與問題：無法確認會員資訊、無法返回上一步、資訊內容分布較散')}>
     <ol class="flow3">
       {[
-        [old1, '付款', '無法確認會員資訊，在進入結帳流程前需要再三確認'],
-        [old2, '發票開立', '無法返回上一步，如果進入發票開立畫面後需要修改金額，則只能關閉視窗重來'],
-        [old3, '付款成功', '資訊內容分布較散'],
+        [old1, x('付款'), x('無法確認會員資訊，在進入結帳流程前需要再三確認')],
+        [old2, x('發票開立'), x('無法返回上一步，如果進入發票開立畫面後需要修改金額，則只能關閉視窗重來')],
+        [old3, x('付款成功'), x('資訊內容分布較散')],
       ].map(([img, step, issue], i) => (
         <li>
           <span class="step"><b>{i + 1}</b>{step}</span>
-          <div class="shot"><Image src={img as ImageMetadata} alt={`舊版：${step}`} widths={[640, 1000]} sizes={sizes} /></div>
+          <div class="shot"><Image src={img as ImageMetadata} alt={`${x('舊版')}：${step}`} widths={[640, 1000]} sizes={sizes} /></div>
           <p class="issue">{issue}</p>
         </li>
       ))}
