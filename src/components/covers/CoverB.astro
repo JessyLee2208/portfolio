@@ -8,11 +8,11 @@ interface Props {
   no: string; kick: string; title: string; sub: string;
   big: string; unit?: string; bigLabel: string;
   label: string;
-  shape?: 'circle' | 'square' | 'arch' | 'rect' | 'triangle';
-  accent?: 'star-pin' | 'star-film' | 'clock' | 'sparkle-loop';
+  shape?: 'circle' | 'square' | 'arch' | 'rect' | 'triangle' | 'pill';
+  accent?: 'star-pin' | 'star-film' | 'clock' | 'sparkle-loop' | 'notes-loop' | 'card-coin';
   under?: 'line' | 'dots' | 'wave';
-  // 背景紋路每張封面都不一樣（11/10 Jessy）：dots 分店頁、grid Manager、lines AI、plus myVideo、rings Podcast、ruled BookFast
-  pattern?: 'dots' | 'grid' | 'lines' | 'plus' | 'rings' | 'ruled';
+  // 背景紋路每張封面都不一樣（11/10 Jessy）：dots 分店頁、grid Manager、lines AI、plus myVideo、waves Podcast、ruled BookFast
+  pattern?: 'dots' | 'grid' | 'lines' | 'plus' | 'waves' | 'ruled';
 }
 const { tone, no, kick, title, sub, big, unit, bigLabel, label, shape = 'circle', accent = 'star-pin', under = 'line', pattern = 'dots', locked = false } = Astro.props;
 const ringPath = {
@@ -20,6 +20,7 @@ const ringPath = {
   square: 'M30 12 C 80 8, 140 10, 172 12 C 188 14, 190 30, 189 60 C 188 110, 190 150, 188 172 C 186 188, 170 190, 140 189 C 90 188, 50 190, 28 188 C 12 186, 10 170, 11 140 C 12 90, 10 50, 12 28 C 13 16, 22 12, 36 11',
   arch: 'M12 190 C 10 140, 10 110, 14 92 C 24 40, 60 10, 100 9 C 142 8, 178 40, 187 92 C 191 112, 190 150, 188 191 C 140 189, 60 190, 16 190',
   rect: 'M14 44 C 70 40, 130 42, 186 43 C 190 80, 189 120, 187 157 C 130 160, 70 158, 13 157 C 10 120, 11 80, 15 46',
+  pill: 'M60 30 C 100 28, 140 29, 158 31 C 196 36, 196 166, 158 170 C 120 173, 80 172, 42 170 C 4 166, 4 34, 44 31',
   triangle: 'M100 12 C 130 62, 160 116, 190 178 C 130 181, 70 180, 10 179 C 40 120, 70 64, 102 13',
 }[shape];
 ---
@@ -59,6 +60,19 @@ const ringPath = {
       {accent === 'clock' && (
         <svg class="acc a1 clock" viewBox="0 0 48 48" aria-hidden="true"><path class="fill" d="M24 4 C 36 3, 45 13, 44 25 C 43 37, 34 45, 23 44 C 11 43, 3 34, 4 23 C 5 12, 13 4, 26 4" /><path class="hand" d="M24 13 L24 25 L32 30" /></svg>
       )}
+      {accent === 'notes-loop' && (
+        <>
+          <svg class="acc a1 mnote" viewBox="0 0 40 44" aria-hidden="true"><path class="stem" d="M15 34 L15 8 L33 4 L33 28" /><ellipse class="fill" cx="10" cy="35" rx="7" ry="5.5" transform="rotate(-18 10 35)" /><ellipse class="fill" cx="28" cy="29" rx="7" ry="5.5" transform="rotate(-18 28 29)" /><path class="stem" d="M15 14 L33 10" /></svg>
+          <svg class="acc a3 mnote" viewBox="0 0 24 32" aria-hidden="true"><path class="stem" d="M12 25 L12 4 C 14 9, 20 9, 21 14" /><ellipse class="fill" cx="8" cy="25" rx="6" ry="4.6" transform="rotate(-18 8 25)" /></svg>
+          <svg class="acc loop" viewBox="0 0 100 60" aria-hidden="true"><path class="line" d="M8 40 C 10 10, 50 6, 56 28 C 60 44, 40 50, 36 36 C 32 20, 60 10, 88 22 M78 14 L90 22 L80 32" /></svg>
+        </>
+      )}
+      {accent === 'card-coin' && (
+        <>
+          <svg class="acc a1 ccard" viewBox="0 0 56 40" aria-hidden="true"><rect class="body" x="3" y="3" width="50" height="34" rx="5" /><path class="stripe" d="M3 12 L53 12" /><rect class="chip" x="10" y="20" width="10" height="8" rx="1.5" /><path class="dig" d="M30 28 L44 28" /></svg>
+          <svg class="acc a2 coin" viewBox="0 0 40 40" aria-hidden="true"><circle class="fill" cx="20" cy="20" r="16" /><path class="line" d="M20 11 L20 29 M25 14.5 C 22 12, 14.5 13, 15 17 C 15.5 21, 25 19, 25 23.5 C 25 27.5, 17 28, 14.5 25" /></svg>
+        </>
+      )}
       {accent === 'sparkle-loop' && (
         <>
           <svg class="acc a1" viewBox="0 0 40 40" aria-hidden="true"><path class="fill" d="M20 2 Q 22 18 38 20 Q 22 22 20 38 Q 18 22 2 20 Q 18 18 20 2 Z" /></svg>
@@ -81,7 +95,8 @@ const ringPath = {
   .pat-lines { background-image: repeating-linear-gradient(-35deg, var(--pc) 0 1.5px, transparent 1.5px 1.8cqw); opacity: .7; }
   /* 小加號：用 SVG 畫，顏色用灰米（只有舊作 stone 用） */
   .pat-plus { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 8v8M8 12h8' stroke='%239a9286' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E"); background-size: 3.6cqw 3.6cqw; opacity: .35; }
-  .pat-rings { background-image: repeating-radial-gradient(circle at 78% 50%, var(--pc) 0 1.5px, transparent 1.5px 2.6cqw); opacity: .7; }
+  /* 波浪：像音樂的波動（Podcast），顏色用灰米 */
+  .pat-waves { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='20'%3E%3Cpath d='M0 10 Q 12 2 24 10 T 48 10' fill='none' stroke='%239a9286' stroke-width='1.4'/%3E%3C/svg%3E"); background-size: 6cqw 2.5cqw; opacity: .45; }
   .pat-ruled { background-image: repeating-linear-gradient(0deg, var(--pc) 0 1.5px, transparent 1.5px 2.2cqw); opacity: .7; }
   .cv-text { position: relative; z-index: 2; }
   .bignum { position: relative; display: inline-block; margin-top: 2.6cqw; }
@@ -101,12 +116,14 @@ const ringPath = {
   .shape-square .blob { border-radius: 4cqw; inset: 3cqw; }
   .shape-arch .blob { border-radius: 50% 50% 3cqw 3cqw / 42% 42% 3cqw 3cqw; inset: 2cqw 3cqw 3cqw; }
   .shape-rect .blob { border-radius: 3cqw; inset: 8cqw 1cqw 8cqw 2cqw; }
+  .shape-pill .blob { border-radius: 999px; inset: 7cqw 0 7cqw 1cqw; }
   .shape-triangle .blob { border-radius: 0; inset: 2cqw; clip-path: polygon(50% 3%, 97% 92%, 3% 92%); }
   .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px); background-size: 5.4cqw 5.4cqw; }
   .ring { position: absolute; inset: 0.6cqw; width: calc(100% - 1.2cqw); height: calc(100% - 1.2cqw); transform: translate(-1.2cqw, 1cqw) rotate(-6deg); overflow: visible; }
   .shape-square .ring { transform: translate(-1.4cqw, 1.2cqw) rotate(-3deg); inset: 1.6cqw; width: calc(100% - 3.2cqw); height: calc(100% - 3.2cqw); }
   .shape-arch .ring { transform: translate(-1.2cqw, 1cqw) rotate(-3deg); }
   .shape-rect .ring { transform: translate(-1.2cqw, 1cqw) rotate(-3deg); }
+  .shape-pill .ring { transform: translate(-1cqw, .8cqw) rotate(-3deg); }
   .shape-triangle .ring { transform: translate(-1cqw, .8cqw) rotate(-4deg); }
   .ring path { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
   .obj { position: relative; z-index: 2; display: grid; place-items: center; }
@@ -128,6 +145,19 @@ const ringPath = {
   .shape-rect .a2 { bottom: 7.5cqw; left: 0; }
   /* 場記板（myVideo）：白底黑條、播放鍵 */
   .film { width: 6.6cqw; }
+  /* 音符（Podcast） */
+  .mnote .stem { fill: none; stroke: var(--ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .mnote .fill { fill: var(--mustard); stroke: var(--ink); stroke-width: 2; }
+  .a3.mnote { width: 3.6cqw; }
+  /* 信用卡＋硬幣（BookFast 結帳） */
+  .ccard { width: 8cqw; transform: rotate(10deg); }
+  .ccard .body { fill: var(--accent); stroke: var(--ink); stroke-width: 2; }
+  .ccard .stripe { stroke: var(--ink); stroke-width: 5; }
+  .ccard .chip { fill: var(--mustard); stroke: var(--ink); stroke-width: 1.6; }
+  .ccard .dig { stroke: var(--sheet); stroke-width: 2.6; stroke-linecap: round; }
+  .coin { width: 5cqw; }
+  .shape-pill .a1 { top: 4cqw; right: -1cqw; }
+  .shape-pill .a2 { bottom: 5cqw; left: 0; }
   .film .fill2 { fill: var(--rust); }
   .film .clap { fill: var(--sheet); stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
   .film .line { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; }
