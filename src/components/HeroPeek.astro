@@ -20,7 +20,8 @@ const {
 <style>
   .hero-peek { position: relative; overflow-x: clip; --av: 300px; }
   .row { min-height: 440px; display: flex; align-items: center; padding-block: 48px; }
-  .text { max-width: min(760px, calc(100% - 240px)); position: relative; z-index: 1; }
+  /* container-type：讓標題字級照文字欄實際寬度縮放（見 index.astro .hero-title） */
+  .text { width: 100%; max-width: min(760px, calc(100% - 240px)); position: relative; z-index: 1; container-type: inline-size; }
 
   /* 小人：貼在畫面最右邊，手臂超出畫面一點；垂直置中對齊文字 */
   .peeker {
