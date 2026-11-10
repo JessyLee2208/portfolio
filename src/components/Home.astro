@@ -72,7 +72,7 @@ const L = langOf(Astro.url), en = L === 'en';
       <div class="grid-more">
       <CaseCard href={lurl(L, '/cases/timecard/')} title={en ? 'BookFast Pay-per-minute Pass (in Chinese)' : 'BookFast 分鐘計費卡'}
         summary={en ? 'Designed a pay-per-minute gym pass end to end, from the back office to the member app, including the deduction, refund and settlement rules.' : '從零做出按分鐘扣點的通行卡：後台、會員 App 和官網都由我設計，也定了扣點順序、退款與核銷規則。'}
-        tags={en ? ['B2B + B2C', 'Billing rules', 'Web & App'] : ['B2B＋B2C', '計費規則', 'Web & App']}>
+        tags={en ? ['B2B + B2C', 'Billing rules', 'Web & App'] : ['B2B＋B2C', '計費規則', 'Web & App']} locked>
         <TimeCardCover />
       </CaseCard>
       <CaseCard href={lurl(L, '/cases/bookfast/')} title={en ? 'BookFast Checkout Flow' : 'BookFast 付款流程簡化設計'}

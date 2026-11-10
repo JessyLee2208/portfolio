@@ -1,8 +1,8 @@
 // 網站地圖：列出中英文每一頁，並標出彼此是同一頁的兩種語言（給 Google 用）
 import { EN_PAGES } from '../lib/i18n.js';
 
-// Manager 那篇上了密碼（11/10），不放進網站地圖
-const PAGES = ['/', '/cases/branch/', '/cases/ai-delivery/', '/cases/myvideo/', '/cases/podcast/', '/cases/bookfast/', '/cases/timecard/'];
+// Manager、分鐘計費卡上了密碼（11/10），不放進網站地圖
+const PAGES = ['/', '/cases/branch/', '/cases/ai-delivery/', '/cases/myvideo/', '/cases/podcast/', '/cases/bookfast/'];
 
 export function GET({ site }) {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
