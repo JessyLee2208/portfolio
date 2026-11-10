@@ -1,11 +1,11 @@
 ---
 // 圖解外框：跟封面同一套語言（案例主色淺底＋該案例的紋路＋白卡），手繪只當點綴
 import '../../styles/diagram.css';
-interface Props { kicker?: string; title?: string; c: 'branch' | 'manager' | 'ai' | 'myvideo' | 'podcast' | 'bookfast' | 'timecard'; label: string; plate?: boolean; }
-const { kicker, title, c, label, plate = false } = Astro.props;
+interface Props { kicker?: string; title?: string; c: 'branch' | 'manager' | 'ai' | 'myvideo' | 'podcast' | 'bookfast' | 'timecard'; label: string; plate?: boolean; wide?: boolean; }
+const { kicker, title, c, label, plate = false, wide = false } = Astro.props;
 // plate：底色板樣式（左上角一行標題、沒有紋路和手繪底線），參考 rachelchen.tech（11/10 Jessy，先用在分鐘計費卡）
 ---
-<figure class:list={['dg', 'reveal', `case-${c}`, { 'plate-v': plate }]} aria-label={label}>
+<figure class:list={['dg', 'reveal', `case-${c}`, { 'plate-v': plate, 'plate-wide': wide }]} aria-label={label}>
   {!plate && <div class="dg-pat" aria-hidden="true"></div>}
   {plate && title && <p class="pl-label">{title}</p>}
   {!plate && kicker && <p class="dg-kicker">{kicker}</p>}

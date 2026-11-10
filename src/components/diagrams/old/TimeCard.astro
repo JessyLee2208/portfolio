@@ -93,7 +93,7 @@ const JR = [
 )}
 
 {kind === 'journey' && (
-  <Board plate title="會員旅程：從買卡到出場" c="timecard" label="會員旅程：購買、進場、在館內、出場、之後五個階段，會員在做什麼、心裡在想什麼、痛點，以及對應的解法">
+  <Board plate wide title="會員旅程：從買卡到出場" c="timecard" label="會員旅程：購買、進場、在館內、出場、之後五個階段，會員在做什麼、心裡在想什麼、痛點，以及對應的解法">
     <!-- 桌機用表格（A），手機一步一列（B），11/10 Jessy -->
     <div class="ja-wrap">
       <table class="ja">
@@ -152,7 +152,7 @@ const JR = [
 )}
 
 {kind === 'lanes' && (
-  <Board plate title="一張卡從開賣到核銷，各方做什麼" c="timecard" label="泳道圖：會員、櫃檯人員、場館老闆、BookFast 在開賣前、販售、進出場、註銷退款、核銷五個階段各自做的事">
+  <Board plate wide title="一張卡從開賣到核銷，各方做什麼" c="timecard" label="泳道圖：會員、櫃檯人員、場館老闆、BookFast 在開賣前、販售、進出場、註銷退款、核銷五個階段各自做的事">
     <div class="lanes-wrap" tabindex="0" aria-label="泳道圖，可以左右滑動">
       <div class="lanes">
         <span class="corner"></span>
@@ -310,10 +310,11 @@ const JR = [
 
   /* 泳道圖：窄螢幕左右滑 */
   .lanes-wrap { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; margin: 0 -4px; padding: 4px; }
-  .lanes { display: grid; grid-template-columns: 74px repeat(5, minmax(100px, 1fr)); gap: 6px; min-width: 600px; max-width: 1000px; margin: 0 auto; }
+  .lanes { display: grid; grid-template-columns: 72px repeat(5, minmax(100px, 1fr)); gap: 6px; min-width: 600px; max-width: 1000px; margin: 0 auto; }
   .st { display: flex; align-items: center; gap: 6px; font-weight: 900; font-size: 14.5px; padding: 4px 2px 6px; }
-  .st b { width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); }
-  .who-l { display: grid; align-items: center; font-weight: 900; font-size: 13.5px; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 10px 6px; text-align: center; white-space: nowrap; }
+  .st b { font: 700 12px/1 var(--f-mono); color: var(--muted); }
+  /* 角色欄：拿掉黑色色塊，只留粗字（11/10 Jessy） */
+  .who-l { display: grid; align-items: center; font-weight: 900; font-size: 13.5px; color: var(--ink); padding: 10px 4px; white-space: nowrap; }
   .cell { background: var(--sheet); border-radius: 10px; padding: 9px 10px; font-size: 13px; line-height: 1.6; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
   /* 會員旅程：安靜的表格，只用黑灰字、靠粗細分層；手機改成一步一列 */
   .jb { display: none; }
