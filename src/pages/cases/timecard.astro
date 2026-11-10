@@ -3,14 +3,11 @@
 // 敘事與放圖方式參考 rachelchen.tech（11/10 Jessy）：灰色小分類＋故事句標題、短段落、圖都放在底色板（Plate）裡、跟內文同寬；這篇是樣本
 import CaseLayout from '../../layouts/CaseLayout.astro';
 import Plate from '../../components/Plate.astro';
-import ScrollShot from '../../components/ScrollShot.astro';
 import TC from '../../components/diagrams/old/TimeCard.astro';
 import { url } from '../../lib/url.js';
 import rate from '../../assets/cases/timecard/admin-rate.png';
 import entry from '../../assets/cases/timecard/admin-entry.png';
 import topup from '../../assets/cases/timecard/admin-topup.png';
-import webBuy from '../../assets/cases/timecard/web-buy.png';
-import webCard from '../../assets/cases/timecard/web-mycard.png';
 import rOk from '../../assets/cases/timecard/refund-ok.png';
 import rNo from '../../assets/cases/timecard/refund-no.png';
 import rDone from '../../assets/cases/timecard/refund-done.png';
@@ -111,13 +108,9 @@ const toc = [
   <p>從打開 App、在館內，到進出場，會員最常用的功能都在這裡：</p>
   <TC kind="features" />
   <p>出場時系統會自動選好進場用的那張卡。點數不夠也能出場，差額會變成欠款；欠款沒補完不能再進場，卡片上會壓欠款圖並顯示欠款餘額。進場、出場和異常都會推播通知。</p>
-  <p>在品牌官網也能買。付款前就列出點數、通行會館、啟用方式和使用期限。</p>
-  <Plate label="品牌官網：購買前確認商品與付款資訊（可以在畫面裡往下滑）" card={false}><ScrollShot src={webBuy} alt="品牌官網購買分鐘計費卡：商品明細、購買人資料、發票與付款" /></Plate>
-  <Plate label="品牌官網：我的通行卡與進出場 QR code"><Image src={webCard} alt="品牌官網我的通行卡：點開顯示 QR code 與分鐘計費卡點數" widths={[800, 1442]} sizes="(max-width: 760px) 100vw, 680px" /></Plate>
 </CaseLayout>
 
 <style>
-  :global(.plate .ss) { margin: 0; }
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 14px; align-items: start; }
   .pair figure { margin: 0; display: grid; gap: 8px; }
   .pair :global(img) { border-radius: 8px; border: 1px solid var(--line); }
