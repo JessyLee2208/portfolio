@@ -10,7 +10,7 @@ interface Props {
   big: string; unit?: string; bigLabel: string;
   label: string;
   shape?: 'circle' | 'square' | 'arch' | 'rect' | 'triangle' | 'pill' | 'capsule';
-  accent?: 'star-pin' | 'star-film' | 'clock' | 'sparkle-loop' | 'notes-loop' | 'card-coin' | 'stopwatch';
+  accent?: 'star-pin' | 'star-film' | 'clock' | 'sparkle-loop' | 'notes-loop' | 'card-coin' | 'stopwatch' | 'gate';
   under?: 'line' | 'dots' | 'wave';
   // 背景紋路每張封面都不一樣（11/10 Jessy）：dots 分店頁、grid Manager、lines AI、plus myVideo、waves Podcast、ruled BookFast
   pattern?: 'dots' | 'grid' | 'lines' | 'plus' | 'waves' | 'ruled' | 'ticks';
@@ -68,6 +68,9 @@ const ringPath = {
           <svg class="acc a3 mnote" viewBox="0 0 24 32" aria-hidden="true"><path class="stem" d="M12 25 L12 4 C 14 9, 20 9, 21 14" /><ellipse class="fill" cx="8" cy="25" rx="6" ry="4.6" transform="rotate(-18 8 25)" /></svg>
           <svg class="acc loop" viewBox="0 0 100 60" aria-hidden="true"><path class="line" d="M8 40 C 10 10, 50 6, 56 28 C 60 44, 40 50, 36 36 C 32 20, 60 10, 88 22 M78 14 L90 22 L80 32" /></svg>
         </>
+      )}
+      {accent === 'gate' && (
+        <svg class="acc a1 gate" viewBox="0 0 64 48" aria-hidden="true"><path class="fill" d="M5 15 C 5 12, 7 11, 10 11 L 15 11 C 18 11, 19 12, 19 15 L 19 44 L 5 44 Z" /><path class="fill" d="M45 15 C 45 12, 47 11, 50 11 L 55 11 C 58 11, 59 12, 59 15 L 59 44 L 45 44 Z" /><circle class="lamp" cx="12" cy="19" r="2.6" /><g class="arms"><path class="bar" d="M19 29 L 41 29" /></g><path class="line" d="M1 44 L 63 44" /></svg>
       )}
       {accent === 'stopwatch' && (
         <svg class="acc a1 clock stopwatch" viewBox="0 0 48 52" aria-hidden="true"><path class="line" d="M20 3 L28 3 M24 3 L24 8 M38 11 L41 8" /><path class="fill" d="M24 8 C 36 7, 45 17, 44 29 C 43 41, 34 49, 23 48 C 11 47, 3 38, 4 27 C 5 16, 13 8, 26 8" /><path class="hand" d="M24 17 L24 29 L31 33" /></svg>
@@ -184,6 +187,13 @@ const ringPath = {
   /* ── hover／捲進畫面時的小動畫 ── */
   .obj, .ring, .blob, .hand-arrow, .a1, .a2 { transition: transform .5s cubic-bezier(.3, 1.5, .5, 1); }
   .stopwatch .hand { transform-origin: 24px 29px !important; }
+  /* 閘門（分鐘計費卡）：機身＋綠燈＋三叉轉桿；滑過時轉桿轉一下 */
+  .gate { width: 9cqw; }
+  .gate .bar { fill: none; stroke: var(--ink); stroke-width: 3.4; stroke-linecap: round; }
+  .gate .lamp { fill: var(--accent); stroke: var(--ink); stroke-width: 1.6; }
+  .gate .arms { transform-box: view-box; transform-origin: 19px 29px; transition: transform .7s cubic-bezier(.4, 0, .2, 1); }
+  .cover-b:is(:hover, .play) .gate .arms { transform: rotate(-70deg); }
+  .shape-capsule .gate { top: 4cqw; right: 0; }
   .clock .hand { transform-box: view-box; transform-origin: 24px 25px; transition: transform .9s cubic-bezier(.4, 0, .2, 1); }
   .loop .line { stroke-dasharray: 260; stroke-dashoffset: 0; }
 
@@ -192,7 +202,7 @@ const ringPath = {
   .cover-b.shape-square:is(:hover, .play) .ring { transform: translate(-1.4cqw, 1.2cqw) rotate(2deg); }
   .cover-b:is(:hover, .play) .blob { transform: scale(1.03); }
   .cover-b:is(:hover, .play) .hand-arrow { animation: poke .6s ease; }
-  .cover-b:is(:hover, .play) .a1:not(.clock) { transform: rotate(72deg) scale(1.15); }
+  .cover-b:is(:hover, .play) .a1:not(.clock):not(.gate) { transform: rotate(72deg) scale(1.15); }
   /* 信用卡、音符不要轉 72 度（那是給星星的），改成小幅晃一下 */
   .cover-b:is(:hover, .play) .a1.ccard { transform: rotate(-2deg) translateY(-.8cqw); }
   .cover-b:is(:hover, .play) .a1.mnote { transform: rotate(-8deg) translateY(-.6cqw); }
