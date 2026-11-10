@@ -347,6 +347,16 @@ const JR = [
     .tl-head b { background: var(--tone-soft); padding-right: 8px; position: relative; z-index: 1; }
     .tl-st:last-child .tl-head::after { display: none; }
   }
+  /* 手機：直的時間軸，圓圈在左、用直線串起來，文字縮排（11/10 Jessy） */
+  @media (max-width: 759px) {
+    .tl { gap: 0; }
+    .tl-st { padding: 0 0 22px 38px; }
+    .tl-st::before { content: ''; position: absolute; left: 11px; top: 26px; bottom: 0; border-left: 1.5px solid color-mix(in srgb, var(--tone-ink) 35%, transparent); }
+    .tl-st:last-child { padding-bottom: 0; }
+    .tl-st:last-child::before { display: none; }
+    .tl-head { position: static; }
+    .tl-n { position: absolute; left: 0; top: 0; }
+  }
   :global(.prose) .tl-q { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
   @media (min-width: 760px) { :global(.prose) .tl-q { min-height: 3.1em; } }
   :global(.prose) .tl-f { font-size: 13.5px; font-weight: 500; line-height: 1.55; }
