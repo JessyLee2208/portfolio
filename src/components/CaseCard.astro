@@ -1,14 +1,16 @@
 ---
 // 首頁案例卡片：封面（slot）已有編號、類別、標題、大數字，下面只放封面沒有的：一句說明、標籤
-// 整張卡片可點，不另外放「看案例」；要密碼的案例在封面編號旁放鎖頭（CoverB locked，11/10 Jessy）
+// 整張卡片可點，不另外放「看案例」；要密碼的案例在卡片右上角放鎖頭小角標，貼齊卡片邊角（11/10 Jessy）
 interface Props { href: string; title: string; summary: string; tags: string[]; wide?: boolean; locked?: boolean; }
 const { href, title, summary, tags, wide = false, locked = false } = Astro.props;
 import { langOf } from '../lib/i18n.js';
+import BrandIcon from './BrandIcon.astro';
 const en = langOf(Astro.url) === 'en';
 ---
 <a class:list={['case-card', 'reveal', { wide }]} href={href}>
   <div class="media">
     <slot />
+    {locked && <span class="lock-tab" title={en ? 'Password required' : '需要密碼'}><BrandIcon name="lock" /></span>}
   </div>
   <div class="body">
     <h3 class="sr">{title}{locked && (en ? ' (password required)' : '（需要密碼）')}</h3>
@@ -21,6 +23,9 @@ const en = langOf(Astro.url) === 'en';
   .case-card:hover { transform: translateY(-4px); }
   .case-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
   .media { line-height: 0; position: relative; }
+  /* 鎖頭角標：貼齊卡片右上角（內圓角跟卡片一致），封面插圖動的時候也不會跟著飄 */
+  .lock-tab { position: absolute; top: 0; right: 0; z-index: 3; display: grid; place-items: center; width: 36px; height: 36px; background: var(--ink); color: var(--paper); border-bottom-left-radius: 12px; }
+  .lock-tab :global(.bi) { width: 16px; height: 16px; }
   .body { padding: 18px 22px 20px; display: flex; flex-direction: column; gap: 14px; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .summary { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
