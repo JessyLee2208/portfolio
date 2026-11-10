@@ -14,7 +14,9 @@ import rOk from '../../../assets/cases/timecard/refund-ok.png';
 import rNo from '../../../assets/cases/timecard/refund-no.png';
 import rDone from '../../../assets/cases/timecard/refund-done.png';
 import rInv from '../../../assets/cases/timecard/refund-done-invoice.png';
-interface Props { kind: 'hero' | 'flow' | 'deduct' | 'refund' | 'refund-flow' | 'settle' | 'app' | 'scan'; }
+import newBase from '../../../assets/cases/timecard/admin-new-base.png';
+import newForm from '../../../assets/cases/timecard/admin-new-form.png';
+interface Props { kind: 'hero' | 'flow' | 'deduct' | 'refund' | 'refund-flow' | 'settle' | 'app' | 'scan' | 'new-plan'; }
 const { kind } = Astro.props;
 const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 ---
@@ -132,6 +134,20 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
   </Board>
 )}
 
+{kind === 'new-plan' && (
+  <figure class="np reveal">
+    <div class="np-shot">
+      <Image src={newBase} alt="後台新增計時方案：左邊是方案明細，右邊是方案與販售設定" widths={[1000, 1426]} sizes="(max-width: 1120px) 100vw, 1088px" />
+      <!-- 右邊表單疊在底圖上，只有這一塊能捲動，跟實際的彈窗一樣（11/10 Jessy） -->
+      <div class="np-scroll" tabindex="0" aria-label="新增方案的設定表單，可以上下捲動看完整內容">
+        <Image src={newForm} alt="" widths={[600, 1192]} sizes="(max-width: 1120px) 42vw, 460px" />
+      </div>
+      <span class="np-hint" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16M7 9l5-5 5 5M7 15l5 5 5-5" /></svg>在表單上滑動</span>
+    </div>
+    <figcaption>新增方案：左邊即時顯示明細，右邊的設定可以上下滑動看完整內容</figcaption>
+  </figure>
+)}
+
 {kind === 'app' && (
   <figure class="dg case-timecard reveal tc-phones" aria-label="會員 App：我的通行卡、通行卡方案、失效方案">
     <div class="dg-pat" aria-hidden="true"></div>
@@ -237,6 +253,22 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
   @media (min-width: 720px) { .pc { grid-template-columns: repeat(3, 1fr); } }
   .pc .panel { font-size: 14.5px; line-height: 1.65; }
   .pc .lab { margin: 0 0 4px; }
+
+  /* 新增方案：底圖固定，右邊表單在圖裡捲動 */
+  .np { margin: 32px 0; }
+  @media (min-width: 900px) and (max-width: 1079px) { .np { width: min(1088px, calc(100vw - 2 * var(--gutter))); margin-left: 50%; transform: translateX(-50%); } }
+  @media (min-width: 1080px) { .np { width: calc(100% + 80px); margin-left: -40px; } }
+  .np-shot { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #fff; }
+  .np-shot > :global(img) { display: block; width: 100%; height: auto; }
+  .np-scroll { position: absolute; left: 49.23%; top: 23.48%; width: 41.8%; height: 73.9%; overflow-y: auto; background: #fff; overscroll-behavior: contain; scrollbar-width: thin; outline-offset: 2px; }
+  .np-scroll :global(img) { display: block; width: 100%; height: auto; }
+  .np-hint { position: absolute; right: 2%; bottom: 4%; display: inline-flex; align-items: center; gap: 4px; background: var(--ink); color: var(--paper); font-size: 12px; font-weight: 700; padding: 6px 10px 6px 8px; border-radius: 99px; pointer-events: none; box-shadow: 0 6px 14px -6px rgba(0,0,0,.5); animation: nudge 2.4s ease-in-out infinite; }
+  .np-hint svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .np-shot:hover .np-hint, .np-shot:focus-within .np-hint { opacity: 0; transition: opacity .3s; }
+  @keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  @media (prefers-reduced-motion: reduce) { .np-hint { animation: none; } }
+  @media (max-width: 640px) { .np-hint { font-size: 10.5px; padding: 4px 8px 4px 6px; } }
+  .np figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); text-align: center; }
 
   /* 手機排一列 */
   .tc-phones .phones { display: flex; justify-content: center; align-items: flex-start; gap: clamp(10px, 3vw, 28px); }

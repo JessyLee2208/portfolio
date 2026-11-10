@@ -2,10 +2,10 @@
 // BookFast 分鐘計費卡（舊作，2022）：沒有 Notion 原文，文字照 Figma spec（計時計次）與 Jessy 11/10 口述起草，待 Jessy 逐段改
 import CaseLayout from '../../layouts/CaseLayout.astro';
 import Figure from '../../components/Figure.astro';
+import ScrollShot from '../../components/ScrollShot.astro';
 import TC from '../../components/diagrams/old/TimeCard.astro';
 import { url } from '../../lib/url.js';
 import rate from '../../assets/cases/timecard/admin-rate.png';
-import newPlan from '../../assets/cases/timecard/admin-new.png';
 import entry from '../../assets/cases/timecard/admin-entry.png';
 import webBuy from '../../assets/cases/timecard/web-buy.png';
 import webCard from '../../assets/cases/timecard/web-mycard.png';
@@ -57,7 +57,7 @@ const toc = [
   <p>場館先設定計費方式：每分鐘收幾點，以及緩衝時間（待在場內沒超過這段時間就不收費）。不滿 1 分鐘無條件進位，1 點等於 1 元。</p>
   <Figure src={rate} alt="後台費用設定：每分鐘收費點數與緩衝時間" caption="費用設定：每分鐘收費與緩衝時間" wide />
   <p>接著建立儲值方案：點數、贈點、販售渠道、付款方式、啟用方式和販售上限。左邊會即時整理出這個方案的明細，建立前就能確認內容對不對。</p>
-  <Figure src={newPlan} alt="後台新增計時方案：左邊是方案明細，右邊是方案與販售設定" caption="新增方案：左邊即時顯示明細，右邊填設定" wide />
+  <TC kind="new-plan" />
   <p>啟用方式有四種，讓不同經營方式的場館都能用：</p>
   <ul>
     <li><b>加值後立即啟用</b>：買了就開始算使用期限</li>
@@ -98,7 +98,7 @@ const toc = [
   <p>進出場用 QR code，可以把 QR code 拿給掃描器掃，也可以用手機相機掃場館的 QR code。出場時系統會自動選好進場用的那張卡；卡片欠款時會顯示欠款餘額，進場、出場和異常狀況都會推播通知會員。</p>
   <TC kind="scan" />
   <p>會員也可以在品牌官網購買方案、查看自己的通行卡。購買頁把點數、通行會館、啟用方式和使用期限都列在付款前，買之前就看得到。</p>
-  <Figure src={webBuy} alt="品牌官網購買分鐘計費卡：商品明細、購買人資料、發票與付款" caption="品牌官網：購買前確認商品與付款資訊" />
+  <ScrollShot src={webBuy} alt="品牌官網購買分鐘計費卡：商品明細、購買人資料、發票與付款" caption="品牌官網：購買前確認商品與付款資訊（可以在畫面裡往下滑）" wide />
   <Figure src={webCard} alt="品牌官網我的通行卡：點開顯示 QR code 與分鐘計費卡點數" caption="品牌官網：我的通行卡與進出場 QR code" wide />
 </CaseLayout>
 
