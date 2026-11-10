@@ -1,6 +1,6 @@
 ---
 // 用 AI 改造設計交付流程（英文版）：內容對應 src/pages/cases/ai-delivery.astro，英文作品集口吻意譯（2026-11-10）
-// 用詞：票＝ticket、驗收條件＝acceptance criteria、交稿＝handoff、標註＝annotation、AI 查證＝AI-verified
+// 用詞：票＝ticket、驗收條件＝acceptance criteria、交稿＝handoff、標註＝annotation、AI 查證＝AI-checked
 import CaseLayout from '../../../layouts/CaseLayout.astro';
 import Guide from '../../../components/Guide.astro';
 import Stat from '../../../components/Stat.astro';
@@ -23,8 +23,8 @@ const toc = [
   title="Rethinking Design Handoff with AI"
   kicker="03 · Design Ops"
   tone="mustard"
-  description="During refinement, engineers kept coming back to me to confirm details. I added an AI review before handoff to catch anything undefined or contradictory, and labeled AI-verified content for engineers to double-check."
-  lead="During refinement, engineers kept coming back to me to confirm details, and a wrong value in a spec simply gets built as written. After interviewing engineers, I added an AI review step before handoff and labeled everything the AI verified, so engineers know what to double-check."
+  description="During refinement, engineers kept coming back to me to confirm details. I added an AI review before handoff to catch anything undefined or contradictory, and labeled AI-checked content for engineers to double-check."
+  lead="During refinement, engineers kept coming back to me to confirm details, and a wrong value in a spec simply gets built as written. After interviewing engineers, I added an AI review step before handoff and labeled everything the AI checked, so engineers know what to double-check."
   meta={[
     { label: 'Timeline', value: 'Jun 2026 – present' },
     { label: 'Type', value: 'Design Ops' },
@@ -36,7 +36,7 @@ const toc = [
   <Fragment slot="hero"><HeroFlow /></Fragment>
 
   <h2 id="background">Background</h2>
-  <p>A single FunNow spec often has to cover three brands (FunNow, Eatigo, Niceday) and three platforms (iOS, Android, Web). How one field is displayed can depend on back-office settings, what the API returns, and logic on each platform. With that many rules, manual checks easily miss things.</p>
+  <p>A single FunNow spec often has to cover three brands (FunNow, Eatigo, Niceday) and three platforms (iOS, Android, Web). How one field is displayed can depend on back-office settings, what the API returns, and logic on each platform. With that many rules, it’s easy to miss something when checking by hand.</p>
   <p>Whatever gets missed piles up in refinement. Engineers come back to me to confirm how to handle uncommon cases, a state that was never defined, or which to follow when the ticket and the design disagree. Every round trip delays the start of development.</p>
 
   <h3>Goal</h3>
@@ -58,11 +58,11 @@ const toc = [
     <tbody>
       <tr><td>What they read first</td><td>The acceptance criteria on the ticket</td><td>The ticket for the logic, then Figma for details</td></tr>
       <tr><td>Refinement</td><td>Checks on the spot whether the ticket and Figma match</td><td>Refinement takes a long time because they have to verify things themselves</td></tr>
-      <tr><td>AI-verified content</td><td>Want it labeled, because everyone’s background differs and so does how they read what AI produces</td><td>Fine to include, as long as it’s marked as AI-verified</td></tr>
+      <tr><td>AI-checked content</td><td>Want it labeled, because everyone’s background differs and so does how they read what AI produces</td><td>Fine to include, as long as it’s marked as AI-checked</td></tr>
       <tr><td>How they read specs</td><td>Feed the spec from Figma to AI while building</td><td>Feed the spec from Figma to AI while building</td></tr>
     </tbody>
   </table>
-  <p>Everyone raised the same point: <span class="hl">AI-verified content is welcome, as long as they know which parts to double-check themselves.</span> And since both backend and frontend engineers feed specs to AI while building, specs aren’t only written for people anymore; AI has to be able to read them too.</p>
+  <p>Everyone raised the same point: <span class="hl">AI-checked content is welcome, as long as they know which parts to double-check themselves.</span> And since both backend and frontend engineers feed specs to AI while building, specs aren’t only written for people anymore; AI has to be able to read them too.</p>
 
   <hr />
 
@@ -85,9 +85,9 @@ const toc = [
   <p>This came from a real mistake: I wrote Eatigo’s breakpoint as 600px in a spec, but it’s actually 768px. A frontend engineer caught it.</p>
   <p><span class="hl">Engineers ask about what’s missing; they simply build what’s wrong.</span> So objective values like breakpoints, field names, status codes and back-office settings always get checked in the product itself before they go into a spec.</p>
 
-  <h3>Decision 3 · Always label what AI verified</h3>
+  <h3>Decision 3 · Always label what AI checked</h3>
   <Annotate />
-  <p>Every engineer I interviewed asked for this, but there’s a more fundamental reason: we’re not engineers. Much of what’s defined in code carries context that only engineers have. AI can read “what was written,” but not “why it was written that way.”</p>
+  <p>Every engineer I interviewed asked for this, but there’s a more fundamental reason: we designers aren’t engineers. Much of what’s defined in code carries context that only engineers have. AI can read “what was written,” but not “why it was written that way.”</p>
   <p>So any technical conclusion I reach by having AI read code or query the database gets labeled with its source. <span class="hl">What that information means is for engineers to judge, not for us to interpret with AI</span>. My own design decisions aren’t labeled, so the two stay clearly separate.</p>
   <Guide uid="g-ai-1-en" tone="mustard" title="A label means “please check,” not “safe to trust.”">
     <p>Engineers can see right away which parts to double-check themselves, without re-checking the whole spec.</p>
@@ -101,7 +101,7 @@ const toc = [
   </div>
   <ul>
     <li>Across 5 of my own specs, the first pass found 182 open questions in total, all handled before handoff</li>
-    <li><strong>Caught an acceptance criterion that would have wrongly filtered out nearly 50,000 coupons</strong>: the ticket said card-payment restrictions shouldn’t affect display, but the design didn’t cover that case. Querying the database showed that, with the API as implemented, nearly 50,000 coupons with card restrictions would have been filtered out</li>
+    <li><strong>Caught a gap that would have wrongly filtered out nearly 50,000 coupons</strong>: the ticket said card-payment restrictions shouldn’t affect display, but the design didn’t cover that case. Querying the database showed that, with the API as implemented, nearly 50,000 coupons with card restrictions would have been filtered out</li>
     <li>I’ve also used the same method to review 5 specs from other designers on the team</li>
     <li><strong>Smoother refinement</strong>: from what I’ve observed, engineers come back with fewer questions in refinement, comments on specs have dropped noticeably, and development runs more smoothly overall</li>
   </ul>

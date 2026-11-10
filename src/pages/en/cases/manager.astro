@@ -23,8 +23,8 @@ const toc = [
   title="FunNow Manager Time Slot Redesign"
   kicker="02 · B2B · Web & App"
   tone="green"
-  description="Merchants couldn’t tell which time slots needed a discount, or whether customers could still buy the ones they’d set up. I redesigned the time slot settings and reworked the inventory rules behind them."
-  lead="Merchants couldn’t tell which time slots needed a discount, or whether customers could still buy the ones they’d set up. I redesigned the time slot settings so merchants can see at a glance how many spots each slot has left, and reworked the inventory rules behind them so a sold-out flash sale no longer marks the whole slot as full."
+  description="Merchants couldn’t tell which time slots needed a discount, or whether the discounts they’d set up were still on sale. I redesigned the time slot settings and reworked the inventory rules behind them."
+  lead="Merchants couldn’t tell which time slots needed a discount, or whether the discounts they’d set up were still on sale. I redesigned the time slot settings so merchants can see at a glance how many each slot has sold against its limit, and reworked the inventory rules behind them so a sold-out flash sale no longer marks the whole slot as full."
   meta={[
     { label: 'Timeline', value: 'Jun 2023 – Feb 2024' },
     { label: 'Team', value: '5 people' },
@@ -39,10 +39,10 @@ const toc = [
   <p>FunNow Manager is the back office for FunNow’s partner merchants. Here they set the time slots they sell, handle orders, redeem bookings, get order notifications, and set up FunNow Booking.</p>
 
   <h3>Goal</h3>
-  <p>When merchants manage their time slots, they mostly need to answer two questions: does this slot need a discount? And can customers still buy the discounts already set up? The old interface couldn’t answer either, so merchants had to work it out from their orders. The goal of this redesign was that merchants open their slot settings and <span class="hl">instantly see which slots need a discount, and whether the ones they’ve set up can still sell</span>.</p>
+  <p>When merchants manage their time slots, they mostly need to answer two questions: does this slot need a discount? And can customers still book at the discounts already set up? The old interface couldn’t answer either, so merchants had to work it out from their orders. The goal of this redesign was that merchants open their slot settings and <span class="hl">instantly see which slots need a discount, and whether the ones they’ve set up can still sell</span>.</p>
 
   <h3>Challenges</h3>
-  <p>Merchants can open time slots in three ways: <strong>recurring</strong> (fixed weekly slots), <strong>special</strong> (holidays or one-off changes) and <strong>flash sale</strong> (some open spots offered at a special price). The three serve different purposes, but in the old interface they looked almost the same and shared one inventory pool. To help merchants tell which type each slot is and how many spots are left, <span class="hl">we first had to untangle the calculation rules behind them</span> before deciding what the screen should show.</p>
+  <p>Merchants can set up three types of time slots: <strong>recurring</strong> (fixed weekly slots), <strong>special</strong> (holidays or one-off changes) and <strong>flash sale</strong> (some open spots offered at a special price). The three serve different purposes, but in the old interface they looked almost the same and shared one inventory pool. To help merchants tell which type each slot is and how many spots are left, <span class="hl">we first had to untangle the calculation rules behind them</span> before deciding what the screen should show.</p>
 
   <h3>My role</h3>
   <ul>
@@ -80,11 +80,11 @@ const toc = [
   <p><strong>The original problem</strong>: letting merchants set their own pricing for each time slot is at the core of FunNow. A flash sale is meant to take some unsold spots and sell them at a special price; once those sell out, the slot goes back to selling at the regular price. But in the old version all three slot types shared one inventory pool, so <span class="hl">once a flash sale sold out, the whole slot showed as full, and customers couldn’t even book at the regular price</span>. For example, if a restaurant had 20 seats and put 5 on a flash sale, once those 5 were booked, the remaining 15 seats couldn’t be sold. Some merchants simply set the entire day as a flash sale, and the “flash sale” label on the customer side lost its meaning.</p>
   <p><strong>New rules</strong>: after I raised this problem, the PM defined what each slot type is for: special slots must never oversell, and flash sales should maximize how much gets sold. I then turned this into the actual calculation logic for the engineering team to build:</p>
   <ul>
-    <li><strong>Flash sale: separate inventory</strong>. Once it sells out, the slot automatically goes back to its special or recurring setting and keeps selling</li>
-    <li><strong>Special and recurring: shared sales count</strong>. When a special setting is deleted or edited, spots already sold are carried back to the recurring setting</li>
+    <li><strong>Flash sale: separate inventory</strong>. Once it sells out, the slot automatically goes back to its special or recurring slot and keeps selling</li>
+    <li><strong>Special and recurring: shared sales count</strong>. When a special slot is deleted or edited, spots already sold still count against the recurring slot’s limit</li>
   </ul>
   <Guide uid="g-mgr-1-en" tone="green" title="Trade-off: accurate inventory matters more than flexible settings">
-    <p>The cost of a shared sales count is that when a merchant deletes a special setting, the spots already used don’t come back. For example, if a recurring slot can sell 99 and 30 sold during a special setting, after deleting it the recurring slot has 69 left, not 99. We chose to make sure the same slot can never oversell; merchants who want to sell beyond that limit can use a flash sale, which has its own inventory.</p>
+    <p>The cost of a shared sales count is that when a merchant deletes a special slot, spots already sold don’t come back. For example, if a recurring slot has 99 spots and 30 sell while a special slot is active, deleting the special slot leaves 69, not 99. We chose to make sure the same slot can never oversell; merchants who want to sell beyond that limit can use a flash sale, which has its own inventory.</p>
   </Guide>
 
   <hr />
@@ -93,14 +93,14 @@ const toc = [
   <ul>
     <li>Merchants see the number sold right on the slot card, instead of counting from the order list</li>
     <li>When a flash sale sells out, the slot goes back to its original setting and keeps selling, so open spots no longer go to waste</li>
-    <li>Slot types are told apart by color, so merchants can distinguish regular slots from promotions without reading</li>
+    <li>Merchants can tell slot types apart by color, so they can distinguish regular slots from promotions without reading</li>
   </ul>
 
   <hr />
 
   <h2 id="closing">Reflections</h2>
   <p>Back-office tools are used by merchants who need to get things done quickly every day. The point isn’t to fit in every feature, but to help them understand “where things stand right now” at a glance. The biggest challenge here was turning a complex set of calculation rules into an interface merchants can read: <span class="hl">the logic stays in the system; merchants only need to see the result.</span></p>
-  <p>Looking back, there’s one thing I’d do differently: we didn’t plan event tracking for launch. Usage data for switching between week and month views only started three months after launch, so today I can’t use numbers to show how well this redesign worked. On future projects, I <span class="hl">decide at kickoff which data will show whether the design is working</span>.</p>
+  <p>Looking back, there’s one thing I’d do differently: we didn’t plan event tracking for launch. Usage data for switching between the new week and month calendar views only started three months after launch, so today I can’t use numbers to show how well this redesign worked. On future projects, I’ll <span class="hl">decide at kickoff which data will show whether the design is working</span>.</p>
 </CaseLayout>
 
 <style>
