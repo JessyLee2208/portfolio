@@ -3,6 +3,7 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Board from '../Board.astro';
+import Plate from '../../Plate.astro';
 import '../../../styles/diagram.css';
 import adminList from '../../../assets/cases/timecard/admin-list.png';
 import appMine from '../../../assets/cases/timecard/app-mine.png';
@@ -18,7 +19,7 @@ import homeTimer from '../../../assets/cases/timecard/app-home-timer.png';
 import timerSheet from '../../../assets/cases/timecard/app-timer.png';
 import newBase from '../../../assets/cases/timecard/admin-new-base.png';
 import newForm from '../../../assets/cases/timecard/admin-new-form.png';
-interface Props { kind: 'hero' | 'flow' | 'deduct' | 'refund' | 'refund-flow' | 'settle' | 'app' | 'scan' | 'new-plan' | 'roles' | 'lanes' | 'timer'; }
+interface Props { kind: 'hero' | 'deduct' | 'refund' | 'settle' | 'app' | 'scan' | 'new-plan' | 'roles' | 'lanes' | 'timer'; }
 const { kind } = Astro.props;
 const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 ---
@@ -33,7 +34,7 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 )}
 
 {kind === 'roles' && (
-  <Board kicker="Stakeholders" title="四個角色，各自在意的事" c="timecard" label="會員、場館老闆、櫃檯人員、BookFast 對分鐘計費各自在意的事，以及對應到的設計重點">
+  <Board plate title="四個角色，各自在意的事" c="timecard" label="會員、場館老闆、櫃檯人員、BookFast 對分鐘計費各自在意的事，以及對應到的設計重點">
     <div class="roles">
       {[
         ['會員', ['計費方式要清楚：每分鐘幾點、怎麼算', '在場館裡也能知道自己實際待了多久', '還剩多少點，點數不要過期浪費'], ['扣點順序', '會員端']],
@@ -52,7 +53,7 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 )}
 
 {kind === 'lanes' && (
-  <Board kicker="Swimlane" title="一張卡從開賣到核銷，各方做什麼" c="timecard" label="泳道圖：會員、櫃檯人員、場館老闆、BookFast 在開賣前、販售、進出場、註銷退款、核銷五個階段各自做的事">
+  <Board plate title="一張卡從開賣到核銷，各方做什麼" c="timecard" label="泳道圖：會員、櫃檯人員、場館老闆、BookFast 在開賣前、販售、進出場、註銷退款、核銷五個階段各自做的事">
     <div class="lanes-wrap" tabindex="0" aria-label="泳道圖，可以左右滑動">
       <div class="lanes">
         <span class="corner"></span>
@@ -74,7 +75,7 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 )}
 
 {kind === 'deduct' && (
-  <Board kicker="Deduction Order" title="同一張卡，先扣哪一筆？" c="timecard" label="扣點順序：一、最先到期的方案；二、到期日相同時，已經用過的先扣；三、點數先扣，贈點最後。例子：會員有四筆額度，扣點順序是 B 方案點數、C 方案點數、B 方案贈點、A 方案點數">
+  <Board plate title="扣點順序：三條規則依序判斷" c="timecard" label="扣點順序：一、最先到期的方案；二、到期日相同時，已經用過的先扣；三、點數先扣，贈點最後。例子：會員有四筆額度，扣點順序是 B 方案點數、C 方案點數、B 方案贈點、A 方案點數">
     <ol class="rules">
       {[['最先到期的先扣', '到期日越近，越先用掉'], ['用過的先扣', '到期日一樣時，額度不完整的先扣'], ['點數先扣，贈點最後', '會員花錢買的點數，比送的贈點先用']].map(([t, d], i) => (
         <li class="panel rule"><span class="num">{i + 1}</span><span class="t">{t}</span><span class="d">{d}</span></li>
@@ -97,7 +98,7 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 )}
 
 {kind === 'refund' && (
-  <Board kicker="Refund Rules" title="兩種付款方式，兩套退款規則" c="timecard" label="退款規則：聯邦信用卡只能單筆全額退款，而且額度要完整；樂享券可以退剩餘額度。兩種都要在付款日 60 天內、方案到期日 10 天內">
+  <Board plate title="退款規則：信用卡（聯邦）vs 樂享券" c="timecard" label="退款規則：聯邦信用卡只能單筆全額退款，而且額度要完整；樂享券可以退剩餘額度。兩種都要在付款日 60 天內、方案到期日 10 天內">
     <div class="cmp">
       <div class="panel col">
         <span class="ct">信用卡（聯邦）</span>
@@ -114,32 +115,8 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
   </Board>
 )}
 
-{kind === 'refund-flow' && (
-  <figure class="dg case-timecard reveal rf" aria-label="註銷退款流程：可刷退時選退款方式與發票處理；超過期限只能註銷；完成後依付款方式顯示不同的成功畫面">
-    <div class="dg-pat" aria-hidden="true"></div>
-    <p class="dg-kicker">Refund Flow</p>
-    <div class="dg-head"><p class="dg-title">櫃檯註銷一張卡的流程</p><svg class="dg-uline" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C 50 4, 120 18, 196 8" /></svg></div>
-    <div class="dg-body rf-grid">
-      <div class="rf-col">
-        <p class="rf-step"><span class="num">1</span>註銷前：系統先檢查</p>
-        <div class="shot"><Image src={rOk} alt="" widths={[500, 800]} sizes="(min-width: 900px) 330px, 90vw" /></div>
-        <p class="rf-cap">還在可刷退期間：列出連帶的贈點、可以線上刷退或現場退款，發票由系統作廢或手動開折讓單</p>
-        <div class="shot crop"><Image src={rNo} alt="" widths={[500, 800]} sizes="(min-width: 900px) 330px, 90vw" /></div>
-        <p class="rf-cap">超過期限或已使用：直接告訴櫃檯「此權益目前僅能註銷」，不會退錯錢</p>
-      </div>
-      <div class="rf-col">
-        <p class="rf-step"><span class="num">2</span>註銷成功：依付款方式顯示</p>
-        <div class="shot"><Image src={rInv} alt="" widths={[500, 800]} sizes="(min-width: 900px) 330px, 90vw" /></div>
-        <p class="rf-cap">信用卡（聯邦）：發票超過可作廢期限的，列出來提醒櫃檯手動開折讓單</p>
-        <div class="shot"><Image src={rDone} alt="" widths={[500, 800]} sizes="(min-width: 900px) 330px, 90vw" /></div>
-        <p class="rf-cap">樂享券：告訴櫃檯退款申請已經送出、通知信寄到哪裡、幾天內會刷退</p>
-      </div>
-    </div>
-  </figure>
-)}
-
 {kind === 'settle' && (
-  <Board kicker="Settlement" title="剩下的零頭怎麼辦？" c="timecard" label="核銷規則：樂享券註銷時剩 10.4 點，退 10 點給會員；0.4 點無條件進位成 1 點，走點數核銷給店家">
+  <Board plate title="零頭的處理：整數退會員，零頭進位給店家" c="timecard" label="核銷規則：樂享券註銷時剩 10.4 點，退 10 點給會員；0.4 點無條件進位成 1 點，走點數核銷給店家">
     <div class="split">
       <div class="panel src"><span class="lab">註銷時剩下</span><span class="big">10.4<small>點</small></span></div>
       <svg class="arr" viewBox="0 0 60 120" aria-hidden="true"><path d="M4 60 C 24 60, 30 22, 54 22 M4 60 C 24 60, 30 98, 54 98 M46 16 L55 22 L46 28 M46 92 L55 98 L46 104" /></svg>
@@ -148,7 +125,7 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
         <div class="panel out shop"><span class="lab">零頭進位，核銷給店家</span><span class="big">1<small>點</small></span><span class="note2">註銷日視為點數使用日，+14 天核銷</span></div>
       </div>
     </div>
-    <div class="pc">
+    <div class="pcons">
       <div class="panel"><span class="lab">好處</span>最後一筆就算沒有全部用完，店家也拿得到錢，風險控制在幾十元內</div>
       <div class="panel"><span class="lab">風險</span>會員發現少退了零頭，可能跟店家起爭議</div>
       <div class="panel"><span class="lab">配套</span>販售條款註明遇到非整數無條件捨去；真的有爭議，由店家自行退款給會員</div>
@@ -157,59 +134,53 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 )}
 
 {kind === 'new-plan' && (
-  <figure class="np reveal">
-    <div class="np-shot">
-      <Image src={newBase} alt="後台新增計時方案：左邊是方案明細，右邊是方案與販售設定" widths={[1000, 1426]} sizes="(max-width: 1120px) 100vw, 1088px" />
-      <!-- 右邊表單疊在底圖上，只有這一塊能捲動，跟實際的彈窗一樣（11/10 Jessy） -->
-      <div class="np-scroll" tabindex="0" aria-label="新增方案的設定表單，可以上下捲動看完整內容">
-        <Image src={newForm} alt="" widths={[600, 1192]} sizes="(max-width: 1120px) 42vw, 460px" />
-      </div>
-      <span class="np-hint" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16M7 9l5-5 5 5M7 15l5 5 5-5" /></svg>在表單上滑動</span>
+  <div class="np-shot">
+    <Image src={newBase} alt="後台新增計時方案：左邊是方案明細，右邊是方案與販售設定" widths={[800, 1426]} sizes="(max-width: 760px) 100vw, 680px" />
+    <!-- 右邊表單疊在底圖上，只有這一塊能捲動，跟實際的彈窗一樣（11/10 Jessy） -->
+    <div class="np-scroll" tabindex="0" aria-label="新增方案的設定表單，可以上下捲動看完整內容">
+      <Image src={newForm} alt="" widths={[600, 1192]} sizes="(max-width: 760px) 42vw, 290px" />
     </div>
-    <figcaption>新增方案：左邊即時顯示明細，右邊的設定可以上下滑動看完整內容</figcaption>
-  </figure>
+    <span class="np-hint" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16M7 9l5-5 5 5M7 15l5 5 5-5" /></svg>在表單上滑動</span>
+  </div>
 )}
 
 {kind === 'app' && (
-  <figure class="dg case-timecard reveal tc-phones" aria-label="會員 App：我的通行卡、通行卡方案、失效方案">
-    <div class="dg-pat" aria-hidden="true"></div>
-    <div class="dg-body phones">
+  <Plate label="會員 App：我的通行卡" card={false} alt="會員 App：我的通行卡、通行卡方案、失效方案">
+    <div class="phones">
       {[phone(appMine, '我的：一眼看到總點數'), phone(appPlan, '方案明細：額度與期間'), phone(appExpired, '失效方案：用完的收起來')].map(({ img, cap }, i) => (
         <figure class={`ph p${i}`}>
-          <div class="frame"><Image src={img} alt="" widths={[300, 600]} sizes="(min-width: 760px) 220px, 30vw" /></div>
+          <div class="frame"><Image src={img} alt="" widths={[300, 600]} sizes="(min-width: 760px) 200px, 30vw" /></div>
           <figcaption>{cap}</figcaption>
         </figure>
       ))}
     </div>
-  </figure>
+  </Plate>
 )}
 
 {kind === 'timer' && (
-  <figure class="dg case-timecard reveal tc-phones" aria-label="App 首頁的計時器：顯示已經待了多久；點開顯示進場時間、餘額與預計扣點">
-    <div class="dg-pat" aria-hidden="true"></div>
-    <div class="dg-body phones">
+  <Plate label="會員 App：在館內也知道待了多久" card={false} alt="App 首頁的計時器：顯示已經待了多久；點開顯示進場時間、餘額與預計扣點">
+    <div class="phones">
       {[phone(homeTimer, '首頁右下：已經待了多久'), phone(timerSheet, '點開：餘額與預計扣點')].map(({ img, cap }, i) => (
         <figure class={`ph p${i}`}>
-          <div class="frame"><Image src={img} alt="" widths={[300, 600]} sizes="(min-width: 760px) 220px, 30vw" /></div>
+          <div class="frame"><Image src={img} alt="" widths={[300, 600]} sizes="(min-width: 760px) 200px, 30vw" /></div>
           <figcaption>{cap}</figcaption>
         </figure>
       ))}
     </div>
-  </figure>
+  </Plate>
 )}
 
 {kind === 'scan' && (
-  <figure class="dg case-timecard reveal tc-phones" aria-label="App 進出場：出示 QR code 給掃描器，或用相機掃場館的 QR code">
-    <div class="dg-pat" aria-hidden="true"></div>
-    <div class="dg-body phones">
+  <Plate label="會員 App：兩種進出場方式" card={false} alt="App 進出場：出示 QR code 給掃描器，或用相機掃場館的 QR code">
+    <div class="phones">
       {[phone(appQr, '出示 QR code 給掃描器'), phone(appScan, '用相機掃場館的 QR code')].map(({ img, cap }, i) => (
         <figure class={`ph p${i}`}>
-          <div class="frame"><Image src={img} alt="" widths={[300, 600]} sizes="(min-width: 760px) 220px, 30vw" /></div>
+          <div class="frame"><Image src={img} alt="" widths={[300, 600]} sizes="(min-width: 760px) 200px, 30vw" /></div>
           <figcaption>{cap}</figcaption>
         </figure>
       ))}
     </div>
-  </figure>
+  </Plate>
 )}
 
 <style>
@@ -230,7 +201,6 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
   /* 四個角色 */
   .roles { display: grid; gap: 12px; max-width: 980px; margin: 0 auto; }
   @media (min-width: 720px) { .roles { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1000px) { .roles { grid-template-columns: repeat(4, 1fr); } }
   .role { display: grid; gap: 8px; align-content: start; }
   .rt { font-size: 19px; font-weight: 900; }
   .role ul { margin: 0; padding-left: 1.1em; font-size: 14px; line-height: 1.65; }
@@ -240,11 +210,11 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
 
   /* 泳道圖：窄螢幕左右滑 */
   .lanes-wrap { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; margin: 0 -4px; padding: 4px; }
-  .lanes { display: grid; grid-template-columns: 86px repeat(5, minmax(104px, 1fr)); gap: 6px; min-width: 660px; max-width: 1000px; margin: 0 auto; }
+  .lanes { display: grid; grid-template-columns: 74px repeat(5, minmax(100px, 1fr)); gap: 6px; min-width: 600px; max-width: 1000px; margin: 0 auto; }
   .st { display: flex; align-items: center; gap: 6px; font-weight: 900; font-size: 14.5px; padding: 4px 2px 6px; }
   .st b { width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--tone-ink); color: #fff; font: 700 12px/1 var(--f-mono); }
   .who-l { display: grid; align-items: center; font-weight: 900; font-size: 13.5px; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 10px 6px; text-align: center; white-space: nowrap; }
-  .cell { background: var(--sheet); border-radius: 10px; padding: 10px 11px; font-size: 13.5px; line-height: 1.6; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+  .cell { background: var(--sheet); border-radius: 10px; padding: 9px 10px; font-size: 13px; line-height: 1.6; border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
   .cell.empty { background: transparent; border: 1px dashed color-mix(in srgb, var(--tone) 35%, transparent); }
 
   /* 扣點順序 */
@@ -294,16 +264,13 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
   .note2 { font-size: 12px; opacity: .85; }
   .arr { width: 100%; height: 120px; overflow: visible; }
   .arr path { fill: none; stroke: var(--tone-ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-  .pc { display: grid; gap: 12px; max-width: 760px; margin: 0 auto; }
-  @media (min-width: 720px) { .pc { grid-template-columns: repeat(3, 1fr); } }
-  .pc .panel { font-size: 14.5px; line-height: 1.65; }
-  .pc .lab { margin: 0 0 4px; }
+  .pcons { display: grid; gap: 12px; max-width: 100%; margin: 0 auto; }
+  @media (min-width: 720px) { .pcons { grid-template-columns: repeat(3, 1fr); } }
+  .pcons .panel { font-size: 14.5px; line-height: 1.65; }
+  .pcons .lab { margin: 0 0 4px; }
 
   /* 新增方案：底圖固定，右邊表單在圖裡捲動 */
-  .np { margin: 32px 0; }
-  @media (min-width: 900px) and (max-width: 1079px) { .np { width: min(1088px, calc(100vw - 2 * var(--gutter))); margin-left: 50%; transform: translateX(-50%); } }
-  @media (min-width: 1080px) { .np { width: calc(100% + 80px); margin-left: -40px; } }
-  .np-shot { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #fff; }
+  .np-shot { position: relative; }
   .np-shot > :global(img) { display: block; width: 100%; height: auto; }
   .np-scroll { position: absolute; left: 49.23%; top: 23.48%; width: 41.8%; height: 73.9%; overflow-y: auto; background: #fff; overscroll-behavior: contain; scrollbar-width: thin; outline-offset: 2px; }
   .np-scroll :global(img) { display: block; width: 100%; height: auto; }
@@ -313,10 +280,9 @@ const phone = (img: ImageMetadata, cap: string) => ({ img, cap });
   @keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
   @media (prefers-reduced-motion: reduce) { .np-hint { animation: none; } }
   @media (max-width: 640px) { .np-hint { font-size: 10.5px; padding: 4px 8px 4px 6px; } }
-  .np figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); text-align: center; }
 
   /* 手機排一列 */
-  .tc-phones .phones { display: flex; justify-content: center; align-items: flex-start; gap: clamp(10px, 3vw, 28px); }
+  .phones { display: flex; justify-content: center; align-items: flex-start; gap: clamp(10px, 3vw, 28px); }
   .ph { margin: 0; display: grid; gap: 10px; justify-items: center; width: min(220px, 30%); }
   .ph figcaption { font-weight: 700; font-size: 14px; text-align: center; }
 </style>

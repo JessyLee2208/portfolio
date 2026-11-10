@@ -1,0 +1,25 @@
+---
+// 底色板：參考 rachelchen.tech 的案例頁放圖方式（11/10 Jessy）
+// 淺色底一塊、左上角一行標題，截圖放在裡面的白色圓角卡上；寬度跟內文一樣，不加紋路和點綴
+interface Props {
+  label: string;                 // 左上角的圖標題，例：「問題：…」「解法：…」
+  tone?: 'green' | 'warm' | 'gray';
+  card?: boolean;                // 內容放白卡（截圖用）；手機畫面、圖解直接放在底色上就關掉
+  alt?: string;                  // 整張板的說明（給螢幕閱讀器）
+}
+const { label, tone = 'green', card = true, alt } = Astro.props;
+---
+<figure class:list={['plate', `pt-${tone}`, 'reveal']} aria-label={alt ?? label}>
+  <figcaption class="pt-label">{label}</figcaption>
+  <div class:list={['pt-body', { card }]}><slot /></div>
+</figure>
+<style>
+  .plate { margin: 28px 0 36px; padding: 18px 20px 22px; border-radius: 18px; background: var(--pt-bg); }
+  .pt-green { --pt-bg: var(--accent-soft); --pt-ink: var(--accent); }
+  .pt-warm { --pt-bg: var(--mustard-soft); --pt-ink: var(--mustard-ink); }
+  .pt-gray { --pt-bg: #ece8e1; --pt-ink: #6b6358; }
+  .pt-label { margin: 0 0 14px; font-size: 14.5px; font-weight: 700; color: var(--pt-ink); line-height: 1.4; }
+  .pt-body.card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 10px 24px -18px rgba(0,0,0,.35); }
+  .pt-body :global(img) { display: block; width: 100%; height: auto; }
+  @media (min-width: 720px) { .plate { padding: 22px 26px 26px; } }
+</style>

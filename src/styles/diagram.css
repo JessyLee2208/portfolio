@@ -86,3 +86,8 @@
 /* 英文頁：標語用英文字體（中文字體的引號是全形，會變很寬）；旁註可以換行 */
 html[lang="en"] .hand, html[lang="en"] .hero-flow .tagline { font-family: var(--f-body); }
 html[lang="en"] .dg p.aside.hand { white-space: normal; max-width: 300px; font-size: clamp(19px, 2vw, 22px); }
+
+/* 底色板樣式（Board plate）：跟 Plate.astro 同一套，左上角標題、內容放在底色上 */
+.dg.plate-v { margin: 28px 0 36px; padding: 18px 20px 22px; border-radius: 18px; }
+@media (min-width: 720px) { .dg.plate-v { padding: 22px 26px 26px; } }
+.dg.plate-v .pl-label { position: relative; margin: 0 0 14px; font-size: 14.5px; font-weight: 700; color: var(--tone-ink); line-height: 1.4; }

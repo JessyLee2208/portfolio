@@ -1,7 +1,8 @@
 ---
 // BookFast 分鐘計費卡（舊作，2022）：沒有 Notion 原文，文字照 Figma spec（計時計次）與 Jessy 11/10 口述起草，待 Jessy 逐段改
+// 敘事與放圖方式參考 rachelchen.tech（11/10 Jessy）：灰色小分類＋故事句標題、短段落、圖都放在底色板（Plate）裡、跟內文同寬；這篇是樣本
 import CaseLayout from '../../layouts/CaseLayout.astro';
-import Figure from '../../components/Figure.astro';
+import Plate from '../../components/Plate.astro';
 import ScrollShot from '../../components/ScrollShot.astro';
 import TC from '../../components/diagrams/old/TimeCard.astro';
 import { url } from '../../lib/url.js';
@@ -10,15 +11,21 @@ import entry from '../../assets/cases/timecard/admin-entry.png';
 import topup from '../../assets/cases/timecard/admin-topup.png';
 import webBuy from '../../assets/cases/timecard/web-buy.png';
 import webCard from '../../assets/cases/timecard/web-mycard.png';
+import rOk from '../../assets/cases/timecard/refund-ok.png';
+import rNo from '../../assets/cases/timecard/refund-no.png';
+import rDone from '../../assets/cases/timecard/refund-done.png';
+import rInv from '../../assets/cases/timecard/refund-done-invoice.png';
+import { Image } from 'astro:assets';
 
 const toc = [
-  { id: 'why', label: '為什麼要做分鐘計費？' },
-  { id: 'roles', label: '不同角色怎麼看分鐘計費' },
-  { id: 'setup', label: '後台：設定收費與方案' },
-  { id: 'deduct', label: '重點一：扣點順序' },
-  { id: 'refund', label: '重點二：退款規則' },
-  { id: 'settle', label: '重點三：核銷規則' },
-  { id: 'member', label: '會員端：App 與官網' },
+  { id: 'why', label: '背景' },
+  { id: 'roles', label: '四種角色' },
+  { id: 'setup', label: '後台設定' },
+  { id: 'counter', label: '櫃檯' },
+  { id: 'deduct', label: '扣點順序' },
+  { id: 'refund', label: '退款' },
+  { id: 'settle', label: '核銷' },
+  { id: 'member', label: '會員端' },
 ];
 ---
 <CaseLayout
@@ -38,78 +45,92 @@ const toc = [
 >
   <Fragment slot="hero"><TC kind="hero" /></Fragment>
 
-  <h2 id="why">為什麼要做分鐘計費？</h2>
-  <p>BookFast 的通行卡原本只有「定期卡」：買一個月、一季，期間內不限次數進出。但很多健身房用的是另一種收費方式：會員先儲值點數，進場後依停留的時間扣點。BookFast 還沒有支援這種計費的模組，這些場館就沒辦法在系統裡販售、扣點，也沒辦法跟門禁和報表串在一起。</p>
+  <p class="eyebrow" id="why">背景</p>
+  <h2>健身房想按分鐘收費，BookFast 卻沒有這個模組</h2>
+  <p>BookFast 的通行卡原本只有定期卡：買一個月、一季，期間內不限次數進出。</p>
+  <p>但很多健身房是另一種收法：會員先儲值點數，進場後照停留的時間扣點。沒有這個模組，這些場館就沒辦法在系統裡販售、扣點，也串不起門禁和報表。</p>
 
-  <h3>挑戰</h3>
-  <p>分鐘計費不只是多一種卡。一張卡從販售、進場、出場扣點，到退款、BookFast 撥款給店家，每一步都要有明確的規則，而且<span class="hl">同一條規則會同時影響會員、場館和 BookFast 三方</span>。</p>
+  <p class="eyebrow">我的角色</p>
+  <h2>所以我要從零做出一張分鐘計費卡</h2>
+  <p>B 端後台、C 端 App 和品牌官網都由我設計；<span class="hl">扣點邏輯、金流計算和核銷方式</span>也是我定的。</p>
 
-  <h3>我的角色</h3>
-  <p>B 端後台和 C 端會員端（App、品牌官網）的設計都由我負責，也包含扣點邏輯、金流的計算方式和核銷方式。</p>
-
-  <hr />
-
-  <h2 id="roles">不同角色怎麼看分鐘計費</h2>
-  <p>同一張分鐘計費卡，會員、場館老闆、櫃檯人員和 BookFast 在意的事都不一樣。動工前先把每個角色的需求列出來，後面的設計都是在回應這些需求：</p>
+  <p class="eyebrow" id="roles">四種角色</p>
+  <h2>同一張卡，四種人在意的事都不一樣</h2>
+  <p>動工前先把每個角色的需求列出來，後面每個設計都在回應其中一條。</p>
   <TC kind="roles" />
-  <p>再把四個角色放進同一條流程，看一張卡從開賣到核銷，每個階段是誰在做什麼：</p>
+  <p>再把四個角色放進同一條流程，就看得出每個階段是誰在做什麼。</p>
   <TC kind="lanes" />
 
-  <hr />
-
-  <h2 id="setup">後台：設定收費與方案</h2>
-  <p>場館先設定計費方式：每分鐘收幾點，以及緩衝時間（待在場內沒超過這段時間就不收費）。不滿 1 分鐘無條件進位，1 點等於 1 元。</p>
-  <Figure src={rate} alt="後台費用設定：每分鐘收費點數與緩衝時間" caption="費用設定：每分鐘收費與緩衝時間" wide />
-  <p>接著建立儲值方案：點數、贈點、販售渠道、付款方式、啟用方式和販售上限。左邊會即時整理出這個方案的明細，建立前就能確認內容對不對。</p>
-  <TC kind="new-plan" />
-  <p>啟用方式有四種，讓不同經營方式的場館都能用：</p>
+  <p class="eyebrow" id="setup">後台設定</p>
+  <h2>先讓場館老闆把方案設對</h2>
+  <p>每分鐘幾點、緩衝時間多久，是所有計費的起點。不滿 1 分鐘無條件進位，1 點等於 1 元。</p>
+  <Plate label="費用設定：每分鐘收費與緩衝時間"><Image src={rate} alt="後台費用設定：每分鐘收費點數與緩衝時間" widths={[800, 1426]} sizes="(max-width: 760px) 100vw, 680px" /></Plate>
+  <p>建方案時，左邊即時整理出方案明細，老闆送出前就能確認內容對不對。</p>
+  <Plate label="新增方案：右邊的設定可以在圖裡上下滑動"><TC kind="new-plan" /></Plate>
+  <p>啟用方式有四種，不同經營方式的場館都用得上：</p>
   <ul>
-    <li><b>加值後立即啟用</b>：買了就開始算使用期限</li>
-    <li><b>首次進場才啟用</b>：購買後 30 天內進場，從那天開始；30 天內都沒進場，第 31 天自動啟用</li>
+    <li><b>加值後立即啟用</b>：買了就開始算期限</li>
+    <li><b>首次進場才啟用</b>：購買後 30 天內進場就從那天開始，沒進場第 31 天自動啟用</li>
     <li><b>自訂啟用時間</b>：會員在品牌電商購買時自己選日期</li>
-    <li><b>指定啟用</b>：由場館指定開始日期</li>
+    <li><b>指定啟用</b>：場館指定開始日期</li>
   </ul>
-  <p>會員到櫃檯買的時候，櫃檯可以直接在後台幫會員加值：選會員、選方案，方案裡設好的贈點會自動帶入（現場也能改），左邊一樣即時顯示明細和總計。</p>
-  <Figure src={topup} alt="後台分鐘計費卡加值：左邊是會員持有點數與加值明細，右邊選加值方案、贈送點數與啟用時間" caption="櫃檯現場加值：選好方案，贈點自動帶入" wide />
 
-  <hr />
+  <p class="eyebrow" id="counter">櫃檯</p>
+  <h2>櫃檯要快：加值、登記都在一個視窗完成</h2>
+  <p>會員到櫃檯買，選會員、選方案，方案裡設好的贈點會自動帶入，現場也能改。</p>
+  <Plate label="現場加值：選好方案，贈點自動帶入"><Image src={topup} alt="後台分鐘計費卡加值：左邊是會員持有點數與加值明細，右邊選加值方案、贈送點數與啟用時間" widths={[800, 1032]} sizes="(max-width: 760px) 100vw, 680px" /></Plate>
+  <p>會員沒帶手機、或掃描有問題時，櫃檯可以手動登記進出場。</p>
+  <Plate label="手動登記：計時卡顯示餘額，定期卡顯示到期日"><Image src={entry} alt="後台進場登記：選擇會員後，列出計時卡餘額與定期卡到期日" widths={[800, 1032]} sizes="(max-width: 760px) 100vw, 680px" /></Plate>
 
-  <h2 id="deduct">重點一：扣點順序</h2>
-  <p>會員手上常常不只一筆額度：有自己買的點數、有送的贈點，到期日也各不相同。進場扣點時要先扣哪一筆，會直接影響會員的權益，也影響店家什麼時候拿得到錢。我定了三條規則，依序判斷：</p>
+  <p class="eyebrow" id="deduct">重點一：扣點順序</p>
+  <h2>會員手上有好幾筆點數，先扣哪一筆？</h2>
+  <p>自己買的點數、送的贈點，到期日都不一樣。扣哪一筆，會影響會員的權益，也影響店家什麼時候拿到錢。</p>
   <TC kind="deduct" />
-  <p>會員沒帶手機、或掃描有問題的時候，櫃檯也可以手動幫會員登記進出場。畫面上會列出會員所有可用的卡，計時卡直接顯示餘額，定期卡顯示到期日。</p>
-  <Figure src={entry} alt="後台進場登記：選擇會員後，列出計時卡餘額與定期卡到期日" caption="進場登記：計時卡顯示餘額，定期卡顯示到期日" />
 
-  <hr />
-
-  <h2 id="refund">重點二：退款規則</h2>
-  <p>會員可以用信用卡（聯邦）或樂享券購買分鐘計費卡，兩種付款方式能退的錢不一樣：</p>
+  <p class="eyebrow" id="refund">重點二：退款</p>
+  <h2>兩種付款方式，能退的錢不一樣</h2>
+  <p>信用卡（聯邦）只能全額退，而且要一點都還沒用過；樂享券可以退剩下的額度。</p>
   <TC kind="refund" />
-  <p>規則定好之後，註銷畫面要做的就是幫櫃檯把這些判斷做完：系統先檢查有沒有連帶的贈點、還能不能線上刷退、發票要作廢還是開折讓單，再算出退款金額。櫃檯不用記規則，照畫面走就不會退錯。</p>
-  <TC kind="refund-flow" />
+  <p>規則一多，櫃檯很難每次都判斷對。所以註銷時，系統先檢查完再告訴櫃檯能怎麼退：</p>
+  <Plate label="解法：系統先檢查，櫃檯照畫面走">
+    <div class="pair">
+      <figure><Image src={rOk} alt="註銷訂單：列出連帶的贈點、線上刷退或現場退款、發票處理方式" widths={[500, 800]} sizes="(max-width: 760px) 45vw, 320px" /><figcaption>還能刷退：列出贈點、退款方式和發票處理</figcaption></figure>
+      <figure><Image src={rNo} alt="註銷訂單：提示超過可線上刷退的期限或已使用，此權益目前僅能註銷" widths={[500, 800]} sizes="(max-width: 760px) 45vw, 320px" /><figcaption>超過期限或已使用：直接說「目前僅能註銷」</figcaption></figure>
+    </div>
+  </Plate>
+  <p>註銷成功後，畫面依付款方式提醒櫃檯下一步。</p>
+  <Plate label="解法：成功畫面告訴櫃檯接下來要做什麼">
+    <div class="pair">
+      <figure><Image src={rInv} alt="信用卡註銷成功：列出超過作廢期限、需要手動開折讓單的發票" widths={[500, 800]} sizes="(max-width: 760px) 45vw, 320px" /><figcaption>信用卡（聯邦）：哪幾張發票要手動開折讓單</figcaption></figure>
+      <figure><Image src={rDone} alt="樂享券註銷成功：退款申請已送出、通知信已寄出、幾個工作天內刷退" widths={[500, 800]} sizes="(max-width: 760px) 45vw, 320px" /><figcaption>樂享券：申請已送出、幾天內會刷退</figcaption></figure>
+    </div>
+  </Plate>
 
-  <hr />
-
-  <h2 id="settle">重點三：核銷規則</h2>
-  <p>會員付的錢會先由 BookFast 收下，等點數用掉之後，才核銷撥給店家。分鐘計費麻煩的地方在小數點：例如每分鐘 1.5 點，扣到最後常常會剩下 10.4 點這種零頭。樂享券可以部分退款，所以註銷時要決定這 0.4 點怎麼處理：</p>
+  <p class="eyebrow" id="settle">重點三：核銷</p>
+  <h2>扣到最後剩 10.4 點，零頭該給誰？</h2>
+  <p>會員付的錢會先由 BookFast 收下，點數用掉之後才核銷撥給店家。每分鐘 1.5 點，扣到最後常常會剩零頭。</p>
   <TC kind="settle" />
   <p class="muted">信用卡（聯邦）沒有部分退款，剩下的點數會在方案到期時一起核銷。</p>
-  <p>報表也跟著調整：交易報表、退貨報表、交易明細裡原本的「通行卡」改成「定期通行卡」，另外新增「計時通行卡」；交易細節顯示方案名稱和點數，會計認列報表也多了計時卡的欄位，店家對帳時才分得清楚兩種卡。</p>
+  <p>報表也跟著拆開：「通行卡」改成「定期通行卡」，另外新增「計時通行卡」，店家對帳時才分得清楚兩種卡。</p>
 
-  <hr />
-
-  <h2 id="member">會員端：App 與官網</h2>
-  <p>對會員來說，最重要的是「我還剩多少點」。App 的「我的」把通行卡做成卡片，直接顯示總點數；點進去可以看每個方案的期間、額度和使用紀錄，用完的方案收進「失效方案」，不會跟可用的混在一起。</p>
+  <p class="eyebrow" id="member">會員端</p>
+  <h2>會員最想知道：我還剩多少點、這次會扣多少</h2>
+  <p>「我的」直接顯示總點數，點進去看每個方案；用完的收進「失效方案」，不會跟可用的混在一起。</p>
   <TC kind="app" />
-  <p>人在場館裡的時候，App 首頁右下角會有一個計時器，顯示已經待了多久；點開可以看到進場時間、目前餘額和預計扣多少點，還沒出場就知道這次會花多少。</p>
+  <p>人在館內的時候，首頁右下角的計時器顯示已經待了多久，點開就看得到預計扣幾點。</p>
   <TC kind="timer" />
-  <p>進出場用 QR code，可以把 QR code 拿給掃描器掃，也可以用手機相機掃場館的 QR code。出場時系統會自動選好進場用的那張卡；卡片欠款時會顯示欠款餘額，進場、出場和異常狀況都會推播通知會員。</p>
+  <p>進出場用 QR code。出場時系統自動選好進場用的那張卡；卡片欠款時會顯示欠款餘額，進場、出場和異常都會推播通知。</p>
   <TC kind="scan" />
-  <p>會員也可以在品牌官網購買方案、查看自己的通行卡。購買頁把點數、通行會館、啟用方式和使用期限都列在付款前，買之前就看得到。</p>
-  <ScrollShot src={webBuy} alt="品牌官網購買分鐘計費卡：商品明細、購買人資料、發票與付款" caption="品牌官網：購買前確認商品與付款資訊（可以在畫面裡往下滑）" wide />
-  <Figure src={webCard} alt="品牌官網我的通行卡：點開顯示 QR code 與分鐘計費卡點數" caption="品牌官網：我的通行卡與進出場 QR code" wide />
+  <p>在品牌官網也能買。付款前就列出點數、通行會館、啟用方式和使用期限。</p>
+  <Plate label="品牌官網：購買前確認商品與付款資訊（可以在畫面裡往下滑）" card={false}><ScrollShot src={webBuy} alt="品牌官網購買分鐘計費卡：商品明細、購買人資料、發票與付款" /></Plate>
+  <Plate label="品牌官網：我的通行卡與進出場 QR code"><Image src={webCard} alt="品牌官網我的通行卡：點開顯示 QR code 與分鐘計費卡點數" widths={[800, 1442]} sizes="(max-width: 760px) 100vw, 680px" /></Plate>
 </CaseLayout>
 
 <style>
+  :global(.plate .ss) { margin: 0; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 14px; align-items: start; }
+  .pair figure { margin: 0; display: grid; gap: 8px; }
+  .pair :global(img) { border-radius: 8px; border: 1px solid var(--line); }
+  .pair figcaption { font-size: 13px; line-height: 1.55; color: var(--muted); }
   .muted { color: var(--muted); font-size: 14px; }
 </style>
