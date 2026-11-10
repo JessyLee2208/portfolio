@@ -294,7 +294,8 @@ const JR = [
   /* 手機寬度時後台畫面比手機矮，往下推一點，手機才不會超出上緣 */
   @media (max-width: 640px) { .desk { margin-top: 48px; } .frame.hero-phone { width: 26%; bottom: -8px; border-radius: 14px; padding: 4px; } .frame.hero-phone :global(img) { border-radius: 11px; } }
 
-  .frame { width: 100%; background: #111; border-radius: 22px; padding: 6px; box-shadow: 0 18px 30px -18px rgba(0,0,0,.5); }
+  /* 手機外框用偏暖的深灰，不用純黑（11/10 Jessy：黑框太搶眼） */
+  .frame { width: 100%; background: #57534d; border-radius: 22px; padding: 6px; box-shadow: 0 16px 28px -20px rgba(0,0,0,.35); }
   .frame :global(img) { display: block; width: 100%; height: auto; border-radius: 17px; }
 
   /* 四個角色 */
