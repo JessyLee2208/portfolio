@@ -3,13 +3,9 @@
 import CaseLayout from '../../layouts/CaseLayout.astro';
 import Figure from '../../components/Figure.astro';
 import { url } from '../../lib/url.js';
-import goals from '../../assets/cases/myvideo/02.png';
+import MV from '../../components/diagrams/old/MyVideo.astro';
 import oldIssues from '../../assets/cases/myvideo/03.png';
-import method from '../../assets/cases/myvideo/04.png';
 import competitors from '../../assets/cases/myvideo/05.png';
-import surveyTarget from '../../assets/cases/myvideo/06.png';
-import iaUnits from '../../assets/cases/myvideo/07.png';
-import usability from '../../assets/cases/myvideo/08.png';
 import plans from '../../assets/cases/myvideo/09.png';
 import account from '../../assets/cases/myvideo/10.png';
 import family from '../../assets/cases/myvideo/11.png';
@@ -59,7 +55,7 @@ const toc = [
 
   <h2 id="goals">聚焦目的</h2>
   <p>我們在開始項目前，與利益關係人以及事前的資料收集，將本次改版的目的聚焦在下面三個方向。分別是：</p>
-  <Figure src={goals} alt="聚焦目的：提升用戶的決策效率、查找速度、使用感受" />
+  <MV kind="goals" />
 
   <h3>Why? and How?</h3>
   <p>我們通過 GA、支付轉化漏斗分析以及綜合事前的用戶問卷調查發現，改版前的會員中心信息架構較鬆散和單一，缺乏關鍵信息的強化與提示。現行方案的提示不明顯，且無法線上進行作業，導致用戶無法在使用的過程中順利完成任務進而放棄。</p>
@@ -69,7 +65,7 @@ const toc = [
   <hr />
 
   <h2 id="research">研究執行方法</h2>
-  <Figure src={method} alt="研究執行方法：資料收集、問卷調查、訪談與易用性測試" />
+  <MV kind="method" />
 
   <h3>資料收集</h3>
   <p>透過競品分析，參考與 myVideo 的營收模式、重點功能相似的產品來研究其資訊架構，幫助團隊更快的將框架重新定義，並作為事前問卷調查的主要依據。</p>
@@ -78,12 +74,13 @@ const toc = [
   <h3>問卷調查</h3>
   <p>在做問卷調查前，首先需要了解我們想透過這份問卷得到什麼樣的答案。而本次問卷的發放目的主要著重於 <span class="hl">了解用戶對會員中心的需求及期待</span>＆<span class="hl">現有用戶的使用行為與狀況掌握</span>。</p>
   <p>所以我們將發放對象縮限至下方</p>
-  <Figure src={surveyTarget} alt="問卷發放對象" caption="問卷發放對象" />
+  <MV kind="survey" />
   <p>根據問卷的回饋、GA、支付轉化漏斗分析、競品的資訊架構整理後，<span class="hl">依照用戶對會員感知的資訊進行重新分類</span>，分別整理出下面幾個單元。</p>
-  <Figure src={iaUnits} alt="資訊架構重整單元劃分：身份管理、資訊總覽、帳號設定、交易總覽" caption="資訊架構重整單元劃分" />
+  <MV kind="ia" />
 
   <h3>易用性測試摘要</h3>
-  <Figure src={usability} alt="易用性的平均分數為 68 分，因此可以將此分數作為產品及格分數" caption="易用性的平均分數為 68 分，因此可以將此分數作為產品及格分數" />
+  <MV kind="usability" />
+  <p class="muted center">易用性的平均分數為 68 分，因此可以將此分數作為產品及格分數</p>
 
   <hr />
 
@@ -108,6 +105,7 @@ const toc = [
   .hero-vid { margin: 40px 0 0; }
   .hero-vid video { display: block; width: 100%; border-radius: var(--radius); border: 1px solid var(--line); background: #111; }
   .muted { color: var(--muted); font-size: 14px; }
+  .center { text-align: center; }
   .tag-b, .tag-a { display: inline-block; font: 700 12px/1 var(--f-mono); padding: 5px 8px; border-radius: 6px; margin-right: 8px; vertical-align: 1px; }
   .tag-b { background: var(--line); color: var(--muted); }
   .tag-a { background: var(--tone-soft); color: var(--tone-ink); }

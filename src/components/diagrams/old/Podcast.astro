@@ -1,0 +1,50 @@
+---
+// MyMusic Podcast 的圖解：取代 Notion 簡報匯出的小圖（02/05.png），文字照原圖
+import Board from '../Board.astro';
+interface Props { kind: 'process' | 'prep'; }
+const { kind } = Astro.props;
+const prep = ['訂定測試範圍與目標', '選定受測者族群', '設計用戶招募問卷', '用戶招募', '設計測試任務與流程', '規劃測試空間與設備', '準備測試內容', '測試流程'];
+---
+{kind === 'process' && (
+  <Board kicker="Design Process" title="產品開發時的設計流程" c="ai" label="設計流程：明確需求、分析問題，接著介面流程設計與原型製作與測試反覆迭代">
+    <div class="proc">
+      <span class="circ">明確需求</span>
+      <span class="dash" aria-hidden="true"></span>
+      <span class="circ">分析問題</span>
+      <span class="dash" aria-hidden="true"></span>
+      <div class="loop">
+        <span class="circ fill">介面流程<br />設計</span>
+        <span class="loop-lab">設計 ⇄ 迭代</span>
+        <span class="circ fill">原型製作<br />與測試</span>
+      </div>
+    </div>
+  </Board>
+)}
+
+{kind === 'prep' && (
+  <Board kicker="Test Preparation" title="測試準備流程" c="ai" label={`測試準備流程：${prep.join('、')}`}>
+    <ol class="prep">
+      {prep.map((t, i) => <li class="panel"><span class="n">{String(i + 1).padStart(2, '0')}</span><span class="t">{t}</span></li>)}
+    </ol>
+  </Board>
+)}
+
+<style>
+  .proc { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; max-width: 900px; margin: 0 auto; }
+  .circ { width: 112px; height: 112px; border-radius: 50%; display: grid; place-items: center; text-align: center; padding: 12px; border: 2px solid var(--tone-ink); background: var(--sheet); color: var(--tone-ink); font-weight: 900; font-size: 16px; line-height: 1.35; }
+  .circ.fill { background: var(--tone-ink); color: #fff; }
+  .dash { width: 36px; border-top: 2px dashed var(--tone-ink); opacity: .6; }
+  .loop { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 80px; border: 2px dashed color-mix(in srgb, var(--tone-ink) 50%, transparent); }
+  .loop-lab { font-weight: 700; font-size: 14px; color: var(--tone-ink); white-space: nowrap; }
+  @media (max-width: 640px) {
+    .proc { flex-direction: column; }
+    .dash { width: 0; height: 22px; border-top: 0; border-left: 2px dashed var(--tone-ink); }
+    .loop { flex-direction: column; border-radius: 70px; }
+  }
+
+  .prep { list-style: none; padding: 0; margin: 0 auto; max-width: 900px; display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 760px) { .prep { grid-template-columns: repeat(4, 1fr); } }
+  .prep .panel { display: grid; gap: 6px; padding: 14px 14px 16px; }
+  .prep .n { font: 700 12px/1 var(--f-mono); color: var(--tone-ink); }
+  .prep .t { font-weight: 900; font-size: 15.5px; line-height: 1.45; }
+</style>
