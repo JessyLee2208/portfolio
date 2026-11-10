@@ -5,42 +5,33 @@ interface Props { kind: 'goals' | 'method' | 'survey' | 'ia' | 'usability' | 'co
 const { kind } = Astro.props;
 ---
 {kind === 'competitors' && (() => {
-  // 依每個面向把 6 個產品分組，一眼看出誰跟誰同一類；★ 是本次主要參考的產品（照原圖框起來的三個）
-  const REF = ['Netflix', 'Spotify', 'Melon'];
-  const rows = [
-    { k: '共享帳號', groups: [
-      { v: '有', note: '', items: ['Netflix（4+1，共用帳密）', 'Apple TV+（5+1，獨立帳密）', 'Spotify（6，獨立帳密）'], on: true },
-      { v: '無', note: '', items: ['愛奇藝', 'Melon', 'KKBOX'] } ] },
-    { k: '資訊架構類型', groups: [
-      { v: '資訊全頁展開', note: '', items: ['Netflix', 'Apple TV+'] },
-      { v: '側邊分頁型', note: '', items: ['愛奇藝', 'Spotify', 'KKBOX'] },
-      { v: '綜合型', note: '資訊分類＆內容展開', items: ['Melon'] } ] },
-    { k: '營收方式', groups: [
-      { v: '月租制', note: '', items: ['Netflix（等級月租）', '愛奇藝', 'Spotify', 'KKBOX'] },
-      { v: '月租＋點數等綜合制', note: '', items: ['Apple TV+（月租＆產品點數）', 'Melon（月租＋單曲＋點數）'] } ] },
-    { k: '身分別內容變化', groups: [
-      { v: '有', note: '主帳號與子帳號顯示內容不同', items: ['Spotify'], on: true },
-      { v: '無', note: '', items: ['Netflix', 'Apple TV+', '愛奇藝', 'Melon', 'KKBOX'] } ] },
+  // 精簡對照表（11/10 Jessy 選）：產品橫向、面向直向，字縮短，有無用 ✓ ✕；★ 欄是本次主要參考（原圖框起來的三個）
+  const P = [
+    { n: 'Netflix', ref: true, v: [['✓', '4+1'], ['全頁展開'], ['等級月租'], ['✕']] },
+    { n: 'Apple TV+', v: [['✓', '5+1'], ['全頁展開'], ['月租＋點數'], ['✕']] },
+    { n: '愛奇藝', v: [['✕'], ['側邊分頁'], ['方案月租'], ['✕']] },
+    { n: 'Spotify', ref: true, v: [['✓', '6'], ['側邊分頁'], ['方案月租'], ['✓']] },
+    { n: 'Melon', ref: true, v: [['✕'], ['綜合型'], ['月租＋單曲＋點數'], ['✕']] },
+    { n: 'KKBOX', v: [['✕'], ['側邊分頁'], ['方案月租'], ['✕']] },
   ];
-  const isRef = (x: string) => REF.some((r) => x.startsWith(r));
+  const K = ['共享帳號', '資訊架構', '營收方式', '身分別內容'];
   return (
-    <Board kicker="Competitive Analysis" title="競品分析" c="branch" label="競品分析：Netflix、Apple TV+、愛奇藝、Spotify、Melon、KKBOX 依共享帳號、資訊架構類型、營收方式、身分別內容變化分組">
-      <div class="cmp">
-        {rows.map((r) => (
-          <div class="crow">
-            <p class="ck">{r.k}</p>
-            <div class="cgroups">
-              {r.groups.map((g) => (
-                <div class:list={['cg', { on: g.on }]}>
-                  <p class="cv">{g.v}{g.note && <small>{g.note}</small>}</p>
-                  <ul>{g.items.map((x) => <li class:list={{ ref: isRef(x) }}>{x}</li>)}</ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
+    <Board kicker="Competitive Analysis" title="競品分析" c="branch" label="競品分析對照表：Netflix、Apple TV+、愛奇藝、Spotify、Melon、KKBOX 的共享帳號、資訊架構、營收方式、身分別內容變化">
+      <div class="mx-wrap">
+        <table class="mx">
+          <thead><tr><th></th>{P.map((p) => <th class:list={{ ref: p.ref }}>{p.ref && <span class="star" aria-label="主要參考">★</span>}{p.n}</th>)}</tr></thead>
+          <tbody>
+            {K.map((k, r) => (
+              <tr><th>{k}</th>{P.map((p) => {
+                const [a, b] = p.v[r];
+                const mark = a === '✓' ? 'yes' : a === '✕' ? 'no' : '';
+                return <td class:list={[{ ref: p.ref }, mark]}>{a}{b && <small>{b}</small>}</td>;
+              })}</tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <p class="clegend"><span class="ref-dot"></span>本次主要參考的產品：Netflix、Spotify、Melon</p>
+      <p class="clegend"><span class="star">★</span> 本次主要參考的產品　·　共享帳號的數字是可同時使用的人數</p>
     </Board>
   );
 })()}
@@ -164,19 +155,22 @@ const { kind } = Astro.props;
   .score.win { border: 2px solid var(--tone-ink); }
   .score.win b, .scores .score:only-child b { color: var(--tone-ink); }
 
-  /* 競品分析：每個面向一列，把產品依答案分組 */
-  .cmp { display: grid; gap: 12px; max-width: 900px; margin: 0 auto; }
-  .crow { display: grid; gap: 8px; background: var(--sheet); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); border: 1px solid var(--line); }
-  @media (min-width: 760px) { .crow { grid-template-columns: 8.5em 1fr; align-items: center; } }
-  .ck { margin: 0; font-weight: 900; font-size: 16px; }
-  .cgroups { display: flex; flex-wrap: wrap; gap: 10px; }
-  .cg { flex: 1 1 180px; border-radius: 10px; background: var(--paper); border: 1px solid var(--line); padding: 8px 12px; }
-  .cg.on { border: 2px solid var(--tone-ink); }
-  .cv { margin: 0 0 4px; font-weight: 900; font-size: 15px; color: var(--tone-ink); }
-  .cv small { display: block; font-weight: 400; font-size: 12px; color: var(--muted); }
-  .cg ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 6px; }
-  .cg li { font-size: 13px; padding: 2px 8px; border-radius: 99px; background: var(--sheet); border: 1px solid var(--line); }
-  .cg li.ref { background: var(--tone-ink); color: #fff; border-color: var(--tone-ink); font-weight: 700; }
-  .clegend { margin: 14px 0 0; text-align: center; font-size: 13px; color: var(--muted); }
-  .ref-dot { display: inline-block; width: 12px; height: 12px; border-radius: 99px; background: var(--tone-ink); margin-right: 6px; vertical-align: -1px; }
+  /* 競品分析：精簡對照表 */
+  .mx-wrap { overflow-x: auto; max-width: 900px; margin: 0 auto; border-radius: 14px; background: var(--sheet); box-shadow: var(--shadow); border: 1px solid var(--line); }
+  /* .mx-wrap .mx：權重要蓋過案例頁內文表格的樣式（.prose table） */
+  .mx-wrap .mx { width: 100%; min-width: 600px; margin: 0; border-collapse: collapse; font-size: 14px; text-align: center; table-layout: fixed; background: none; box-shadow: none; border-radius: 0; }
+  .mx-wrap .mx th { background: none; text-align: center; }
+  .mx th, .mx td { padding: 12px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; line-height: 1.35; }
+  .mx tr:last-child th, .mx tr:last-child td { border-bottom: 0; }
+  .mx thead th { font-weight: 900; font-size: 14px; }
+  .mx-wrap .mx tbody th { text-align: left; padding-left: 14px; font-weight: 700; color: var(--muted); position: sticky; left: 0; background: var(--sheet); white-space: nowrap; }
+  .mx-wrap .mx thead th:first-child { width: 8em; position: sticky; left: 0; background: var(--sheet); }
+  .mx-wrap .mx .ref { background: color-mix(in srgb, var(--tone) 12%, var(--sheet)); }
+  .mx thead .ref { color: var(--tone-ink); }
+  .mx td { font-weight: 600; }
+  .mx td.yes { color: var(--tone-ink); font-size: 18px; font-weight: 900; }
+  .mx td.no { color: #c9c2b8; font-size: 16px; }
+  .mx small { display: block; font-size: 12px; font-weight: 600; color: var(--muted); }
+  .star { color: var(--tone-ink); margin-right: 3px; }
+  .clegend { margin: 12px 0 0; text-align: center; font-size: 13px; color: var(--muted); }
 </style>
