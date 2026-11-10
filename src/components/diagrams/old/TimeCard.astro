@@ -74,7 +74,7 @@ const JR = [
 )}
 
 {kind === 'roles' && (
-  <Board plate title="四方的需求，以及對應的設計" c="timecard" label="會員、店家、櫃檯人員、BookFast 對分鐘計費各自在意的事，以及對應到的設計重點">
+  <Board plate c="timecard" label="會員、店家、櫃檯人員、BookFast 對分鐘計費各自在意的事，以及對應到的設計重點">
     <div class="roles">
       {[
         ['會員', ['計費方式要清楚：每分鐘幾點、怎麼算', '在場館裡也能知道自己實際待了多久', '還剩多少點，點數不要過期浪費'], ['扣點順序', '會員端']],
@@ -94,7 +94,7 @@ const JR = [
 
 {kind === 'chain' && (
   <!-- 設計原則的鏈：會員滿意 → 願意付費 → 店家賺錢 → 持續使用 BookFast（11/10 Jessy） -->
-  <Board plate title="從會員出發的一條鏈" c="timecard" label="會員滿意，才願意付費；會員付費，店家才賺錢；店家賺錢，才會持續使用 BookFast">
+  <Board plate c="timecard" label="會員滿意，才願意付費；會員付費，店家才賺錢；店家賺錢，才會持續使用 BookFast">
     <ol class="chain">
       {[['會員滿意', '扣點清楚、不被多扣'], ['願意付費', '繼續儲值、加值'], ['店家賺錢', '收入穩定、對帳清楚'], ['持續使用 BookFast', '店家留在系統上']].map(([t, d], i) => (
         <li class="panel ch"><span class="ch-n">{i + 1}</span><b>{t}</b><span>{d}</span></li>
@@ -105,7 +105,7 @@ const JR = [
 
 {kind === 'journey' && (
   <!-- 會員旅程：階段＋真實畫面的時間軸（參考 Uber 等作品集把每個階段對到 UI 截圖），11/10 Jessy 選 -->
-  <Board plate wide title="會員旅程：從買卡到出場" c="timecard" label="會員旅程：購買、進場、在館內、出場、之後五個階段，會員心裡在想的事，以及對應的解法">
+  <Board plate wide c="timecard" label="會員旅程：購買、進場、在館內、出場、之後五個階段，會員心裡在想的事，以及對應的解法">
     <ol class="tl">
       {JR.map((r, i) => (
         <li class="tl-st">
@@ -149,7 +149,7 @@ const JR = [
 
 {kind === 'lanes' && (
   <!-- service blueprint：會員 → 互動線 → 前台 → 可見線 → 後台（11/10 Jessy 選），空格留白不畫框 -->
-  <Board plate wide title="一張卡從開賣到核銷，各方做什麼" c="timecard" label="服務藍圖：會員的動作、前台（櫃檯與 App）、後台（店家與 BookFast 系統），在開賣前、販售、進出場、註銷退款、核銷五個階段各自做的事">
+  <Board plate wide c="timecard" label="服務藍圖：會員的動作、前台（櫃檯與 App）、後台（店家與 BookFast 系統），在開賣前、販售、進出場、註銷退款、核銷五個階段各自做的事">
     <div class="lanes-wrap" tabindex="0" aria-label="服務藍圖，可以左右滑動">
       <div class="bp">
         <span class="corner"></span>
@@ -175,7 +175,7 @@ const JR = [
 )}
 
 {kind === 'deduct' && (
-  <Board plate title="扣點順序" c="timecard" label="扣點順序：一、最先到期的方案；二、到期日相同時，已經用過的先扣；三、點數先扣，贈點最後。例子：會員有四筆額度，扣點順序是 B 方案點數、C 方案點數、B 方案贈點、A 方案點數">
+  <Board plate c="timecard" label="扣點順序：一、最先到期的方案；二、到期日相同時，已經用過的先扣；三、點數先扣，贈點最後。例子：會員有四筆額度，扣點順序是 B 方案點數、C 方案點數、B 方案贈點、A 方案點數">
     <ol class="rules">
       {[['最先到期的先扣', '到期日越近，越先用掉'], ['用過的先扣', '到期日一樣時，額度不完整的先扣'], ['點數先扣，贈點最後', '會員花錢買的點數，比送的贈點先用']].map(([t, d], i) => (
         <li class="panel rule"><span class="num">{i + 1}</span><span class="t">{t}</span><span class="d">{d}</span></li>
@@ -198,7 +198,7 @@ const JR = [
 )}
 
 {kind === 'refund' && (
-  <Board plate title="退款規則：信用卡（聯邦）vs 樂享券" c="timecard" label="退款規則：聯邦信用卡只能單筆全額退款，而且額度要完整；樂享券可以退剩餘額度。兩種都要在付款日 60 天內、方案到期日 10 天內">
+  <Board plate c="timecard" label="退款規則：聯邦信用卡只能單筆全額退款，而且額度要完整；樂享券可以退剩餘額度。兩種都要在付款日 60 天內、方案到期日 10 天內">
     <div class="cmp">
       <div class="panel col">
         <span class="ct">信用卡（聯邦）</span>
@@ -216,7 +216,7 @@ const JR = [
 )}
 
 {kind === 'settle' && (
-  <Board plate title="零頭的處理：整數退會員，零頭進位給店家" c="timecard" label="核銷規則：樂享券註銷時剩 10.4 點，退 10 點給會員；0.4 點無條件進位成 1 點，走點數核銷給店家">
+  <Board plate c="timecard" label="核銷規則：樂享券註銷時剩 10.4 點，退 10 點給會員；0.4 點無條件進位成 1 點，走點數核銷給店家">
     <div class="split">
       <div class="panel src"><span class="lab">註銷時剩下</span><span class="big">10.4<small>點</small></span></div>
       <svg class="arr" viewBox="0 0 60 120" aria-hidden="true"><path d="M4 60 C 24 60, 30 22, 54 22 M4 60 C 24 60, 30 98, 54 98 M46 16 L55 22 L46 28 M46 92 L55 98 L46 104" /></svg>
