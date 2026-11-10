@@ -6,6 +6,9 @@ import Board from '../Board.astro';
 import Plate from '../../Plate.astro';
 import '../../../styles/diagram.css';
 import adminList from '../../../assets/cases/timecard/admin-list.png';
+import adminRate from '../../../assets/cases/timecard/admin-rate.png';
+import adminTopup from '../../../assets/cases/timecard/admin-topup.png';
+import adminEntry from '../../../assets/cases/timecard/admin-entry.png';
 import appMine from '../../../assets/cases/timecard/app-mine.png';
 import appPlan from '../../../assets/cases/timecard/app-plan.png';
 import appExpired from '../../../assets/cases/timecard/app-expired.png';
@@ -33,11 +36,39 @@ const JR = [
 
 ---
 {kind === 'hero' && (
-  <figure class="dg case-timecard reveal tc-hero" aria-label="分鐘計費卡：後台的方案設定，以及會員 App 上的通行卡">
-    <div class="dg-pat" aria-hidden="true"></div>
-    <div class="dg-body hero-row">
-      <div class="desk"><Image src={adminList} alt="" widths={[700, 1100]} sizes="(min-width: 900px) 640px, 80vw" /></div>
-      <div class="frame hero-phone"><Image src={appMine} alt="" widths={[300, 600]} sizes="(min-width: 900px) 220px, 30vw" /></div>
+  <!-- 開場圖：場館端／會員端兩個分頁，場館端用瀏覽器視窗、會員端用手機框，都能左右滑（11/10 Jessy） -->
+  <figure class="tc-hero2 reveal" aria-label="分鐘計費卡的場館端後台與會員端 App 畫面">
+    <div class="sw" role="tablist" aria-label="切換畫面">
+      <button type="button" role="tab" id="tab-b" aria-controls="pan-b" aria-selected="true" class="on">場館端<small>後台 Web</small></button>
+      <button type="button" role="tab" id="tab-c" aria-controls="pan-c" aria-selected="false" tabindex="-1">會員端<small>App</small></button>
+    </div>
+    <div class="fc" data-fc id="pan-b" role="tabpanel" aria-labelledby="tab-b">
+      <div class="fc-nav">
+        <button type="button" class="fc-btn" data-dir="-1" aria-label="上一張"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" /></svg></button>
+        <button type="button" class="fc-btn" data-dir="1" aria-label="下一張"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg></button>
+      </div>
+      <ul class="fc-row desk-row" tabindex="0" aria-label="場館端畫面，可以左右滑動">
+        {[[adminList, '方案列表'], [adminRate, '費用設定'], [newBase, '新增方案'], [adminTopup, '櫃檯現場加值'], [adminEntry, '手動登記進出場']].map(([img, cap]) => (
+          <li class="desk-card">
+            <div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i></div><Image src={img as ImageMetadata} alt={cap as string} widths={[700, 1100]} sizes="(min-width: 900px) 560px, 80vw" /></div>
+            <p class="cap">{cap}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div class="fc" data-fc id="pan-c" role="tabpanel" aria-labelledby="tab-c" hidden>
+      <div class="fc-nav">
+        <button type="button" class="fc-btn" data-dir="-1" aria-label="上一張"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" /></svg></button>
+        <button type="button" class="fc-btn" data-dir="1" aria-label="下一張"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg></button>
+      </div>
+      <ul class="fc-row phone-row" tabindex="0" aria-label="會員端畫面，可以左右滑動">
+        {[[appMine, '我的通行卡'], [homeTimer, '館內計時器'], [timerSheet, '預計扣點'], [appQr, 'QR code 進出場'], [appPlan, '方案明細'], [appExpired, '失效方案']].map(([img, cap]) => (
+          <li class="ph-card">
+            <div class="frame"><Image src={img as ImageMetadata} alt={cap as string} widths={[300, 600]} sizes="200px" /></div>
+            <p class="cap">{cap}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </figure>
 )}
@@ -375,6 +406,25 @@ const JR = [
   @media (prefers-reduced-motion: reduce) { .np-hint { animation: none; } }
   @media (max-width: 640px) { .np-hint { font-size: 10.5px; padding: 4px 8px 4px 6px; } }
 
+  /* 開場：分頁切換＋兩種呈現 */
+  .tc-hero2 { margin: 40px 0 0; padding: 18px 20px 20px; border-radius: 24px; background: var(--accent-soft); }
+  @media (min-width: 720px) { .tc-hero2 { padding: 22px 28px 24px; } }
+  .sw { display: inline-flex; gap: 4px; padding: 4px; border-radius: 99px; background: var(--sheet); border: 1px solid var(--line); margin-bottom: 16px; }
+  .sw button { border: 0; background: none; padding: 8px 16px; border-radius: 99px; font: 700 14px/1.2 var(--f-zh); color: var(--muted); cursor: pointer; display: inline-flex; align-items: baseline; gap: 6px; }
+  .sw button small { font-weight: 500; font-size: 12px; opacity: .8; }
+  .sw button.on { background: var(--ink); color: var(--paper); }
+  .tc-hero2 .fc-nav { top: -52px; }
+  .fc-row.desk-row { grid-auto-columns: min(560px, 86%); gap: 16px; }
+  .desk-card, .ph-card { scroll-snap-align: start; margin: 0; display: grid; gap: 8px; align-content: start; }
+  .win { border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: #fff; box-shadow: 0 14px 26px -20px rgba(0,0,0,.45); }
+  .win .bar { height: 22px; background: #f1ede6; display: flex; align-items: center; gap: 5px; padding: 0 10px; border-bottom: 1px solid var(--line); }
+  .win .bar i { width: 8px; height: 8px; border-radius: 50%; background: #d8cfc2; }
+  .win :global(img) { display: block; width: 100%; height: auto; }
+  .fc-row.phone-row { grid-auto-columns: min(190px, 46%); gap: 16px; }
+  .ph-card .frame { border-radius: 20px; padding: 5px; }
+  .ph-card .frame :global(img) { border-radius: 15px; }
+  .cap { margin: 0; font-size: 13.5px; font-weight: 700; color: var(--ink); }
+
   /* 橫向滑的功能卡 */
   .fc { position: relative; }
   .fc-nav { position: absolute; top: -40px; right: 0; display: none; gap: 6px; }
@@ -408,5 +458,23 @@ const JR = [
     btns.forEach((b) => b.addEventListener('click', () => row.scrollBy({ left: step() * Number(b.dataset.dir), behavior: 'smooth' })));
     row.addEventListener('scroll', sync, { passive: true });
     sync();
+    new ResizeObserver(sync).observe(row);
+  });
+  // 開場的場館端／會員端分頁
+  document.querySelectorAll('.tc-hero2').forEach((h) => {
+    const tabs = [...h.querySelectorAll('[role=tab]')];
+    const pick = (t) => tabs.forEach((x) => {
+      const on = x === t;
+      x.classList.toggle('on', on); x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1;
+      h.querySelector('#' + x.getAttribute('aria-controls')).hidden = !on;
+    });
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => pick(t));
+      t.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+        pick(n); n.focus();
+      });
+    });
   });
 </script>
