@@ -68,7 +68,7 @@ const { kind } = Astro.props;
       {[
         [x('對象'), x('有 myVideo 會員資格、近一個月內有使用 myVideo 服務、觀看分鐘數超過 10 分鐘以上')],
         [x('年齡'), x('30～49 歲區間')],
-        [x('設備'), 'App、Web'],
+        [x('設備'), x('App、Web')],
       ].map(([k, v]) => (
         <div class="crit"><dt class="pill-k">{k}</dt><dd>{v}</dd></div>
       ))}
@@ -96,7 +96,7 @@ const { kind } = Astro.props;
         { n: x('二'), cnt: 3, t: x('身份共享 A/B 版本'), d: x('透過 A/B 兩種版本決定之後共享身分的流程走向，並觀察用戶的反應。'), bars: [[x('A 版本'), 77, true], [x('B 版本'), 52, false]] },
       ].map((k) => (
         <div class="panel task">
-          <p class="tk">{x('測試 Task')} {k.n}<span>{k.cnt} {x('項測試')}</span></p>
+          <p class="tk">{`${x('測試 Task')} ${k.n}`}<span>{`${k.cnt} ${x('項測試')}`}</span></p>
           <p class="tt">{k.t}</p>
           <div class="bars">
             {k.bars.map(([lab, v, on]) => (

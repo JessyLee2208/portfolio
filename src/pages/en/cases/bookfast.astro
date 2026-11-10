@@ -17,7 +17,7 @@ const toc = [
   kicker="04 · B2B · Web · 2021"
   tone="green"
   description="Lead designer for simplifying BookFast’s back-office checkout, so merchants can check customers out faster."
-  lead="Checkout time directly shapes a merchant’s service. The goal was to help merchants check customers out quickly and complete more sales, so customers don’t give up on a purchase because of a long checkout queue."
+  lead="Checkout speed directly affects a merchant’s service quality. The goal was to help merchants check customers out quickly and complete more sales, so customers don’t give up on a purchase because of a long checkout queue."
   meta={[
     { label: 'Timeline', value: 'Dec 2021 – Jan 2022' },
     { label: 'Team', value: '2 people (excluding engineering)' },
@@ -32,13 +32,13 @@ const toc = [
   <p>An accurate, fast checkout helps merchants serve customers faster. Speed matters, but making sure nothing goes wrong during checkout was the bigger design challenge. The main goal was to work out which information is truly needed and streamline the flow.</p>
 
   <h3>Goal</h3>
-  <p>Checkout time directly shapes a merchant’s service: when checkout is slow, customers come away with a worse impression of the business. So the main goal was <span class="hl">helping merchants check out faster and complete more sales, so customers don’t give up on a purchase because of a long checkout queue</span>.</p>
+  <p>When checkout is slow, customers come away with a worse impression of the business. So the main goal was <span class="hl">helping merchants check out faster and complete more sales, so customers don’t give up on a purchase because of a long checkout queue</span>.</p>
 
   <h3>Challenges</h3>
   <p>For a B2B product, a simple checkout flow makes it easier to serve different types of businesses, but it also has to meet each one’s needs and match how they think about checkout.</p>
 
   <h3>My role</h3>
-  <p>Planned and led the UX research, the back-office logic, the testing approach and the UI.</p>
+  <p>Planned and led the UX research and testing approach, designed the back-office logic, and owned the UI.</p>
   <p class="muted">The redesign launched in Taiwan on January 17, 2022.</p>
 
   <hr />
@@ -49,7 +49,7 @@ const toc = [
 
   <h3>Problems with the old flow</h3>
   <BS kind="old" />
-  <p>In the old back-office checkout, the payment amount couldn’t be changed once staff reached the invoice step, and the screens showed a lot of loosely organized information.</p>
+  <p>In the old back-office checkout, the payment amount couldn’t be changed once staff reached the e-invoice step, and the screens showed a lot of loosely organized information.</p>
 
   <hr />
 
@@ -67,9 +67,9 @@ const toc = [
   <div class="walk">
     <p class="walk-t">Cognitive walkthrough setup</p>
     <dl>
-      <div><dt>Venue</dt><dd>A mid-sized gym that issues invoices on site and supports mobile invoice carriers. Accepts cash and credit cards.</dd></div>
+      <div><dt>Venue</dt><dd>A mid-sized gym that issues e-invoices (Taiwan’s government receipts) on site, including to a customer’s mobile barcode. Accepts cash and credit cards.</dd></div>
       <div><dt>Persona</dt><dd>Front-desk staff who help members check out.</dd></div>
-      <div><dt>Scenario</dt><dd>It’s the end of the month, and many members are queuing to buy next month’s membership. The first member wants to pay by credit card and save the invoice to their mobile carrier.</dd></div>
+      <div><dt>Scenario</dt><dd>It’s the end of the month, and many members are queuing to buy next month’s membership. The first member wants to pay by credit card and send the e-invoice to their mobile barcode.</dd></div>
       <div><dt>Task</dt><dd>Help the member check out, making sure everything is correct along the way.</dd></div>
       <div><dt>Participants</dt><dd>Colleagues, mainly from customer service, sales and design</dd></div>
       <div><dt>Tool</dt><dd>Figma</dd></div>
@@ -81,8 +81,8 @@ const toc = [
   <BS kind="v1" />
   <div class="fb">
     <p class="fb-t">Feedback</p>
-    <p>After choosing the invoice type, there was nothing to review with the customer before finishing; you had to go back a step, or checkout would just complete. If something was wrong, you’d have to void the sale and start again.</p>
-    <p>The carrier options were long and took a while to read; you’d only remember where things are once you’re very familiar with it.</p>
+    <p>After choosing the e-invoice type, there was no review step, so staff had to go back to check details with the customer, or checkout completed right away. If something was wrong, they had to void the sale and start again.</p>
+    <p>The e-invoice options were long and took a while to read; only experienced staff could remember where each option was.</p>
     <p>The final confirmation step didn’t feel very useful.</p>
   </div>
 
@@ -98,7 +98,7 @@ const toc = [
   <BS kind="v3" />
   <div class="fb final">
     <p class="fb-t">Feedback</p>
-    <p>Across three rounds of testing, this version had the fastest completion time and the highest success rate, so it became the final version.</p>
+    <p>Across three rounds of testing, this version performed best on both completion time and success rate, so it became the final version.</p>
   </div>
 </CaseLayout>
 
