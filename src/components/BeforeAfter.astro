@@ -18,7 +18,7 @@ const { before, after, alt, beforeLabel = '改版前', afterLabel = '改版後',
       <Image src={before} alt="" widths={[480, 900, 1440]} sizes="(max-width: 760px) 100vw, 720px" class="img" />
     </div>
     <span class="tag l">{beforeLabel}</span><span class="tag r">{afterLabel}</span>
-    <div class="handle" aria-hidden="true"><span>⟷</span></div>
+    <div class="handle" aria-hidden="true"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4" /></svg></span></div>
     <input type="range" min="0" max="100" value="50" aria-label={`拖曳比較${beforeLabel}和${afterLabel}`} />
   </div>
   {caption && <figcaption>{caption}</figcaption>}
@@ -29,7 +29,9 @@ const { before, after, alt, beforeLabel = '改版前', afterLabel = '改版後',
   .stage :global(.img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
   .before-wrap { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
   .handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; background: var(--ink); transform: translateX(-1px); pointer-events: none; }
-  .handle span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--paper); display: grid; place-items: center; font-size: 16px; }
+  .handle span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--paper); display: grid; place-items: center; }
+  /* 用 SVG 畫雙箭頭，不用文字符號（字型基線會讓符號偏下，跟圓圈對不齊） */
+  .handle svg { width: 18px; height: 18px; display: block; }
   .tag { position: absolute; bottom: 12px; font: 700 12px/1 var(--f-zh); background: var(--ink); color: var(--paper); padding: 6px 10px; border-radius: 999px; pointer-events: none; }
   .tag.l { left: 12px; } .tag.r { right: 12px; background: var(--rust-ink); color: #fff; }
   /* 那一側的圖被拉到看不見（標籤放不下）時，標籤就淡出 */
