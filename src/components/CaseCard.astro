@@ -32,6 +32,5 @@ const en = langOf(Astro.url) === 'en';
   /* 中文字的視覺中心比字框中心低一點，icon 往下移 1.5px 才會看起來對齊 */
   .more :global(svg) { transform: translateY(1.5px); }
   .more :global(.bi) { width: 17px; height: 17px; }
-  .case-card:hover .more:not(.lock) { text-decoration: underline; text-underline-offset: 4px; }
   @media (prefers-reduced-motion: reduce) { .case-card { transition: none; } }
 </style>
