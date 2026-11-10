@@ -4,9 +4,11 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/check-links.mjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "npm run build",
+    "check:links": "node scripts/check-links.mjs"
   },
   "dependencies": {
     "astro": "^5.18.2"
